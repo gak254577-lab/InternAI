@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#004e5c","on-tertiary-container":"#0096b0","error-container":"#ffdad6","on-secondary-fixed-variant":"#003ea8","outline-variant":"#c8c5d0","surface-container":"#e5eeff","on-tertiary":"#ffffff","tertiary-container":"#00262e","tertiary":"#000e12","on-background":"#0b1c30","inverse-primary":"#c4c1fb","outline":"#787680","on-primary":"#ffffff","on-primary-container":"#8683ba","surface":"#f8f9ff","secondary-fixed-dim":"#b4c5ff","surface-variant":"#d3e4fe","inverse-on-surface":"#eaf1ff","secondary-fixed":"#dbe1ff","primary-fixed":"#e3dfff","on-surface-variant":"#47464f","secondary-container":"#316bf3","secondary":"#0051d5","primary-container":"#1e1b4b","on-surface":"#0b1c30","on-error":"#ffffff","surface-tint":"#5b598c","surface-container-low":"#eff4ff","surface-container-high":"#dce9ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed":"#001f26","background":"#f8f9ff","inverse-surface":"#213145","surface-dim":"#cbdbf5","on-secondary-container":"#fefcff","on-secondary-fixed":"#00174b","primary":"#070235","on-primary-fixed-variant":"#444173","on-error-container":"#93000a","tertiary-fixed":"#acedff","on-secondary":"#ffffff","surface-bright":"#f8f9ff","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c4c1fb","tertiary-fixed-dim":"#4cd7f6","on-primary-fixed":"#181445","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-lg":"1.5rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},"fontFamily":{"body-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"title-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"label-md":["Inter"],"code":["JetBrains Mono"]},"fontSize":{"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-surface-container-high z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-surface-container-high"><img alt="InternAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpmCSfHR54Wmywgc5EBuAqsdyrCXtpp5AUDm9pEYvpdC9bX47cP6qPrEsr2Xa2CJicUlKpujqyj64Lk228elx5cN9I4Y_7U-4OVKl172-bl0ftv4lOx1JI2Ukx5660nPvU5VDehGXK8HxT35owJB1tVeBrE9NHQwojB4pIkEqeZyxxo9KMxgrJZUpm6YEnxgq8Ha2EqZveDk97EewTYna3c715lOl_GAVf-0U1QpRNMT66Hbp8tihFP3g"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">InternAI</span></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Navigation</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md font-medium">Dashboard</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-title-md" data-path="explore-internships" href="#"><span class="material-symbols-outlined text-[20px]">search</span><span class="font-body-md text-body-md font-medium">Explore Internships</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="ai-matching" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span class="font-body-md text-body-md font-medium">AI Matching</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] tracking-wide uppercase font-semibold">NEW</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resume-analyzer" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md font-medium">Resume Analyzer</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-applications" href="#"><span class="material-symbols-outlined text-[20px]">send</span><span class="font-body-md text-body-md font-medium">My Applications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="preparation-roadmap" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-body-md text-body-md font-medium">Preparation Roadmap</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="mock-interview" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-body-md text-body-md font-medium">Mock Interview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skill-progress" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md font-medium">Skill Progress</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">person</span><span class="font-body-md text-body-md font-medium">Profile</span></a></nav></div><div class="flex flex-col border-t border-surface-container-high pt-space-sm pb-space-md"><nav class="flex flex-col gap-space-xs px-space-sm mb-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md font-medium">Settings</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="help-and-resources" href="#"><span class="material-symbols-outlined text-[20px]">help_outline</span><span class="font-body-md text-body-md font-medium">Help & Resources</span></a></nav><div class="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/><div class="flex flex-col min-w-0 flex-1"><span class="font-title-md text-title-md truncate text-on-surface font-semibold">Aanya Sharma</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">B.Tech CSE • 3rd Year</span></div></div><div class="mt-1 flex items-center justify-between pt-space-xs border-t border-surface-container-high"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-secondary-fixed-variant border border-secondary-fixed font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready to Apply</span><button aria-label="Profile Options" class="text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">more_vert</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-container-high z-40 px-space-lg flex items-center justify-between"><div class="relative flex-1 max-w-xl"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-body-md font-body-md rounded-lg bg-surface border border-outline-variant text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/15 transition-all" placeholder="Search internships, skills, companies... (Cmd + K)" type="text"/></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">auto_awesome</span>AI Readiness 86%</div><button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm" type="button"><span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>Quick AI Match</button><div class="h-6 w-px bg-surface-container-high"></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Interactive Feedback Toast (Hidden by default) -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-space-sm bg-primary text-on-primary px-space-md py- space-sm rounded-lg shadow-xl" id="action-toast">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[20px]">check_circle</span>
+<span class="font-body-md text-body-md" id="toast-text">Action completed successfully</span>
+</div>
+<!-- Ambient Light Physics Header Background -->
+<div class="relative w-full overflow-hidden pb-space-lg px-space-md lg:px-space-xl">
+<div class="absolute -top-32 -left-20 w-96 h-96 bg-gradient-to-br from-secondary-fixed/50 via-tertiary-fixed/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute -top-24 right-10 w-80 h-80 bg-gradient-to-bl from-primary-fixed/40 via-surface-container-high/60 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Section 1: Navigation Breadcrumbs & Top Meta -->
+<div class="pt-space-md flex flex-wrap items-center justify-between gap-y-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<a class="inline-flex items-center gap-1 hover:text-secondary transition-colors font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]">west</span>
+<span>Internship Explorer</span>
+</a>
+<span class="text-outline-variant">/</span>
+<span class="hover:text-on-surface cursor-pointer">Fintech & Infrastructure</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">Razorpay SDE Intern</span>
+</div>
+<!-- Live Urgency & Tracking Chip -->
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+          Deadline: in 5 days (Urgent)
+        </span>
+<span class="font-code text-code text-on-surface-variant">ID: RZP-2025-WPB</span>
+</div>
+</div>
+<!-- Primary Header Block -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md lg:p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-md relative">
+<div class="flex items-start gap-space-md min-w-0">
+<!-- Razorpay Brand Badge -->
+<div class="w-16 h-16 rounded-xl bg-gradient-to-br from-[#0C2340] to-primary flex items-center justify-center text-on-primary font-display text-headline-md font-bold shadow-md shrink-0">
+          R
+        </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">SDE Intern (Web Platforms)</h1>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">verified</span> Verified Enterprise
+            </span>
+</div>
+<div class="flex items-center gap-x-space-md gap-y-space-xs flex-wrap mt-space-xs font-body-md text-body-md text-on-surface-variant">
+<span class="font-semibold text-on-surface">Razorpay Software Ltd.</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">location_on</span> Bengaluru / Hybrid</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 3 Months (Immediate)</span>
+<span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[16px]">payments</span> ₹40,000 / month</span>
+</div>
+<!-- Quick Micro-Pills -->
+<div class="flex items-center gap-space-xs flex-wrap mt-space-sm">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">B.Tech / Dual Degree</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">High PPO Conversion (42%)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Cohort '25 & '26</span>
+</div>
+</div>
+</div>
+<!-- Action Group -->
+<div class="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-stretch sm:items-center gap-space-xs shrink-0 pt-space-xs lg:pt-0">
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors shadow-sm font-title-md text-body-md" id="bookmark-btn" onclick="toggleBookmark()" type="button">
+<span class="material-symbols-outlined text-[18px]" id="bookmark-icon">bookmark_border</span>
+<span id="bookmark-label">Save Role</span>
+</button>
+<button class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors shadow-sm font-title-md text-body-md" onclick="triggerToast('Job specification downloaded as structured JSON/PDF.')" type="button">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Export Spec</span>
+</button>
+<a class="inline-flex flex-col items-center justify-center px-4 py-2.5 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container transition-all shadow-md group text-center" href="https://razorpay.com/jobs" rel="noopener noreferrer" target="_blank">
+<span class="inline-flex items-center gap-1 font-title-md text-title-md">
+            Apply on Official Portal
+            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">north_east</span>
+</span>
+<span class="font-label-sm text-[10px] opacity-90 tracking-tight">Direct Recruiter Job Link • No Middleman</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Content Layout (Desktop 12-col Fluid Grid) -->
+<div class="px-space-md lg:px-space-xl pb-space-xl flex flex-col gap-space-lg">
+<!-- Section 2: Prominent AI Eligibility & Match Card (Hero Bento Widget) -->
+<section class="bg-surface-container-lowest rounded-xl shadow-md p-space-md lg:p-space-lg relative overflow-hidden">
+<!-- Glow & Ambient AI accent bar -->
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-on-tertiary-container via-secondary to-primary-container"></div>
+<div class="flex flex-col lg:flex-row gap-space-lg items-start lg:items-center justify-between pb-space-md">
+<div class="flex items-start gap-space-md">
+<!-- Radial Compatibility Visualizer (SVG) -->
+<div class="relative w-20 h-20 shrink-0 flex items-center justify-center bg-surface-container-low rounded-full shadow-inner">
+<svg class="w-20 h-20 transform -rotate-90" viewbox="0 0 72 72">
+<circle class="text-surface-container-high" cx="36" cy="36" fill="transparent" r="30" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-secondary" cx="36" cy="36" fill="transparent" r="30" stroke="currentColor" stroke-dasharray="188.4" stroke-dashoffset="15.07" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center text-center">
+<span class="font-headline-sm text-headline-sm font-bold text-primary leading-none">92%</span>
+<span class="font-label-sm text-[9px] text-on-surface-variant uppercase font-semibold">Match</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">AI Profile Fit: Strong Match</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-on-tertiary-container">auto_awesome</span> Top 4% Candidate
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-2xl">
+              You exceed Razorpay's academic benchmark (<span class="font-semibold text-on-surface">CGPA 8.2</span> vs 7.5 min) and align with 85% of their core technical stack. Closing the identified Redis caching gap will boost your technical interview likelihood to <span class="text-secondary font-semibold">98%</span>.
+            </p>
+</div>
+</div>
+<!-- Call-to-actions for AI assistance -->
+<div class="flex flex-col sm:flex-row lg:flex-col gap-space-xs w-full lg:w-auto shrink-0">
+<button class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-all shadow-sm font-title-md text-body-md" onclick="triggerToast('Launching 3-Day Accelerated Pathway for Razorpay...')" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">bolt</span>
+<span>Launch 3-Day Prep Plan</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-title-md text-body-md" onclick="triggerToast('Analyzing Resume with Razorpay ATS Model...')" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+<span>Tailor Resume for Razorpay</span>
+</button>
+</div>
+</div>
+<!-- Skills Verification Matrix Grid -->
+<div class="mt-space-sm pt-space-md bg-surface-container-low/70 rounded-lg p-space-md">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-md text-title-md text-primary font-semibold">Prerequisite Alignment (4 of 5 Verified)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Synced from Aanya's Verified Repos & Resume</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-sm">
+<!-- Skill Item 1 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Python / FastAPI</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Matched via GitHub Portfolio (2 Projects)</span>
+<span class="mt-2 inline-block px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code text-[11px] self-start">Proficiency 88%</span>
+</div>
+<!-- Skill Item 2 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-md text-body-md font-semibold text-on-surface">React & TypeScript</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Matched via Resume & Capstone Demo</span>
+<span class="mt-2 inline-block px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code text-[11px] self-start">Proficiency 84%</span>
+</div>
+<!-- Skill Item 3 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-md text-body-md font-semibold text-on-surface">PostgreSQL & Indexing</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Matched via DBMS Coursework (Grade: A)</span>
+<span class="mt-2 inline-block px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code text-[11px] self-start">Proficiency 80%</span>
+</div>
+<!-- Skill Item 4 -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Git & CI/CD Pipelines</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Matched via GitHub Actions workflows</span>
+<span class="mt-2 inline-block px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code text-[11px] self-start">Proficiency 92%</span>
+</div>
+<!-- Skill Item 5 (Partial Gap) -->
+<div class="bg-surface-container-lowest p-space-sm rounded-lg shadow-sm flex flex-col justify-between ring-2 ring-error-container">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Redis & Concurrency</span>
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+</div>
+<span class="font-label-sm text-label-sm text-error font-medium">Gap: 2-Day Prep Module Recommended</span>
+<span class="mt-2 inline-block px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-code text-[11px] self-start">Partial Match (40%)</span>
+</div>
+</div>
+<!-- Official Disclaimer Note -->
+<div class="mt-space-md flex items-center justify-between flex-wrap gap-2 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">info</span>
+<span class="font-label-sm text-label-sm">Eligibility estimated from Razorpay Web Listing (Req #4881) and verified candidate telemetry. Final shortlisting subject to employer evaluation.</span>
+</div>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">How does AI Scoring calculate this?</a>
+</div>
+</div>
+</section>
+<!-- Section 3: Two-Column Deep Dive Content Area -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Role Details, Engineering Expectations, Culture & Perks (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Team & Role Overview -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm flex flex-col gap-space-md">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Engineering Team</span>
+<h2 class="font-headline-sm text-headline-sm text-primary font-semibold mt-1">About Web Platforms & Merchant Experience</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            The Web Platforms Team at Razorpay powers India's highest-volume checkout and developer integration surfaces. Every day, millions of merchants and end-users rely on Razorpay Standard Checkout, Custom Elements, and Webhooks. As an SDE Intern, you will work alongside senior infrastructure and frontend engineers building ultra-reliable client SDKs, sub-second transaction states, and resilient payment gateways.
+          </p>
+<!-- Key Responsibilities -->
+<div class="pt-space-xs">
+<h3 class="font-title-md text-title-md text-primary font-semibold mb-space-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">terminal</span>
+              Key Responsibilities
+            </h3>
+<ul class="space-y-space-xs font-body-md text-body-md text-on-surface">
+<li class="flex items-start gap-space-sm bg-surface p-space-sm rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">code</span>
+<div>
+<strong class="font-semibold">Checkout Engine Performance:</strong> Refactor core JavaScript client libraries to reduce bundle footprint by 15% and achieve guaranteed sub-100ms initialization across mobile browsers.
+                </div>
+</li>
+<li class="flex items-start gap-space-sm bg-surface p-space-sm rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">sync_alt</span>
+<div>
+<strong class="font-semibold">Distributed Concurrency & Telemetry:</strong> Build real-time latency monitors and state reconcilers handling concurrent payment intents with zero data loss.
+                </div>
+</li>
+<li class="flex items-start gap-space-sm bg-surface p-space-sm rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">integration_instructions</span>
+<div>
+<strong class="font-semibold">Developer Tools & SDKs:</strong> Write comprehensive test suites, TypeScript definitions, and interactive merchant documentation widgets.
+                </div>
+</li>
+</ul>
+</div>
+<!-- Academic & System Criteria -->
+<div class="pt-space-xs">
+<h3 class="font-title-md text-title-md text-primary font-semibold mb-space-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">school</span>
+              Candidate Eligibility Criteria
+            </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm font-body-sm text-body-sm">
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant block">Target Degree:</span>
+<span class="font-semibold text-on-surface">B.Tech / M.Tech in CSE, IT or ECE</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]">check</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant block">Graduation Window:</span>
+<span class="font-semibold text-on-surface">Class of 2025 or 2026</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]">check</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant block">Minimum Academic CGPA:</span>
+<span class="font-semibold text-on-surface">7.5 / 10.0 (Aanya has 8.2)</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]">check</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant block">Availability:</span>
+<span class="font-semibold text-on-surface">Minimum 3 months full-time</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Student Experience & Benefits -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-title-md text-title-md text-primary font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">card_giftcard</span>
+            Internship Perks & Culture
+          </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">laptop_mac</span>
+</div>
+<div>
+<span class="font-title-md text-body-md font-semibold text-on-surface block">Latest Hardware</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MacBook Pro (M3) provided for development during internship tenure.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+</div>
+<div>
+<span class="font-title-md text-body-md font-semibold text-on-surface block">Direct PPO Conversion</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Top-performing interns transition directly to full-time SDE-1 roles (₹22-26 LPA band).</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">diversity_3</span>
+</div>
+<div>
+<span class="font-title-md text-body-md font-semibold text-on-surface block">1-on-1 Mentorship</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Assigned a dedicated Staff Engineer mentor for code reviews and career coaching.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">health_and_safety</span>
+</div>
+<div>
+<span class="font-title-md text-body-md font-semibold text-on-surface block">Comprehensive Health Cover</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Full medical, hospitalization, and mental wellness coverage during the 3-month term.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Direct Recruiter Channel Callout -->
+<div class="bg-gradient-to-r from-primary-container via-primary to-primary-container text-on-primary rounded-xl p-space-md flex items-center justify-between flex-wrap gap-space-md shadow-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest/15 flex items-center justify-center text-tertiary-fixed shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</div>
+<div>
+<span class="font-title-md text-title-md font-bold block text-on-primary">Direct Razorpay University Channel</span>
+<span class="font-body-sm text-body-sm text-surface-container-high">InternAI does not take application cuts or add intermediary screening rounds.</span>
+</div>
+</div>
+<a class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-body-md hover:bg-secondary-container transition-all" href="https://razorpay.com/jobs" rel="noopener noreferrer" target="_blank">
+<span>Direct Link</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- RIGHT COLUMN: Targeted Prep Roadmap & Past Candidate Analytics (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- 3-Day Prep Roadmap Module Preview -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm flex flex-col gap-space-md relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[22px]">alt_route</span>
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold">Targeted Prep Plan</h3>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-semibold">3 DAYS</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Engineered specifically to solve the gap for Razorpay's technical screening. Complete these 3 short tracks before your recruiter interview:
+          </p>
+<!-- Timeline Trackers -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Day 1 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center font-bold text-body-sm shrink-0">
+                1
+              </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Web Platform Concurrency</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">45 min</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Event loops, WebSocket fallbacks, and resilient state locks.</span>
+</div>
+</div>
+<!-- Day 2 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-space-sm ring-1 ring-secondary/30">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-body-sm shrink-0">
+                2
+              </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Redis Session Stores</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">Priority Gap</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Caching strategies (Cache-aside, Write-through) and TTL handling in Node/Python.</span>
+</div>
+</div>
+<!-- Day 3 -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-bold text-body-sm shrink-0">
+                3
+              </div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Mock Technical Phone Screen</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">30 min</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Simulated dynamic coding test with AI Senior Engineer persona.</span>
+</div>
+</div>
+</div>
+<button class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container transition-all font-title-md text-body-md shadow-sm" onclick="triggerToast('Starting Day 1: Web Platform Concurrency module...')" type="button">
+<span>Start Day 1 Module</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Past Interview Experience Trends & Analytics -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-primary font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">analytics</span>
+              Past Interview Trends
+            </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">42 Student Reports</span>
+</div>
+<!-- Trend Bar Graph Preview (SVG inline) -->
+<div class="bg-surface p-space-sm rounded-lg flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="font-medium text-on-surface">DB Indexing & Query Optimization</span>
+<span class="font-bold text-primary">78%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 78%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm mt-2">
+<span class="font-medium text-on-surface">WebSocket Reconnection Logic</span>
+<span class="font-bold text-primary">64%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 64%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm mt-2">
+<span class="font-medium text-on-surface">API Rate Limiting (Token Bucket)</span>
+<span class="font-bold text-primary">52%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 52%"></div>
+</div>
+</div>
+<!-- Recent Interviewer Note Quote -->
+<div class="border-l-2 border-secondary pl-3 py-1 bg-surface rounded-r-lg">
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">
+              "Focus heavily on how you handle failed HTTP calls and idempotency in front-end checkout flows. Razorpay values system resilience above purely syntax trivia."
+            </p>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold block mt-1">— Rohan M., Intern Class of '24 (Now SDE-1)</span>
+</div>
+</div>
+<!-- Similar High-Match Openings -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-primary font-semibold">Similar High-Match Roles</h3>
+<a class="font-label-sm text-label-sm text-secondary hover:underline" href="#">View All</a>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<!-- Opening 1: Postman -->
+<a class="p-space-sm rounded-lg bg-surface hover:bg-surface-container transition-colors flex items-center justify-between group" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-body-sm shrink-0">
+                  P
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-body-md font-semibold text-on-surface truncate group-hover:text-secondary transition-colors">Frontend Platform Intern</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Postman • Bengaluru (Hybrid)</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold shrink-0">
+                91% Match
+              </span>
+</a>
+<!-- Opening 2: Swiggy -->
+<a class="p-space-sm rounded-lg bg-surface hover:bg-surface-container transition-colors flex items-center justify-between group" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-lg bg-secondary text-on-secondary flex items-center justify-center font-bold text-body-sm shrink-0">
+                  S
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-body-md font-semibold text-on-surface truncate group-hover:text-secondary transition-colors">Full-Stack Core Intern</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Swiggy • Remote</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-semibold shrink-0">
+                94% Match
+              </span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Script for UI Micro-Interactions -->
+<script>
+    let isBookmarked = false;
+    function toggleBookmark() {
+      isBookmarked = !isBookmarked;
+      const icon = document.getElementById('bookmark-icon');
+      const label = document.getElementById('bookmark-label');
+      const btn = document.getElementById('bookmark-btn');
+      
+      if (isBookmarked) {
+        icon.innerText = 'bookmark';
+        icon.classList.add('text-secondary');
+        label.innerText = 'Saved';
+        triggerToast('Role added to your saved applications & tracker.');
+      } else {
+        icon.innerText = 'bookmark_border';
+        icon.classList.remove('text-secondary');
+        label.innerText = 'Save Role';
+        triggerToast('Role removed from saved internships.');
+      }
+    }
+
+    function triggerToast(message) {
+      const toast = document.getElementById('action-toast');
+      const text = document.getElementById('toast-text');
+      if (!toast || !text) return;
+
+      text.innerText = message;
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(window.toastTimeout);
+      window.toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+  </script>
+</div></main></div></body></html>

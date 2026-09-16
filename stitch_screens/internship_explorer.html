@@ -1,0 +1,770 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#004e5c","on-tertiary-container":"#0096b0","error-container":"#ffdad6","on-secondary-fixed-variant":"#003ea8","outline-variant":"#c8c5d0","surface-container":"#e5eeff","on-tertiary":"#ffffff","tertiary-container":"#00262e","tertiary":"#000e12","on-background":"#0b1c30","inverse-primary":"#c4c1fb","outline":"#787680","on-primary":"#ffffff","on-primary-container":"#8683ba","surface":"#f8f9ff","secondary-fixed-dim":"#b4c5ff","surface-variant":"#d3e4fe","inverse-on-surface":"#eaf1ff","secondary-fixed":"#dbe1ff","primary-fixed":"#e3dfff","on-surface-variant":"#47464f","secondary-container":"#316bf3","secondary":"#0051d5","primary-container":"#1e1b4b","on-surface":"#0b1c30","on-error":"#ffffff","surface-tint":"#5b598c","surface-container-low":"#eff4ff","surface-container-high":"#dce9ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed":"#001f26","background":"#f8f9ff","inverse-surface":"#213145","surface-dim":"#cbdbf5","on-secondary-container":"#fefcff","on-secondary-fixed":"#00174b","primary":"#070235","on-primary-fixed-variant":"#444173","on-error-container":"#93000a","tertiary-fixed":"#acedff","on-secondary":"#ffffff","surface-bright":"#f8f9ff","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c4c1fb","tertiary-fixed-dim":"#4cd7f6","on-primary-fixed":"#181445","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-lg":"1.5rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},"fontFamily":{"body-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"title-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"label-md":["Inter"],"code":["JetBrains Mono"]},"fontSize":{"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-surface-container-high z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-surface-container-high"><img alt="InternAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpmCSfHR54Wmywgc5EBuAqsdyrCXtpp5AUDm9pEYvpdC9bX47cP6qPrEsr2Xa2CJicUlKpujqyj64Lk228elx5cN9I4Y_7U-4OVKl172-bl0ftv4lOx1JI2Ukx5660nPvU5VDehGXK8HxT35owJB1tVeBrE9NHQwojB4pIkEqeZyxxo9KMxgrJZUpm6YEnxgq8Ha2EqZveDk97EewTYna3c715lOl_GAVf-0U1QpRNMT66Hbp8tihFP3g"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">InternAI</span></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Navigation</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md font-medium">Dashboard</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-title-md" data-path="explore-internships" href="#"><span class="material-symbols-outlined text-[20px]">search</span><span class="font-body-md text-body-md font-medium">Explore Internships</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="ai-matching" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span class="font-body-md text-body-md font-medium">AI Matching</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] tracking-wide uppercase font-semibold">NEW</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resume-analyzer" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md font-medium">Resume Analyzer</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-applications" href="#"><span class="material-symbols-outlined text-[20px]">send</span><span class="font-body-md text-body-md font-medium">My Applications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="preparation-roadmap" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-body-md text-body-md font-medium">Preparation Roadmap</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="mock-interview" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-body-md text-body-md font-medium">Mock Interview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skill-progress" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md font-medium">Skill Progress</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">person</span><span class="font-body-md text-body-md font-medium">Profile</span></a></nav></div><div class="flex flex-col border-t border-surface-container-high pt-space-sm pb-space-md"><nav class="flex flex-col gap-space-xs px-space-sm mb-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md font-medium">Settings</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="help-and-resources" href="#"><span class="material-symbols-outlined text-[20px]">help_outline</span><span class="font-body-md text-body-md font-medium">Help &amp; Resources</span></a></nav><div class="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"><div class="flex flex-col min-w-0 flex-1"><span class="font-title-md text-title-md truncate text-on-surface font-semibold">Aanya Sharma</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">B.Tech CSE • 3rd Year</span></div></div><div class="mt-1 flex items-center justify-between pt-space-xs border-t border-surface-container-high"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-secondary-fixed-variant border border-secondary-fixed font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready to Apply</span><button aria-label="Profile Options" class="text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">more_vert</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-container-high z-40 px-space-lg flex items-center justify-between"><div class="relative flex-1 max-w-xl"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-body-md font-body-md rounded-lg bg-surface border border-outline-variant text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/15 transition-all" placeholder="Search internships, skills, companies... (Cmd + K)" type="text"></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">auto_awesome</span>AI Readiness 86%</div><button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm" type="button"><span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>Quick AI Match</button><div class="h-6 w-px bg-surface-container-high"></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Canvas Decor -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/4 w-96 h-96 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-20 right-10 w-80 h-80 bg-tertiary-fixed-dim/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="p-space-lg lg:p-margin max-w-7xl mx-auto w-full flex flex-col gap-space-lg">
+<!-- Discovery Header Banner & Interactive Command Strip -->
+<section class="flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-1.5 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high w-fit">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider font-semibold">Live Opportunities • Updated 12m ago</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Explore Internships</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Discover 1,240+ verified student internships with instant AI eligibility scoring.</p>
+</div>
+<!-- Quick Stat Ticker Widget -->
+<div class="flex items-center gap-3 bg-surface-container-lowest p-2 rounded-xl shadow-sm self-start md:self-auto">
+<div class="px-3 py-1.5 rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Avg. Response</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">48 Hrs</span>
+</div>
+<div class="px-3 py-1.5 rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">High Match (&gt;85%)</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">428 Active</span>
+</div>
+</div>
+</div>
+<!-- Smart Filter Pill Strip & Global Search Row -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">filter_list</span>
+<input class="w-full pl-11 pr-4 py-2.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none transition-all" id="keyword-search" placeholder="Search by job title, core frameworks, or dream company..." type="text">
+</div>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-primary-container transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Refine Matrix</span>
+</button>
+</div>
+</div>
+<!-- Quick Chips Selection Strip -->
+<div class="flex items-center gap-2 flex-wrap pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold mr-1">Trending:</span>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-container-highest transition-colors" type="button">
+<span>Python</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">north_east</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-body-sm text-body-sm hover:bg-secondary-fixed-dim transition-colors font-medium" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Remote Only</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-container-highest transition-colors" type="button">
+<span>Frontend</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-container-highest transition-colors" type="button">
+<span>₹25k+ Stipend</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed/40 text-on-tertiary-fixed-variant font-body-sm text-body-sm hover:bg-tertiary-fixed transition-colors font-medium" type="button">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>Immediate Start</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 2-Column Catalog Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Filter Sidebar (lg:col-span-4 xl:col-span-3) -->
+<aside class="lg:col-span-4 xl:col-span-3 flex flex-col gap-space-md lg:sticky lg:top-20">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<!-- Sidebar Header & Clear Actions -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">tune</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Filters</h2>
+</div>
+<button class="font-label-sm text-label-sm text-secondary hover:text-secondary-container font-semibold transition-colors uppercase" type="button">Reset All</button>
+</div>
+<!-- AI Eligibility Master Switch Card -->
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">auto_awesome</span>
+<span class="font-title-md text-title-md text-on-surface">AI Match ≥ 80%</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggle-high-match" type="checkbox">
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Tailored instantly to Aanya's resume and academic verification score.</p>
+</div>
+<!-- Domain Checkboxes -->
+<div class="flex flex-col gap-2.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Specialized Domain</span>
+<div class="space-y-1.5">
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Web Development</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">412</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Data Analytics</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">210</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input checked="" class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">AI / Machine Learning</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">165</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">App Development</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">180</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Cloud &amp; DevOps</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">95</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">UI/UX Product Design</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">110</span>
+</label>
+<label class="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="flex items-center gap-2.5">
+<input class="w-4 h-4 rounded text-secondary focus:ring-0 cursor-pointer accent-secondary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Cybersecurity</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">74</span>
+</label>
+</div>
+</div>
+<!-- Work Mode Filter Pills -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Work Mode</span>
+<div class="grid grid-cols-3 gap-1.5 p-1 bg-surface-container-low rounded-lg">
+<button class="py-1.5 text-center rounded bg-surface-container-lowest text-secondary font-label-md text-label-md font-semibold shadow-xs" type="button">Remote</button>
+<button class="py-1.5 text-center rounded text-on-surface-variant font-label-md text-label-md font-medium hover:text-on-surface" type="button">Hybrid</button>
+<button class="py-1.5 text-center rounded text-on-surface-variant font-label-md text-label-md font-medium hover:text-on-surface" type="button">On-site</button>
+</div>
+</div>
+<!-- Stipend Range Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Monthly Stipend</span>
+<span class="font-title-md text-title-md text-secondary font-semibold" id="stipend-val">≥ ₹25,000</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-secondary" id="stipend-slider" max="60000" min="10000" step="5000" type="range" value="25000">
+<div class="flex justify-between font-label-sm text-label-sm text-outline">
+<span>₹10k</span>
+<span>₹35k</span>
+<span>₹60k+</span>
+</div>
+</div>
+<!-- Location Select -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Location Hubs</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-md bg-secondary text-on-secondary font-label-sm text-label-sm font-medium cursor-pointer">Remote</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium cursor-pointer hover:bg-surface-container-high">Bengaluru</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium cursor-pointer hover:bg-surface-container-high">Delhi NCR</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium cursor-pointer hover:bg-surface-container-high">Hyderabad</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium cursor-pointer hover:bg-surface-container-high">Pune</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-medium cursor-pointer hover:bg-surface-container-high">Mumbai</span>
+</div>
+</div>
+<!-- Duration Selection -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Program Duration</span>
+<div class="flex gap-2">
+<button class="flex-1 py-1 px-2 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm text-center hover:bg-surface-container-high font-medium" type="button">2 Mos</button>
+<button class="flex-1 py-1 px-2 rounded-md bg-primary-container text-on-primary font-label-sm text-label-sm text-center font-semibold" type="button">3 Mos</button>
+<button class="flex-1 py-1 px-2 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm text-center hover:bg-surface-container-high font-medium" type="button">6 Mos</button>
+</div>
+</div>
+<!-- Batch Graduation Year & Academic Cutoff -->
+<div class="flex flex-col gap-2 pt-2 border-t border-surface-container">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Target Graduating Batch</span>
+<div class="grid grid-cols-3 gap-1.5">
+<button class="py-1 text-center rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-medium" type="button">2025</button>
+<button class="py-1 text-center rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold" type="button">2026</button>
+<button class="py-1 text-center rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-medium" type="button">2027</button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-1">
+<span class="font-body-sm text-body-sm">Min. CGPA requirement</span>
+<span class="font-title-md text-title-md font-semibold text-primary">7.5+</span>
+</div>
+</div>
+</div>
+<!-- AI Match Insights Mini Widget -->
+<div class="p-space-md rounded-xl bg-gradient-to-br from-primary-container to-primary text-on-primary flex flex-col gap-3 shadow-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]">psychology</span>
+<span class="font-title-md text-title-md text-primary-fixed font-semibold">Profile Strength</span>
+</div>
+<p class="font-body-sm text-body-sm text-surface-variant leading-relaxed">Adding 1 cloud project (AWS or Docker) will unlock <strong>38 more</strong> Tier-1 tech internships with &gt;90% match.</p>
+<button class="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-surface-container-lowest text-primary font-title-md text-title-md hover:bg-surface-container-low transition-colors" type="button">
+<span>View Skills Gap</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</aside>
+<!-- Right Main Catalog Grid (lg:col-span-8 xl:col-span-9) -->
+<main class="lg:col-span-8 xl:col-span-9 flex flex-col gap-space-md">
+<!-- Catalog Sorting Bar -->
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-3 rounded-xl shadow-xs">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-primary font-bold">Showing 64 Matches</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant">Selected Criteria</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline">Sort by:</span>
+<select class="bg-surface-container-low font-body-sm text-body-sm text-on-surface py-1 px-3 rounded-lg border-0 focus:ring-1 focus:ring-secondary cursor-pointer">
+<option selected="">Best AI Match Score</option>
+<option>Highest Stipend</option>
+<option>Deadline (Urgent First)</option>
+<option>Newest Added</option>
+</select>
+</div>
+</div>
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card 1: Razorpay -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<!-- Top Row: Monogram, Title, Bookmark -->
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#0C2340] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      R
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">Razorpay</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">apartment</span>
+                        Fintech Leader
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark Razorpay" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<!-- Internship Title & Domain -->
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">SDE Intern (Web Platforms)</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">Web Development</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      3 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Remote</span>
+</div>
+</div>
+<!-- AI Score Ring & Metric Strip -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<!-- SVG Circular Progress 94% -->
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">94%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">Top 3% profile matchup</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹40,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<!-- Skills Required -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Python</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">React</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">PostgreSQL</span>
+</div>
+<!-- Badges Strip -->
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                    Verified Official Link
+                  </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed/40 text-on-tertiary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+                    High Response Rate
+                  </span>
+</div>
+</div>
+<!-- Bottom Action Bar -->
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-error font-medium">
+<span class="material-symbols-outlined text-[16px]">hourglass_bottom</span>
+                  5 days left
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 2: PhonePe -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<!-- Top Row -->
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#5F259F] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      Pe
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">PhonePe</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                        Bengaluru (Hybrid)
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark PhonePe" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<!-- Title & Domain -->
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">Data Analyst Intern</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">Data Analytics</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      6 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Hybrid Hub</span>
+</div>
+</div>
+<!-- AI Score Ring & Metric Strip -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">88%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">Strong coursework alignment</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹35,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<!-- Skills Required -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">SQL</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Python</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Tableau</span>
+</div>
+<!-- Badges Strip -->
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                    PPO Potential
+                  </span>
+</div>
+</div>
+<!-- Bottom Action Bar -->
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                  8 days left
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 3: Postman -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#FF6C37] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      P
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">Postman</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">public</span>
+                        Developer Tools
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark Postman" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">Frontend Engineering Intern</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">Web Development</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      2 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Remote</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="91, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">91%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">Perfect tech stack fit</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹45,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">TypeScript</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">React</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Next.js</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">star</span>
+                    Top Tier Stipend
+                  </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                    Official
+                  </span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-error font-medium">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+                  3 days left (Urgent)
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 4: Microsoft Engage -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#00A4EF] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      MS
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">Microsoft Engage</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">domain</span>
+                        Enterprise Tech
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark Microsoft" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">Software Intern</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">Core Software</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      2 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Hybrid</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="84, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">84%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">DSA benchmark verified</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹50,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">DSA</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">C++</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Algorithms</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">military_tech</span>
+                    Flagship Program
+                  </span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                  12 days left
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 5: Groww -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#00D09C] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      G
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">Groww</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">query_stats</span>
+                        Fintech &amp; Wealth
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark Groww" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">Python Backend Intern</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">Backend Eng</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      3 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Remote</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="90, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">90%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">Matches Git project portfolio</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹30,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Python</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Django</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">REST APIs</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">thumb_up</span>
+                    Mentor Guided
+                  </span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                  6 days left
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- Card 6: Urban Company -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full pointer-events-none transition-transform group-hover:scale-110"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-[#1A1A1A] flex items-center justify-center text-white font-headline-sm font-bold shadow-xs">
+                      UC
+                    </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md font-bold text-primary group-hover:text-secondary transition-colors">Urban Company</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">business</span>
+                        Consumer Services
+                      </span>
+</div>
+</div>
+<button aria-label="Bookmark Urban Company" class="p-2 rounded-lg text-outline hover:text-secondary hover:bg-surface-container-low transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-primary font-semibold leading-snug">Product Design (UI/UX) Intern</h3>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">UI/UX</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                      3 Months
+                    </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Gurugram</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+<svg class="w-11 h-11 transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="79, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-primary">79%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">AI Compatibility</span>
+<span class="font-body-sm text-body-sm text-on-surface">Minor portfolio gap</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stipend</span>
+<div class="font-title-md text-title-md text-primary font-bold">₹25,000<span class="font-body-sm font-normal text-on-surface-variant">/mo</span></div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Skills:</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Figma</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Design Systems</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-body-sm text-body-sm">Prototyping</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[13px]">lightbulb</span>
+                    Design Systems Team
+                  </span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-surface-container-high flex items-center justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                  15 days left
+                </span>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-title-md text-title-md hover:bg-secondary transition-all shadow-xs" type="button">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Pagination & Discovery Load More Section -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm mt-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 6 of 64 tailored postings</span>
+<div class="flex items-center gap-1.5">
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-title-md text-title-md" type="button">1</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface font-title-md text-title-md hover:bg-surface-container-low" type="button">2</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface font-title-md text-title-md hover:bg-surface-container-low" type="button">3</button>
+<span class="px-1 text-outline">...</span>
+<button class="px-3 py-1.5 rounded-lg text-on-surface font-title-md text-title-md hover:bg-surface-container-low" type="button">11</button>
+<button class="p-2 rounded-lg text-on-surface hover:bg-surface-container-low" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Student Perks & Career Banner -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-secondary to-primary-container p-space-lg text-on-secondary shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1 max-w-xl">
+<span class="px-2 py-0.5 rounded bg-on-secondary/15 w-fit font-label-sm text-label-sm text-on-secondary uppercase tracking-wider font-semibold">Automatic Optimization</span>
+<h4 class="font-headline-md text-headline-md font-bold">Apply with 1-Click AI Resume Customization</h4>
+<p class="font-body-md text-body-md text-secondary-fixed opacity-90">Our parser modifies your bullet points to mirror each company's exact applicant tracking system (ATS) benchmarks.</p>
+</div>
+<button class="shrink-0 px-5 py-2.5 rounded-lg bg-surface-container-lowest text-primary font-title-md text-title-md font-bold hover:bg-surface-container-low transition-colors shadow-sm flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-secondary text-[20px]">auto_fix_high</span>
+              Configure Auto-Tailor
+            </button>
+</div>
+</main>
+</div>
+</div>
+</div>
+<script>
+    // Live UI micro-interactions
+    const stipendSlider = document.getElementById('stipend-slider');
+    const stipendVal = document.getElementById('stipend-val');
+    if (stipendSlider && stipendVal) {
+      stipendSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        stipendVal.textContent = '≥ ₹' + val.toLocaleString('en-IN');
+      });
+    }
+
+    // Toggle high match filter mock interaction
+    const toggleMatch = document.getElementById('toggle-high-match');
+    if (toggleMatch) {
+      toggleMatch.addEventListener('change', (e) => {
+        const cardUrbanCompany = document.querySelector('article:has(span:contains("79%"))') || document.querySelectorAll('article')[5];
+        if (cardUrbanCompany) {
+          cardUrbanCompany.style.opacity = e.target.checked ? '0.45' : '1';
+          cardUrbanCompany.style.pointerEvents = e.target.checked ? 'none' : 'auto';
+        }
+      });
+    }
+  </script>
+</div></main></div></body></html>

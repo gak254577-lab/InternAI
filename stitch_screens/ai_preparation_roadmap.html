@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#004e5c","on-tertiary-container":"#0096b0","error-container":"#ffdad6","on-secondary-fixed-variant":"#003ea8","outline-variant":"#c8c5d0","surface-container":"#e5eeff","on-tertiary":"#ffffff","tertiary-container":"#00262e","tertiary":"#000e12","on-background":"#0b1c30","inverse-primary":"#c4c1fb","outline":"#787680","on-primary":"#ffffff","on-primary-container":"#8683ba","surface":"#f8f9ff","secondary-fixed-dim":"#b4c5ff","surface-variant":"#d3e4fe","inverse-on-surface":"#eaf1ff","secondary-fixed":"#dbe1ff","primary-fixed":"#e3dfff","on-surface-variant":"#47464f","secondary-container":"#316bf3","secondary":"#0051d5","primary-container":"#1e1b4b","on-surface":"#0b1c30","on-error":"#ffffff","surface-tint":"#5b598c","surface-container-low":"#eff4ff","surface-container-high":"#dce9ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed":"#001f26","background":"#f8f9ff","inverse-surface":"#213145","surface-dim":"#cbdbf5","on-secondary-container":"#fefcff","on-secondary-fixed":"#00174b","primary":"#070235","on-primary-fixed-variant":"#444173","on-error-container":"#93000a","tertiary-fixed":"#acedff","on-secondary":"#ffffff","surface-bright":"#f8f9ff","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c4c1fb","tertiary-fixed-dim":"#4cd7f6","on-primary-fixed":"#181445","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-lg":"1.5rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},"fontFamily":{"body-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"title-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"label-md":["Inter"],"code":["JetBrains Mono"]},"fontSize":{"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-surface-container-high z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-surface-container-high"><img alt="InternAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpmCSfHR54Wmywgc5EBuAqsdyrCXtpp5AUDm9pEYvpdC9bX47cP6qPrEsr2Xa2CJicUlKpujqyj64Lk228elx5cN9I4Y_7U-4OVKl172-bl0ftv4lOx1JI2Ukx5660nPvU5VDehGXK8HxT35owJB1tVeBrE9NHQwojB4pIkEqeZyxxo9KMxgrJZUpm6YEnxgq8Ha2EqZveDk97EewTYna3c715lOl_GAVf-0U1QpRNMT66Hbp8tihFP3g"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">InternAI</span></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Navigation</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md font-medium">Dashboard</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-title-md" data-path="explore-internships" href="#"><span class="material-symbols-outlined text-[20px]">search</span><span class="font-body-md text-body-md font-medium">Explore Internships</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="ai-matching" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span class="font-body-md text-body-md font-medium">AI Matching</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] tracking-wide uppercase font-semibold">NEW</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resume-analyzer" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md font-medium">Resume Analyzer</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-applications" href="#"><span class="material-symbols-outlined text-[20px]">send</span><span class="font-body-md text-body-md font-medium">My Applications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="preparation-roadmap" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-body-md text-body-md font-medium">Preparation Roadmap</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="mock-interview" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-body-md text-body-md font-medium">Mock Interview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skill-progress" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md font-medium">Skill Progress</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">person</span><span class="font-body-md text-body-md font-medium">Profile</span></a></nav></div><div class="flex flex-col border-t border-surface-container-high pt-space-sm pb-space-md"><nav class="flex flex-col gap-space-xs px-space-sm mb-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md font-medium">Settings</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="help-and-resources" href="#"><span class="material-symbols-outlined text-[20px]">help_outline</span><span class="font-body-md text-body-md font-medium">Help & Resources</span></a></nav><div class="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/><div class="flex flex-col min-w-0 flex-1"><span class="font-title-md text-title-md truncate text-on-surface font-semibold">Aanya Sharma</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">B.Tech CSE • 3rd Year</span></div></div><div class="mt-1 flex items-center justify-between pt-space-xs border-t border-surface-container-high"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-secondary-fixed-variant border border-secondary-fixed font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready to Apply</span><button aria-label="Profile Options" class="text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">more_vert</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-container-high z-40 px-space-lg flex items-center justify-between"><div class="relative flex-1 max-w-xl"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-body-md font-body-md rounded-lg bg-surface border border-outline-variant text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/15 transition-all" placeholder="Search internships, skills, companies... (Cmd + K)" type="text"/></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">auto_awesome</span>AI Readiness 86%</div><button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm" type="button"><span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>Quick AI Match</button><div class="h-6 w-px bg-surface-container-high"></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Dynamic Atmospheric Header Bar -->
+<div class="relative overflow-hidden bg-primary px-space-xl py-space-xl shadow-lg">
+<!-- Fluid background ambient glow -->
+<div class="absolute -right-20 -top-24 w-96 h-96 rounded-full bg-secondary/20 blur-3xl pointer-events-none"></div>
+<div class="absolute right-1/3 -bottom-20 w-80 h-80 rounded-full bg-on-tertiary-container/15 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col gap-space-md max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-lowest/15 text-tertiary-fixed font-label-sm text-label-sm backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
+              Fast-Track Sprint Active
+            </span>
+<span class="text-on-primary-container font-label-sm text-label-sm">Sprint ID: #RZP-2025-SDE1</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-primary tracking-tight">AI Preparation Roadmap</h1>
+<p class="font-body-md text-body-md text-on-primary-container max-w-3xl">
+            Customized 7-day sprint generated from Aanya's resume gap analysis & Razorpay SDE requirements.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="inline-flex items-center gap-space-xs px-4 py-2 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 text-on-primary font-title-md text-title-md transition-all shadow-sm" id="recalc-btn" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">neurology</span>
+            Recalculate Roadmap
+          </button>
+<button class="inline-flex items-center gap-space-xs px-4 py-2 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container font-title-md text-title-md transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+            Export Study Notes
+          </button>
+</div>
+</div>
+<!-- Quick Metadata Pills Bar -->
+<div class="flex flex-wrap items-center gap-3 pt-space-xs text-on-primary">
+<div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm text-surface-bright font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">domain</span>
+<span>Target: <strong class="text-on-primary">Razorpay SDE Intern</strong></span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm text-surface-bright font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">timer</span>
+<span>Timeline: <strong class="text-on-primary">5 Days Remaining</strong></span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm text-surface-bright font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">pace</span>
+<span>Daily Goal: <strong class="text-on-primary">1.5 hrs/day</strong></span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-lowest/10 backdrop-blur-sm text-surface-bright font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed">insights</span>
+<span>Stack: <strong class="text-on-primary">Python • Redis • Kafka</strong></span>
+</div>
+</div>
+<!-- Roadmap Aggregate Progress -->
+<div class="mt-space-sm p-4 rounded-xl bg-surface-container-lowest/10 backdrop-blur-md flex flex-col gap-3">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-primary font-semibold">Sprint Completion</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-semibold">38% Complete</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-primary-container">4 of 12 milestones validated by AI reviewer</span>
+</div>
+<!-- Segmented multi-track progress bar -->
+<div class="w-full h-3 rounded-full bg-surface-container-lowest/20 overflow-hidden flex gap-1 p-0.5">
+<div class="h-full bg-tertiary-fixed-dim rounded-full transition-all duration-700" style="width: 38%;" title="Completed Fundamentals"></div>
+<div class="h-full bg-secondary-container rounded-full animate-pulse" style="width: 14%;" title="In Progress System Track"></div>
+<div class="h-full bg-surface-container-lowest/20 rounded-full" style="width: 48%;" title="Upcoming Interview Mock Tracks"></div>
+</div>
+<!-- Progress Track Breakdown Legend -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-2 text-on-primary">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+<span>Fundamentals (Completed)</span>
+</div>
+<div class="flex items-center gap-2 text-surface-bright">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span>Systems & Concurrency (In Progress)</span>
+</div>
+<div class="flex items-center gap-2 text-on-primary-container">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-container-lowest/30"></span>
+<span>System Design & OA Mock (Upcoming)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Body Grid: 2-Column Desktop Architecture -->
+<div class="max-w-7xl w-full mx-auto px-space-md lg:px-space-xl py-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN (65% width / 8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- 1. Interactive 7-Day Sprint Timeline Section -->
+<section class="flex flex-col gap-space-md bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-secondary">alt_route</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Milestone Timeline</h2>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+              Current: Day 3 of 7
+            </span>
+</div>
+<!-- Timeline Track Container -->
+<div class="relative pl-6 sm:pl-8 flex flex-col gap-4 before:absolute before:left-3 sm:before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-surface-container-high">
+<!-- Day 1 (Completed) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-all">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary-container shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Day 1</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Advanced Python & AsyncIO</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Event loops, coroutines, thread pool executors & GIL mitigation strategies.</span>
+</div>
+<div class="flex items-center gap-3 mt-2 sm:mt-0 shrink-0">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-tertiary-container px-2.5 py-0.5 rounded-full bg-surface-container-lowest">
+<span class="material-symbols-outlined text-[14px]">verified</span> 100%
+                </span>
+</div>
+</div>
+<!-- Day 2 (Completed) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-all">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-tertiary-container text-on-tertiary-container shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Day 2</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Relational DB Query Optimization & Indexing</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">PostgreSQL EXPLAIN ANALYZE, B-Tree indexes, and transaction isolation levels.</span>
+</div>
+<div class="flex items-center gap-3 mt-2 sm:mt-0 shrink-0">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-tertiary-container px-2.5 py-0.5 rounded-full bg-surface-container-lowest">
+<span class="material-symbols-outlined text-[14px]">verified</span> 100%
+                </span>
+</div>
+</div>
+<!-- Day 3 (Active / In Progress) -->
+<div class="relative flex flex-col p-4 rounded-xl bg-surface-container-lowest shadow-md -ml-2 -mr-2 sm:-ml-3 sm:-mr-3">
+<span class="absolute -left-4 sm:-left-5 top-5 flex items-center justify-center w-7 h-7 rounded-full bg-secondary text-on-secondary ring-4 ring-surface shadow-sm">
+<span class="material-symbols-outlined text-[16px] animate-spin">autorenew</span>
+</span>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">Day 3 • ACTIVE SPRINT</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Today's Focus</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">75% Module Complete</span>
+</div>
+<div class="mt-2 flex flex-col gap-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                  Distributed Caching with Redis & Invalidation Strategies
+                </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  High-throughput low-latency memory stores, Cache Stampede mitigation, and TTL eviction policies for Razorpay transaction ledgers.
+                </p>
+</div>
+<!-- Mini progression slider -->
+<div class="mt-3 w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full transition-all duration-500" style="width: 75%;"></div>
+</div>
+</div>
+<!-- Day 4 (Next Up) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-all">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant shadow-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Day 4</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">High-Throughput Message Queues (Kafka & RabbitMQ)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Event-driven payment processing, consumer lag, and exactly-once delivery semantics.</span>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm shrink-0 mt-2 sm:mt-0">
+                Tomorrow
+              </span>
+</div>
+<!-- Day 5 (Locked) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-lowest opacity-75">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-surface-container text-outline shadow-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Day 5</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Low-Level System Design (Rate Limiter & URL Shortener)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Token Bucket vs Leaky Bucket algorithms with distributed state consistency.</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline shrink-0 mt-2 sm:mt-0">Unlocks Day 5</span>
+</div>
+<!-- Day 6 (Locked) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-lowest opacity-75">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-surface-container text-outline shadow-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Day 6</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Razorpay Custom OA Simulation & Timed Sandbox</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">90-minute timed proctored round with 2 Hard Algorithmic + 1 Concurrency challenge.</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline shrink-0 mt-2 sm:mt-0">Unlocks Day 6</span>
+</div>
+<!-- Day 7 (Locked) -->
+<div class="relative flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg bg-surface-container-lowest opacity-75">
+<span class="absolute -left-6 sm:-left-8 top-4 flex items-center justify-center w-6 h-6 rounded-full bg-surface-container text-outline shadow-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</span>
+<div class="flex flex-col min-w-0 pr-4">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Day 7</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Final Behavioral & System Interview Drill</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Live voice-based AI interviewer evaluating architectural trade-offs & culture fit.</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline shrink-0 mt-2 sm:mt-0">Final Stage</span>
+</div>
+</div>
+</section>
+<!-- 2. Active Module Sandbox Card (Day 3 Deep Dive) -->
+<section class="flex flex-col gap-space-md bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-label-sm text-label-sm">MODULE 3 OF 7</span>
+<span class="text-secondary font-label-md text-label-md font-semibold">EST. TIME: 45 MINS LEFT</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold mt-1">
+                Distributed Caching with Redis & Invalidation Strategies
+              </h2>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-secondary font-title-md text-title-md self-start sm:self-auto">
+<span class="material-symbols-outlined text-[18px]">terminal</span> Interactive Sandbox
+            </span>
+</div>
+<!-- Learning Objectives with Checkmarks -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Core Competencies Checklist</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm mt-1">
+<div class="flex items-start gap-2 p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container shrink-0 mt-0.5">check_circle</span>
+<div class="flex flex-col">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Cache-Aside vs Write-Through</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Validated via quiz</span>
+</div>
+</div>
+<div class="flex items-start gap-2 p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container shrink-0 mt-0.5">check_circle</span>
+<div class="flex flex-col">
+<span class="font-title-md text-body-md font-semibold text-on-surface">TTL & Stampede Mitigation</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Code passed 4/4 tests</span>
+</div>
+</div>
+<div class="flex items-start gap-2 p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary shrink-0 mt-0.5 animate-pulse">pending</span>
+<div class="flex flex-col">
+<span class="font-title-md text-body-md font-semibold text-on-surface">Split-Brain & Leader Failover</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">Pending coding challenge</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Coding Sandbox IDE Container -->
+<div class="rounded-xl overflow-hidden shadow-md bg-primary-container text-on-primary">
+<!-- IDE Header Bar -->
+<div class="flex flex-wrap items-center justify-between px-4 py-3 bg-primary text-surface-bright">
+<div class="flex items-center gap-3">
+<div class="flex gap-1.5">
+<span class="w-3 h-3 rounded-full bg-error inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-surface-variant inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim inline-block"></span>
+</div>
+<span class="font-code text-code text-on-primary-container ml-2">solution_lru_cache.py</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest/15 text-tertiary-fixed font-label-sm text-label-sm">Python 3.11</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 text-on-primary text-body-sm font-body-sm transition-colors" type="button">
+                  Reset Template
+                </button>
+</div>
+</div>
+<!-- Code Editor Buffer -->
+<div class="p-4 font-code text-code leading-relaxed overflow-x-auto text-surface-bright bg-primary-container">
+<pre><code><span class="text-on-primary-container"># Task: Implement a Thread-Safe LRU Cache with TTL Eviction for Razorpay Ledger</span>
+<span class="text-tertiary-fixed">import</span> time
+<span class="text-tertiary-fixed">from</span> threading <span class="text-tertiary-fixed">import</span> RLock
+<span class="text-tertiary-fixed">from</span> collections <span class="text-tertiary-fixed">import</span> OrderedDict
+
+<span class="text-tertiary-fixed">class</span> <span class="text-secondary-fixed font-bold">ThreadSafeTTLCache</span>:
+    <span class="text-tertiary-fixed">def</span> <span class="text-secondary-fixed">__init__</span>(self, capacity: int, default_ttl_sec: float = 60.0):
+        self.capacity = capacity
+        self.default_ttl = default_ttl_sec
+        self.cache = OrderedDict()
+        self.lock = RLock()
+
+    <span class="text-tertiary-fixed">def</span> <span class="text-secondary-fixed">get</span>(self, key: str):
+        <span class="text-tertiary-fixed">with</span> self.lock:
+            <span class="text-tertiary-fixed">if</span> key <span class="text-tertiary-fixed">not in</span> self.cache:
+                <span class="text-tertiary-fixed">return</span> None
+            val, exp = self.cache[key]
+            <span class="text-tertiary-fixed">if</span> time.time() > exp:
+                <span class="text-tertiary-fixed">del</span> self.cache[key]
+                <span class="text-tertiary-fixed">return</span> None
+            self.cache.move_to_end(key)
+            <span class="text-tertiary-fixed">return</span> val</code></pre>
+</div>
+<!-- Terminal Output Emulation -->
+<div class="px-4 py-3 bg-primary text-on-primary-container font-code text-code">
+<div class="flex items-center justify-between pb-1">
+<span class="text-surface-bright font-semibold">Output Terminal & Test Runner</span>
+<span class="text-tertiary-fixed">4 / 5 Test Suites Passing</span>
+</div>
+<div class="flex flex-col gap-0.5 text-[11px] pt-1">
+<span class="text-surface-variant">✓ test_basic_eviction (0.012s)</span>
+<span class="text-surface-variant">✓ test_concurrent_reads_writes (0.048s)</span>
+<span class="text-surface-variant">✓ test_ttl_expiry (0.103s)</span>
+<span class="text-secondary-fixed-dim">⚠ test_stampede_under_high_concurrency: Mutex lock contention (retry in progress)</span>
+</div>
+</div>
+<!-- Sandbox Action Toolbar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-primary text-on-primary">
+<div class="flex items-center gap-2 text-on-primary-container font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">memory</span>
+<span>Peak Memory: <strong>24.6 MB</strong> • CPU time: <strong>140ms</strong></span>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container-lowest/15 hover:bg-surface-container-lowest/25 text-on-primary font-title-md text-title-md transition-colors" id="run-code-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span> Run Test Cases
+                </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container font-title-md text-title-md transition-all shadow-md" id="submit-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span> Submit for AI Review
+                </button>
+</div>
+</div>
+</div>
+<!-- AI Tutor Callout / Contextual Hint Box -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-start gap-space-md">
+<div class="p-2.5 rounded-lg bg-secondary text-on-secondary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">Razorpay High-Yield Interview Insight</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-semibold">Priority Topic</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<strong>Tip:</strong> Razorpay interviewers frequently drill down on how to prevent the <span class="text-secondary font-semibold">thundering herd (Cache Stampede)</span> problem when high-velocity payment status keys expire concurrently. Mention <em>Probabilistic Early Expiration (XFetch algorithm)</em> or distributed mutex locking via <em>Redlock</em> to score top percentile on system concurrency.
+              </p>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN (35% width / 4 cols) - Study Aids & AI Diagnostics -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- 1. AI Readiness Meter Card with inline SVG gauge -->
+<div class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">AI Readiness Meter</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">Razorpay SDE</span>
+</div>
+<div class="flex items-center justify-between p-space-md rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-display text-display font-bold text-primary tracking-tight">78<span class="text-headline-md">%</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Overall Technical Bar Fit</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold mt-1 inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +6% after today's caching module
+              </span>
+</div>
+<!-- Gauge Vector Visualization -->
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-24 h-24 transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-secondary" cx="50" cy="50" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="55.26" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<span class="absolute material-symbols-outlined text-[24px] text-secondary">verified_user</span>
+</div>
+</div>
+<!-- Dimensional Fit Breakdown -->
+<div class="flex flex-col gap-2.5">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-on-surface">Python Core & Async</span>
+<span class="font-bold text-primary">88%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 88%;"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-on-surface">Distributed Caching & Queues</span>
+<span class="font-bold text-primary">72%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-1.5 rounded-full" style="width: 72%;"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-md text-label-md">
+<span class="text-on-surface">Low-Level System Design (LLD)</span>
+<span class="font-bold text-primary">64%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-outline h-1.5 rounded-full" style="width: 64%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Target Company Question Bank (Razorpay) -->
+<div class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-secondary">quiz</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Razorpay Question Bank</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">18 Questions</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Question 1 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">High Freq (92%)</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Systems OA</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface font-semibold">
+                Cache stampede handling under sudden spike in payment webhooks
+              </p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+<span>Asked in 14 interviews this month</span>
+</div>
+</div>
+<!-- Question 2 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">High Freq (88%)</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">LLD Round</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface font-semibold">
+                Idempotent API design in distributed payment gateways
+              </p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span class="material-symbols-outlined text-[14px]">receipt_long</span>
+<span>Requires idempotency keys & Redis locking</span>
+</div>
+</div>
+<!-- Question 3 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-all flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">Medium Freq (74%)</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Tech Core</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface font-semibold">
+                Optimistic vs Pessimistic concurrency in account wallet balance updates
+              </p>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span class="material-symbols-outlined text-[14px]">lock_clock</span>
+<span>Database row locking vs version increment</span>
+</div>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-title-md text-title-md text-center transition-colors" type="button">
+            View All 18 Razorpay Questions
+          </button>
+</div>
+<!-- 3. Recommended Quick Revision Flashcards -->
+<div class="flex flex-col gap-space-md p-space-lg rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed-dim">style</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">10-Min Flashcards</h3>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">5 Cards Ready</span>
+</div>
+<div class="flex flex-col gap-2.5" id="flashcard-deck">
+<!-- Active Flashcard -->
+<div class="p-4 rounded-xl bg-primary-container text-on-primary shadow-sm flex flex-col gap-2 relative overflow-hidden group cursor-pointer hover:bg-primary transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary-fixed">CARD 1 OF 5</span>
+<span class="material-symbols-outlined text-[16px] text-on-primary-container">flip</span>
+</div>
+<span class="font-title-md text-title-md font-bold text-surface-bright">Redis Pub/Sub vs Redis Streams</span>
+<p class="font-body-sm text-body-sm text-on-primary-container">
+                Pub/Sub is fire-and-forget without persistence; Streams provide persistent append-only logs with consumer groups.
+              </p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-sm text-label-sm text-tertiary-fixed font-semibold">Tap to flip answer</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">arrow_forward</span>
+</div>
+</div>
+<!-- Preview Card 2 -->
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between text-on-surface hover:bg-surface-container transition-all cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">memory</span>
+<span class="font-title-md text-title-md truncate">CAP Theorem in Payment Gateways</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span>
+</div>
+<!-- Preview Card 3 -->
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between text-on-surface hover:bg-surface-container transition-all cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">speed</span>
+<span class="font-title-md text-title-md truncate">Token Bucket vs Leaky Bucket Rate Limiting</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- 4. 1-on-1 AI Mentor Chat Prompt Card -->
+<div class="flex flex-col gap-3 p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">support_agent</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-bold">InternAI Systems Mentor</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Available for interactive Socratic guidance</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Stuck on the LRU Cache eviction with race conditions? Ask your mentor to evaluate your code structure before final submission.
+          </p>
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container font-title-md text-title-md transition-all shadow-sm" id="ask-mentor-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+            Ask Mentor about Redis Cache Warming
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for sandbox controls
+  document.getElementById('run-code-btn')?.addEventListener('click', function() {
+    const btn = this;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">autorenew</span> Running tests...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span> 5/5 Passed!';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }, 2500);
+    }, 1200);
+  });
+
+  document.getElementById('submit-btn')?.addEventListener('click', function() {
+    alert('Solution submitted! InternAI is running static concurrency and edge case analysis.');
+  });
+
+  document.getElementById('recalc-btn')?.addEventListener('click', function() {
+    alert('Roadmap recalibrated against latest Razorpay hiring criteria (November 2025 cycle).');
+  });
+
+  document.getElementById('ask-mentor-btn')?.addEventListener('click', function() {
+    alert('Opening AI Mentor session: "Explain Redis Cache Warming strategies for multi-region fintech architectures"');
+  });
+</script></main></div></body></html>

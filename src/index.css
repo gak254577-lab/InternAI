@@ -1,0 +1,30 @@
+/* Base styles to complement Tailwind */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9ff;
+  color: #0b1c30;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Material Symbols alignment helper */
+.material-symbols-outlined {
+  font-display: block;
+  user-select: none;
+  vertical-align: middle;
+}
+
+/* Hide scrollbars where specified */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

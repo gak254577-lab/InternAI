@@ -1,0 +1,550 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#004e5c","on-tertiary-container":"#0096b0","error-container":"#ffdad6","on-secondary-fixed-variant":"#003ea8","outline-variant":"#c8c5d0","surface-container":"#e5eeff","on-tertiary":"#ffffff","tertiary-container":"#00262e","tertiary":"#000e12","on-background":"#0b1c30","inverse-primary":"#c4c1fb","outline":"#787680","on-primary":"#ffffff","on-primary-container":"#8683ba","surface":"#f8f9ff","secondary-fixed-dim":"#b4c5ff","surface-variant":"#d3e4fe","inverse-on-surface":"#eaf1ff","secondary-fixed":"#dbe1ff","primary-fixed":"#e3dfff","on-surface-variant":"#47464f","secondary-container":"#316bf3","secondary":"#0051d5","primary-container":"#1e1b4b","on-surface":"#0b1c30","on-error":"#ffffff","surface-tint":"#5b598c","surface-container-low":"#eff4ff","surface-container-high":"#dce9ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed":"#001f26","background":"#f8f9ff","inverse-surface":"#213145","surface-dim":"#cbdbf5","on-secondary-container":"#fefcff","on-secondary-fixed":"#00174b","primary":"#070235","on-primary-fixed-variant":"#444173","on-error-container":"#93000a","tertiary-fixed":"#acedff","on-secondary":"#ffffff","surface-bright":"#f8f9ff","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c4c1fb","tertiary-fixed-dim":"#4cd7f6","on-primary-fixed":"#181445","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-lg":"1.5rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},"fontFamily":{"body-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"title-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"label-md":["Inter"],"code":["JetBrains Mono"]},"fontSize":{"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-surface-container-high z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-surface-container-high"><img alt="InternAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpmCSfHR54Wmywgc5EBuAqsdyrCXtpp5AUDm9pEYvpdC9bX47cP6qPrEsr2Xa2CJicUlKpujqyj64Lk228elx5cN9I4Y_7U-4OVKl172-bl0ftv4lOx1JI2Ukx5660nPvU5VDehGXK8HxT35owJB1tVeBrE9NHQwojB4pIkEqeZyxxo9KMxgrJZUpm6YEnxgq8Ha2EqZveDk97EewTYna3c715lOl_GAVf-0U1QpRNMT66Hbp8tihFP3g"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">InternAI</span></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Navigation</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-title-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md font-medium">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="explore-internships" href="#"><span class="material-symbols-outlined text-[20px]">search</span><span class="font-body-md text-body-md font-medium">Explore Internships</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="ai-matching" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span class="font-body-md text-body-md font-medium">AI Matching</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] tracking-wide uppercase font-semibold">NEW</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resume-analyzer" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md font-medium">Resume Analyzer</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-applications" href="#"><span class="material-symbols-outlined text-[20px]">send</span><span class="font-body-md text-body-md font-medium">My Applications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="preparation-roadmap" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-body-md text-body-md font-medium">Preparation Roadmap</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="mock-interview" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-body-md text-body-md font-medium">Mock Interview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skill-progress" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md font-medium">Skill Progress</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">person</span><span class="font-body-md text-body-md font-medium">Profile</span></a></nav></div><div class="flex flex-col border-t border-surface-container-high pt-space-sm pb-space-md"><nav class="flex flex-col gap-space-xs px-space-sm mb-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md font-medium">Settings</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="help-and-resources" href="#"><span class="material-symbols-outlined text-[20px]">help_outline</span><span class="font-body-md text-body-md font-medium">Help &amp; Resources</span></a></nav><div class="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"><div class="flex flex-col min-w-0 flex-1"><span class="font-title-md text-title-md truncate text-on-surface font-semibold">Aanya Sharma</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">B.Tech CSE • 3rd Year</span></div></div><div class="mt-1 flex items-center justify-between pt-space-xs border-t border-surface-container-high"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-secondary-fixed-variant border border-secondary-fixed font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready to Apply</span><button aria-label="Profile Options" class="text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">more_vert</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-container-high z-40 px-space-lg flex items-center justify-between"><div class="relative flex-1 max-w-xl"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-body-md font-body-md rounded-lg bg-surface border border-outline-variant text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/15 transition-all" placeholder="Search internships, skills, companies... (Cmd + K)" type="text"></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">auto_awesome</span>AI Readiness 86%</div><button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm" type="button"><span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>Quick AI Match</button><div class="h-6 w-px bg-surface-container-high"></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-background to-surface px-space-lg lg:px-margin py-space-xl">
+<div class="absolute -top-40 -left-20 w-96 h-96 rounded-full bg-secondary-fixed opacity-40 blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/3 -right-24 w-80 h-80 rounded-full bg-tertiary-fixed opacity-30 blur-3xl pointer-events-none"></div>
+<div class="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Left Column: Copy & Actions -->
+<div class="lg:col-span-7 flex flex-col items-start gap-space-md">
+<!-- Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest shadow-sm text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-semibold tracking-wide">Powered by Student-Tuned LLM • No Recruiter Spam</span>
+</div>
+<!-- Headline -->
+<h1 class="font-display text-display text-primary tracking-tight leading-[1.08] max-w-2xl">
+          Find the Right Internship. <span class="bg-gradient-to-r from-secondary via-secondary-container to-on-tertiary-container bg-clip-text text-transparent">Prepare Smarter.</span> Apply with Confidence.
+        </h1>
+<!-- Subheading -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          AI-powered internship discovery and preparation built specifically for college students. Match your exact coursework, analyze resume gaps, practice tailored mock interviews, and apply directly.
+        </p>
+<!-- CTA Group -->
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs w-full sm:w-auto">
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span>Explore 1,200+ Internships</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-surface-container-lowest text-on-surface font-title-md text-title-md shadow-sm hover:shadow-md hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">spark</span>
+<span>Upload &amp; Analyze Resume</span>
+</a>
+</div>
+<!-- Social Proof Metric Ribbon -->
+<div class="flex items-center gap-space-lg pt-space-md">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">1,240+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Verified Roles</span>
+</div>
+<div class="h-8 w-px bg-surface-container-high"></div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">94.8%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Interview Shortlist Rate</span>
+</div>
+<div class="h-8 w-px bg-surface-container-high"></div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">₹22,000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Avg. Monthly Stipend</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Live Hero Card -->
+<div class="lg:col-span-5 relative">
+<div class="relative rounded-2xl bg-surface-container-lowest/90 backdrop-blur-xl shadow-xl p-6 transition-all hover:shadow-2xl">
+<!-- Ambient AI glow ring -->
+<div class="absolute inset-x-0 -top-px h-1 bg-gradient-to-r from-secondary-container via-on-tertiary-container to-secondary rounded-t-2xl"></div>
+<!-- Header pill -->
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center font-bold text-headline-sm">
+                R
+              </div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface leading-tight">Razorpay</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bengaluru • Hybrid</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-on-secondary-fixed-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              Live Match
+            </span>
+</div>
+<!-- Job title & match readout -->
+<div class="pt-1 pb-4">
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Full Stack Engineering Intern</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Foundational Engineering Team • 6 Months</p>
+</div>
+<!-- AI Match Gauge Card -->
+<div class="p-4 rounded-xl bg-surface-container-low flex items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">AI Match Score</span>
+<span class="font-headline-md text-headline-md text-secondary font-extrabold mt-0.5">94% Perfect Fit</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Matches 8 of 9 college curriculum prerequisites</span>
+</div>
+<!-- SVG Circular Readiness Indicator -->
+<div class="relative w-16 h-16 flex-shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-title-md text-primary font-bold">94%</span>
+</div>
+</div>
+<!-- Skills Breakdown -->
+<div class="pt-4 pb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Skill Alignment Breakdown</span>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">React.js</span>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-on-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Match
+                </span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Node.js</span>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-on-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Match
+                </span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">PostgreSQL</span>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-on-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Match
+                </span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Redis Cache</span>
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-secondary-container">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 2h Prep
+                </span>
+</div>
+</div>
+</div>
+<!-- Mini Roadmap Preview Drawer -->
+<div class="mt-3 p-3 rounded-lg bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">alt_route</span>
+<div class="flex flex-col">
+<span class="font-title-md text-body-sm font-semibold text-primary">Custom 7-Day Interview Sprint</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Day 3: Distributed System Caching</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">chevron_right</span>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-body-md hover:bg-primary-container shadow transition-all flex items-center justify-center gap-1.5">
+<span>Quick Apply</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+<button class="px-3 py-2.5 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container shadow-sm transition-all" title="Save Role">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5-Step Process Section -->
+<section class="py-space-xl px-space-lg lg:px-margin max-w-7xl mx-auto w-full">
+<div class="flex flex-col items-center text-center mb-space-xl">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Step-By-Step Workflow</span>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight mt-1">How InternAI Accelerates Your Career</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mt-2">
+        From syllabus parsing to guaranteed official company job board submissions in five guided steps.
+      </p>
+</div>
+<!-- Process Bento Sequence -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-space-md relative">
+<!-- Step 1 -->
+<div class="flex flex-col p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="font-code text-code font-bold text-secondary bg-surface-container px-2 py-0.5 rounded">01</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors text-[24px]">school</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary font-bold">Create Student Profile</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+          Sync major, branch, semester coursework, GitHub repos, and self-reported coding proficiencies.
+        </p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="font-code text-code font-bold text-secondary bg-surface-container px-2 py-0.5 rounded">02</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors text-[24px]">upload_file</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary font-bold">Upload Resume</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+          Instant semantic extraction parses your projects, technical skills, and coursework without template breaks.
+        </p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="font-code text-code font-bold text-secondary bg-surface-container px-2 py-0.5 rounded">03</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors text-[24px]">verified</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary font-bold">Discover Verified Roles</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+          Curated listings synchronized directly from official career portals. 0% spam, ghost listings, or aggregators.
+        </p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="font-code text-code font-bold text-secondary bg-surface-container px-2 py-0.5 rounded">04</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors text-[24px]">model_training</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary font-bold">AI Match &amp; 7-Day Plan</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+          Get an exact compatibility breakdown and a technical roadmap closing your specific concept gaps.
+        </p>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-col p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all group">
+<div class="flex items-center justify-between mb-4">
+<span class="font-code text-code font-bold text-secondary bg-surface-container px-2 py-0.5 rounded">05</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors text-[24px]">send_and_archive</span>
+</div>
+<h3 class="font-title-md text-title-md text-primary font-bold">Direct Apply &amp; Track</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+          Apply natively on company portals with tailored resumes and track callback deadlines on your board.
+        </p>
+</div>
+</div>
+</section>
+<!-- AI Features Section (Rich 5-Card Layout) -->
+<section class="py-space-xl px-space-lg lg:px-margin bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-xl gap-4">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Engineered For Undergrads</span>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight mt-1">Autonomous Career Co-Pilot</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Built on state-of-the-art retrieval models specifically tuned to university hiring bars and entry-level engineering evaluations.
+        </p>
+</div>
+<!-- Grid of 5 feature cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- Feature 1: AI Resume Analyzer -->
+<div class="rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[26px]">document_scanner</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">AI Resume Analyzer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+              Instant ATS score evaluation with tailored bullet point enhancers, action verb replacements, and missing requirement alerts.
+            </p>
+</div>
+<!-- Micro-UI Preview -->
+<div class="mt-space-md p-3 rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface font-medium">ATS Compatibility Score</span>
+<span class="font-bold text-secondary">88 / 100</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 88%"></div>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-on-tertiary-container">check_circle</span>
+              3 quantifiable metrics suggested for project bullets
+            </span>
+</div>
+</div>
+<!-- Feature 2: Smart Internship Matching -->
+<div class="rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[26px]">join_inner</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Smart Internship Matching</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+              Vector similarity algorithms map your semester project repos and hackathon builds directly against technical job descriptions.
+            </p>
+</div>
+<!-- Micro-UI Preview -->
+<div class="mt-space-md p-3 rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Cosine Semantic Fit</span>
+<span class="font-code text-on-secondary-fixed-variant bg-surface-container-lowest px-1.5 py-0.5 rounded">0.942 Sim</span>
+</div>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-code text-[11px]">NLP Pipeline</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-code text-[11px]">FastAPI</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-code text-[11px]">+4 Matches</span>
+</div>
+</div>
+</div>
+<!-- Feature 3: Strict Eligibility Checker -->
+<div class="rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[26px]">rule</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Strict Eligibility Checker</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+              Never waste time on positions requiring 2024 pass-outs or 8.5+ CGPA when you're 2026. Pre-screened branch &amp; cutoff filters.
+            </p>
+</div>
+<!-- Micro-UI Preview -->
+<div class="mt-space-md p-3 rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface">Graduation Year (2026)</span>
+<span class="text-on-tertiary-container font-semibold text-[12px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[15px]">check</span> Eligible
+              </span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface">Min CGPA Threshold (7.5+)</span>
+<span class="text-on-tertiary-container font-semibold text-[12px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[15px]">check</span> Verified
+              </span>
+</div>
+</div>
+</div>
+<!-- Feature 4: AI Preparation Roadmap (2-cols wide on large screens) -->
+<div class="lg:col-span-2 rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[26px]">alt_route</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">AI Preparation Roadmap</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+              Transform any specific opening into a personalized day-by-day technical study schedule. Bridges system design concepts, core algorithms, and framework revisions.
+            </p>
+</div>
+<!-- Micro-UI Preview Timeline -->
+<div class="mt-space-md grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold">DAYS 1–2</span>
+<span class="font-title-md text-body-sm font-semibold text-primary mt-1">Core Tech &amp; LeetCode</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Tree traversals &amp; SQL joins</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold">DAYS 3–5</span>
+<span class="font-title-md text-body-sm font-semibold text-primary mt-1">System &amp; API Mocking</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Rate limiters &amp; JWT auth</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold">DAYS 6–7</span>
+<span class="font-title-md text-body-sm font-semibold text-primary mt-1">Mock Interview Drill</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Live voice technical evaluation</span>
+</div>
+</div>
+</div>
+<!-- Feature 5: AI Mock Interviewer -->
+<div class="rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[26px]">record_voice_over</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">AI Mock Interviewer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+              Practice role-specific technical rounds and behavioral STAR answers with instant voice feedback and rubric scoring.
+            </p>
+</div>
+<!-- Micro-UI Speech Card -->
+<div class="mt-space-md p-3 rounded-lg bg-surface-container-low flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary flex items-center justify-center flex-shrink-0 animate-pulse">
+<span class="material-symbols-outlined text-[18px]">mic</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm font-medium text-on-surface truncate">"Explain how React Virtual DOM updates..."</span>
+<span class="font-label-sm text-[11px] text-on-tertiary-container font-semibold">Live Speech Recognition Active</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Internship Previews Section -->
+<section class="py-space-xl px-space-lg lg:px-margin max-w-7xl mx-auto w-full">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-4">
+<div>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Updated Hourly</span>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight mt-1">Live Verified Openings</h2>
+</div>
+<a class="inline-flex items-center gap-1 font-title-md text-title-md text-secondary hover:text-secondary-container transition-colors" href="#">
+<span>Browse all 1,200+ opportunities</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Card 1: Frontend Developer Intern -->
+<div class="rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between group">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4">
+<span class="px-3 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">
+              Frontend Web
+            </span>
+<div class="flex items-center gap-1 text-on-tertiary-container font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span>92% Match</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold group-hover:text-secondary transition-colors">
+            Frontend Developer Intern
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Zerodha • Broking Tech Platform</p>
+<!-- Metrics Matrix -->
+<div class="grid grid-cols-2 gap-2 my-4 p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Location</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">Remote (Pan-India)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Duration</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">2 Months</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Stipend</span>
+<span class="font-title-md text-body-sm font-semibold text-secondary">₹20,000 / mo</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Applicants</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">42 applied</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">React 19</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">TypeScript</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">TailwindCSS</span>
+</div>
+</div>
+<!-- Action -->
+<button class="w-full py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-body-md hover:bg-primary-container transition-all flex items-center justify-center gap-1 shadow-sm">
+<span>Quick Apply</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+<!-- Card 2: Python & Backend Intern -->
+<div class="rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between group">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4">
+<span class="px-3 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">
+              Backend Systems
+            </span>
+<div class="flex items-center gap-1 text-on-tertiary-container font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span>88% Match</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold group-hover:text-secondary transition-colors">
+            Python &amp; Backend Intern
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Postman • API Platform Tools</p>
+<!-- Metrics Matrix -->
+<div class="grid grid-cols-2 gap-2 my-4 p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Location</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">Hybrid, Bengaluru</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Duration</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">3 Months</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Stipend</span>
+<span class="font-title-md text-body-sm font-semibold text-secondary">₹25,000 / mo</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Applicants</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">68 applied</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">FastAPI</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">PostgreSQL</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">Docker</span>
+</div>
+</div>
+<!-- Action -->
+<button class="w-full py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-body-md hover:bg-primary-container transition-all flex items-center justify-center gap-1 shadow-sm">
+<span>Quick Apply</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+<!-- Card 3: Data Analytics Intern -->
+<div class="rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between group">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4">
+<span class="px-3 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">
+              Data &amp; Insights
+            </span>
+<div class="flex items-center gap-1 text-on-tertiary-container font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span>85% Match</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold group-hover:text-secondary transition-colors">
+            Data Analytics Intern
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Swiggy • Consumer Intelligence</p>
+<!-- Metrics Matrix -->
+<div class="grid grid-cols-2 gap-2 my-4 p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Location</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">Remote</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Duration</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">2 Months</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Stipend</span>
+<span class="font-title-md text-body-sm font-semibold text-secondary">₹18,000 / mo</span>
+</div>
+<div class="flex flex-col mt-2">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Applicants</span>
+<span class="font-title-md text-body-sm font-semibold text-on-surface">31 applied</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">Python</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">SQL BigQuery</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-low text-on-surface font-code text-[11px]">Tableau</span>
+</div>
+</div>
+<!-- Action -->
+<button class="w-full py-2.5 rounded-lg bg-primary text-on-primary font-title-md text-body-md hover:bg-primary-container transition-all flex items-center justify-center gap-1 shadow-sm">
+<span>Quick Apply</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+</div>
+</section>
+<!-- High-Impact Bottom CTA Banner -->
+<section class="px-space-lg lg:px-margin pb-space-xl pt-space-md max-w-7xl mx-auto w-full">
+<div class="relative overflow-hidden rounded-3xl bg-primary-container p-8 md:p-12 lg:p-16 text-on-primary shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+<!-- Decorative background blur -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-secondary-container opacity-30 blur-3xl pointer-events-none"></div>
+<div class="absolute top-0 left-1/4 w-60 h-60 rounded-full bg-on-tertiary-container opacity-20 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 max-w-xl">
+<span class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-wider font-semibold">Get Hired This Summer</span>
+<h2 class="font-headline-lg text-headline-lg text-on-primary font-bold tracking-tight mt-2">
+          Your Next Internship is Waiting. Start AI Matching Today.
+        </h2>
+<p class="font-body-md text-body-md text-primary-fixed-dim mt-3">
+          Join 45,000+ university engineering and tech students landing top-tier internships. Free resume scan included upon signup.
+        </p>
+</div>
+<div class="relative z-10 w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3">
+<input class="w-full sm:w-80 px-4 py-3 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary-container shadow-inner" placeholder="Enter university email (.edu / college ID)" type="email">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg bg-secondary-container text-on-secondary font-title-md text-title-md hover:bg-secondary transition-all shadow-md flex items-center justify-center gap-2 whitespace-nowrap">
+<span>Get Free Access</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+</div></main></div></body></html>

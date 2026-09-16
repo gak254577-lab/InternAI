@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#004e5c","on-tertiary-container":"#0096b0","error-container":"#ffdad6","on-secondary-fixed-variant":"#003ea8","outline-variant":"#c8c5d0","surface-container":"#e5eeff","on-tertiary":"#ffffff","tertiary-container":"#00262e","tertiary":"#000e12","on-background":"#0b1c30","inverse-primary":"#c4c1fb","outline":"#787680","on-primary":"#ffffff","on-primary-container":"#8683ba","surface":"#f8f9ff","secondary-fixed-dim":"#b4c5ff","surface-variant":"#d3e4fe","inverse-on-surface":"#eaf1ff","secondary-fixed":"#dbe1ff","primary-fixed":"#e3dfff","on-surface-variant":"#47464f","secondary-container":"#316bf3","secondary":"#0051d5","primary-container":"#1e1b4b","on-surface":"#0b1c30","on-error":"#ffffff","surface-tint":"#5b598c","surface-container-low":"#eff4ff","surface-container-high":"#dce9ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed":"#001f26","background":"#f8f9ff","inverse-surface":"#213145","surface-dim":"#cbdbf5","on-secondary-container":"#fefcff","on-secondary-fixed":"#00174b","primary":"#070235","on-primary-fixed-variant":"#444173","on-error-container":"#93000a","tertiary-fixed":"#acedff","on-secondary":"#ffffff","surface-bright":"#f8f9ff","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c4c1fb","tertiary-fixed-dim":"#4cd7f6","on-primary-fixed":"#181445","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem","space-lg":"1.5rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},"fontFamily":{"body-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"title-md":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"label-md":["Inter"],"code":["JetBrains Mono"]},"fontSize":{"body-sm":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"600"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"display":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"500"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-surface-container-high z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm border-b border-surface-container-high"><img alt="InternAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpmCSfHR54Wmywgc5EBuAqsdyrCXtpp5AUDm9pEYvpdC9bX47cP6qPrEsr2Xa2CJicUlKpujqyj64Lk228elx5cN9I4Y_7U-4OVKl172-bl0ftv4lOx1JI2Ukx5660nPvU5VDehGXK8HxT35owJB1tVeBrE9NHQwojB4pIkEqeZyxxo9KMxgrJZUpm6YEnxgq8Ha2EqZveDk97EewTYna3c715lOl_GAVf-0U1QpRNMT66Hbp8tihFP3g"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">InternAI</span></div><div class="px-space-md pt-space-md pb-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Navigation</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md font-medium">Dashboard</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-title-md" data-path="explore-internships" href="#"><span class="material-symbols-outlined text-[20px]">search</span><span class="font-body-md text-body-md font-medium">Explore Internships</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="ai-matching" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">smart_toy</span><span class="font-body-md text-body-md font-medium">AI Matching</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] tracking-wide uppercase font-semibold">NEW</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="resume-analyzer" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md font-medium">Resume Analyzer</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="my-applications" href="#"><span class="material-symbols-outlined text-[20px]">send</span><span class="font-body-md text-body-md font-medium">My Applications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="preparation-roadmap" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-body-md text-body-md font-medium">Preparation Roadmap</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="mock-interview" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-body-md text-body-md font-medium">Mock Interview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skill-progress" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md font-medium">Skill Progress</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">person</span><span class="font-body-md text-body-md font-medium">Profile</span></a></nav></div><div class="flex flex-col border-t border-surface-container-high pt-space-sm pb-space-md"><nav class="flex flex-col gap-space-xs px-space-sm mb-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md font-medium">Settings</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="help-and-resources" href="#"><span class="material-symbols-outlined text-[20px]">help_outline</span><span class="font-body-md text-body-md font-medium">Help & Resources</span></a></nav><div class="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/><div class="flex flex-col min-w-0 flex-1"><span class="font-title-md text-title-md truncate text-on-surface font-semibold">Aanya Sharma</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">B.Tech CSE • 3rd Year</span></div></div><div class="mt-1 flex items-center justify-between pt-space-xs border-t border-surface-container-high"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-secondary-fixed-variant border border-secondary-fixed font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Ready to Apply</span><button aria-label="Profile Options" class="text-on-surface-variant hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">more_vert</span></button></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-surface-container-high z-40 px-space-lg flex items-center justify-between"><div class="relative flex-1 max-w-xl"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 text-body-md font-body-md rounded-lg bg-surface border border-outline-variant text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/15 transition-all" placeholder="Search internships, skills, companies... (Cmd + K)" type="text"/></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">auto_awesome</span>AI Readiness 86%</div><button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm" type="button"><span class="material-symbols-outlined text-[18px]">temp_preferences_custom</span>Quick AI Match</button><div class="h-6 w-px bg-surface-container-high"></div><button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHdsFR8o0UoxKe8o1qEEihoRIGrBJDrfCN2pzlFcf4r5l1t1Pi3563oWazIg4VNOYpLOvFi2SAkXVPzq_y8Svv8laM9NkIGBfu8hO8xmHJlTg4K3VwAi9SrOsr0eEBkN1i1TI4aNLWY0RqUP8rq-7Ay63-CehdUCXdmK_OttdsfunC8icNa5pHXKMdcDibuJJ2eHVFBAMwbDUHJqLS5dnrpScMzUraumJzBsAnl8HgbapxKbK6w3HhFg"/></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full px-space-lg py-space-md space-y-space-md">
+<!-- Top Session Meta Bar -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex flex-col xl:flex-row xl:items-center xl:justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shadow-md shrink-0">
+<span class="material-symbols-outlined text-[24px]">terminal</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-primary truncate">Razorpay — SDE Intern</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm uppercase tracking-wide">
+            Round 1: Tech & Systems
+          </span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm mt-0.5">
+<span class="font-code text-code text-secondary font-medium">SYS-DES-ARCH-2024</span>
+<span>•</span>
+<span class="flex items-center gap-1 text-on-secondary-fixed-variant font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            Microphone Live • Noise Cancellation On
+          </span>
+</div>
+</div>
+</div>
+<!-- Stepper Pipeline -->
+<div class="flex items-center gap-2 overflow-x-auto py-1">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary font-semibold" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md font-semibold">1. Intro</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-container text-on-primary shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+<span class="font-label-md text-label-md font-semibold">2. Architecture</span>
+<span class="font-code text-label-sm text-primary-fixed-dim">[Current]</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface text-on-surface-variant">
+<span class="font-label-md text-label-md">3. DSA Core</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface text-on-surface-variant opacity-60">
+<span class="font-label-md text-label-md">4. Behavioral</span>
+</div>
+</div>
+<!-- Timer & Session Actions -->
+<div class="flex items-center gap-space-sm shrink-0">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container font-code text-code text-primary font-semibold">
+<span class="material-symbols-outlined text-[18px] text-secondary animate-spin" style="animation-duration: 4s;">schedule</span>
+<span class="tracking-wider" id="sessionTimer">08:45</span>
+<span class="text-on-surface-variant font-normal">/ 20:00</span>
+</div>
+<button class="p-2 rounded-lg bg-surface hover:bg-surface-container text-on-surface transition-colors" id="pauseBtn" title="Pause Interview">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+</button>
+<button class="px-3.5 py-2 rounded-lg bg-error-container text-on-error-container hover:bg-error hover:text-on-error font-title-md text-body-sm font-semibold transition-all">
+        End Session
+      </button>
+</div>
+</div>
+<!-- Main Grid: 60% Left Sandbox / 40% Right Feedback -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Left Panel: Interviewer Prompt & Voice Sandbox (7 Cols / ~60%) -->
+<div class="lg:col-span-7 flex flex-col space-y-space-md">
+<!-- AI Interviewer Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md relative overflow-hidden">
+<div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-secondary-fixed/40 blur-3xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-12 h-12 rounded-xl object-cover shadow-sm" data-alt="Close-up portrait of a tech interviewer digital avatar with sharp cinematic studio rim lighting in midnight navy and blue highlights, professional modern tech atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_fRLn7pO4OOTbS-1CceRM3SjkXpC_IPQ2zYcd--TUGbNCkXowS71SALwLjVosOf1mik-Tu1Es0dTCbKhLvkKxGYbMEwNk8ogHmtgkBKrBPvWgUrHgVByOIgLJuZeJHji6q2iBHP-XkoAHyKlzXYkC9fo3sJ-USiQm1JcNvZXpwTv3A6exHbdEjrAdvs-ANvI9ueCDgcxGbfEyDmSuXbdUb8RQpGkuP8VWACGLjpGOGCLHZ1XguxmOkg"/>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-secondary-container ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-primary font-bold">InternAI Evaluator</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] uppercase font-bold tracking-wider">Razorpay Bar</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Round 1: Distributed Systems & Low-Level Cache Strategy</span>
+</div>
+</div>
+<!-- Dynamic Audio Waveform Simulation -->
+<div class="hidden sm:flex items-center gap-1 bg-surface-container-low px-3 py-2 rounded-xl">
+<span class="w-1 h-3 rounded-full bg-secondary animate-pulse" style="animation-delay: 100ms;"></span>
+<span class="w-1 h-6 rounded-full bg-secondary animate-pulse" style="animation-delay: 250ms;"></span>
+<span class="w-1 h-4 rounded-full bg-secondary animate-pulse" style="animation-delay: 150ms;"></span>
+<span class="w-1 h-7 rounded-full bg-secondary animate-pulse" style="animation-delay: 400ms;"></span>
+<span class="w-1 h-5 rounded-full bg-secondary animate-pulse" style="animation-delay: 200ms;"></span>
+<span class="w-1 h-2 rounded-full bg-secondary animate-pulse" style="animation-delay: 300ms;"></span>
+<span class="font-code text-code text-on-secondary-fixed-variant ml-1 font-medium">Interviewer Active</span>
+</div>
+</div>
+<!-- Question Prompt Content -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Targeted Project Inquiry</span>
+<span class="font-code text-code text-on-surface-variant">Weight: High (Core Systems)</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary leading-snug font-semibold">
+            “Based on your resume project <span class="text-secondary underline decoration-secondary/30 underline-offset-4">Distributed In-Memory Cache</span>, explain how your cluster handled cache invalidation and master node failover under high concurrent write loads?”
+          </p>
+</div>
+<!-- Context Hint Collapsible/Banner -->
+<div class="rounded-xl bg-surface-container-high/60 p-space-sm flex items-start gap-space-sm text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-secondary mt-0.5" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<div class="flex-1 text-body-sm font-body-sm text-on-surface-variant">
+<strong class="text-primary font-semibold">Razorpay Interview Tip:</strong> Structure your response using the <span class="font-medium text-primary">STAR framework</span>. Explicitly mention quorum consensus (e.g. Raft/Gossip), split-brain mitigation, and quantitative throughput numbers (ops/sec).
+          </div>
+</div>
+</div>
+<!-- Live Voice / Text Response Workspace -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
+<!-- Mode Switcher -->
+<div class="flex items-center justify-between flex-wrap gap-2 pb-space-xs">
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-xl">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-title-md text-body-sm shadow-sm transition-all" id="tabVoice">
+<span class="material-symbols-outlined text-[16px] text-secondary">mic</span>
+              Speech-to-Text <span class="w-2 h-2 rounded-full bg-secondary inline-block ml-0.5"></span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-title-md text-body-sm transition-all" id="tabText">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+              Text Answer
+            </button>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-code text-code text-on-surface-variant">Live Transcript Stream</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-code text-code text-secondary font-semibold">324 words</span>
+</div>
+</div>
+<!-- Transcript Live Surface -->
+<div class="relative bg-surface-container-low rounded-xl p-space-md min-h-[220px] flex flex-col justify-between">
+<div class="space-y-space-sm">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wide">
+<span class="material-symbols-outlined text-[16px] text-secondary animate-spin">graphic_eq</span>
+              Real-time voice stream decoded:
+            </div>
+<p class="font-body-lg text-body-lg text-primary leading-relaxed" id="liveTranscript">
+              “In our cluster implementation, we utilized a Raft consensus protocol variant where leader heartbeats were tuned to 150ms intervals. For cache invalidation under 45,000 requests per second, we implemented a write-through invalidation bus backed by zero-copy Redis streams. When the primary node experienced simulated partition failures, our lease mechanism initiated candidate elections within 300 milliseconds, ensuring zero uncommitted writes persisted to worker replicas...”
+            </p>
+</div>
+<!-- Active Speaking Bar -->
+<div class="flex items-center justify-between pt-space-md">
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+</span>
+<span class="font-code text-code text-primary font-semibold">Speaking detected • 120 WPM cadence</span>
+</div>
+<button class="text-on-surface-variant hover:text-error text-body-sm font-body-sm flex items-center gap-1 transition-colors" id="clearTranscriptBtn">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+              Clear
+            </button>
+</div>
+</div>
+<!-- Response Action Controls -->
+<div class="flex items-center justify-between flex-wrap gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-secondary text-on-secondary hover:bg-secondary-container transition-all shadow-sm font-title-md text-title-md" id="micToggleBtn">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+<span id="micLabel">Recording Voice (Active)</span>
+</button>
+<button class="p-2.5 rounded-xl bg-surface hover:bg-surface-container text-on-surface transition-colors" title="Input Audio Settings">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+<button class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all shadow-md font-title-md text-title-md">
+<span>Submit Answer for AI Scoring</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Panel: Real-Time AI Feedback & Live Rubric Scoring (5 Cols / ~40%) -->
+<div class="lg:col-span-5 flex flex-col space-y-space-md">
+<!-- Overall Rubric Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Evaluation Ledger</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">Q1 Diagnostic & Live Rubric</span>
+</div>
+<!-- Score Badge with Radial Ring Representation -->
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-xl">
+<div class="relative w-10 h-10 flex items-center justify-center">
+<svg class="w-10 h-10 transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-title-md font-bold text-primary">85</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Q1 Score</span>
+<span class="font-title-md text-title-md text-secondary font-bold leading-tight">Strong Fit</span>
+</div>
+</div>
+</div>
+<!-- Previous Question Rubric Dimension Bars -->
+<div class="space-y-space-sm">
+<!-- Dimension 1 -->
+<div class="flex flex-col gap-1.5 bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="font-semibold text-primary">Technical Relevance</span>
+<span class="font-code text-code text-secondary font-bold">88% • High</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 88%;"></div>
+</div>
+</div>
+<!-- Dimension 2 -->
+<div class="flex flex-col gap-1.5 bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="font-semibold text-primary">Architectural Clarity</span>
+<span class="font-code text-code text-secondary font-bold">82% • Good</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Dimension 3 -->
+<div class="flex flex-col gap-1.5 bg-surface-container-low p-space-sm rounded-xl">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="font-semibold text-primary">Metric Quantification</span>
+<span class="font-code text-code text-on-surface-variant font-bold">75% • Moderate</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 75%;"></div>
+</div>
+</div>
+</div>
+<!-- Actionable AI Feedback Box -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Detailed AI Assessment (Q1)</span>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div class="flex-1">
+<span class="font-title-md text-body-sm font-bold text-primary">Positive Signal:</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Strong articulation of trade-offs between Redis and Memcached with solid reasoning around concurrency lock primitives.</p>
+</div>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-high/70 flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-error mt-0.5">error</span>
+<div class="flex-1">
+<span class="font-title-md text-body-sm font-bold text-primary">Key Growth Vector:</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">State the exact latency reduction (e.g., from <span class="font-code text-code text-primary font-semibold">45ms to 8ms</span>) to demonstrate tangible business impact to the interviewer.</p>
+</div>
+</div>
+</div>
+<!-- Keyword Radar / Razorpay Barometer -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">System Terminology Detected</span>
+<span class="font-code text-code text-secondary font-medium">3 of 4 Matches</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-primary font-code text-code font-semibold">
+<span class="material-symbols-outlined text-[14px] text-secondary font-bold">check</span>
+              Distributed Hash Ring
+            </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-primary font-code text-code font-semibold">
+<span class="material-symbols-outlined text-[14px] text-secondary font-bold">check</span>
+              TTL Expiration
+            </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-primary font-code text-code font-semibold">
+<span class="material-symbols-outlined text-[14px] text-secondary font-bold">check</span>
+              Data Partitioning
+            </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-error-container text-on-error-container font-code text-code font-semibold">
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+              Eventual Consistency
+            </span>
+</div>
+</div>
+<!-- Model Answer Trigger Drawer Box -->
+<div class="rounded-xl bg-gradient-to-r from-primary-container to-secondary-container p-space-md text-on-primary flex items-center justify-between shadow-md">
+<div class="flex flex-col pr-2">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider">Benchmark Reference</span>
+<span class="font-title-md text-title-md font-bold">View Exemplary Senior SDE Response</span>
+<span class="font-body-sm text-body-sm text-surface-container-high">Full transcript with Razorpay L4 architectural breakdown.</span>
+</div>
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest text-primary hover:bg-surface-bright font-title-md text-body-sm font-bold shrink-0 transition-transform active:scale-95 shadow-sm" id="modelDrawerBtn">
+            Inspect
+          </button>
+</div>
+</div>
+<!-- Razorpay Culture & Expectations Context Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[22px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-body-sm font-bold text-primary">Razorpay Engineering Barometer</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Round 1 places 60% emphasis on transactional integrity, idempotency patterns, and fail-safe APIs.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Model Answer Modal Drawer -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden items-center justify-center p-space-md" id="modelModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-2xl w-full p-space-lg shadow-xl flex flex-col gap-space-md max-h-[870px] overflow-y-auto">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[24px]">school</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">Benchmark Model Answer • 96/100</span>
+</div>
+<button class="p-1.5 rounded-lg bg-surface hover:bg-surface-container text-on-surface-variant" id="closeModalBtn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low font-body-md text-body-md text-primary leading-relaxed space-y-space-sm">
+<p class="font-semibold text-secondary">Structure Blueprint: Situation • Architecture • Failover Logic • Quantified Outcome</p>
+<p>
+          “In designing our Distributed In-Memory Cache, our primary challenge was mitigating split-brain phenomena during unpredictable master partitions under 50k write operations per second. We deployed a Raft leader election mechanism with strict quorum acknowledgement: writes were deemed persistent only after receiving ACKs from N/2 + 1 replicas.”
+        </p>
+<p>
+          “For cache invalidation, we avoided slow synchronous broadcasts by introducing an asynchronous CDC (Change-Data-Capture) message stream with tombstone markers and dynamic sliding-window TTLs. During chaos testing with master node drops, failover election converged in 220 milliseconds with zero stale-read anomalies, reducing overall p99 query latency from 42ms down to 6.4ms.”
+        </p>
+</div>
+<div class="flex justify-end gap-space-sm pt-space-xs">
+<button class="px-4 py-2 rounded-lg bg-surface-container font-title-md text-body-sm text-on-surface" id="closeModalBtn2">Close Benchmark</button>
+<button class="px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-body-sm">Copy Structure Template</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initMockInterviewInteractions() {
+    // Timer Count-up Logic
+    let seconds = 8 * 60 + 45;
+    const timerElem = document.getElementById('sessionTimer');
+    const pauseBtn = document.getElementById('pauseBtn');
+    let isPaused = false;
+
+    setInterval(() => {
+      if (!isPaused && seconds < 20 * 60) {
+        seconds++;
+        const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        if (timerElem) timerElem.textContent = `${mins}:${secs}`;
+      }
+    }, 1000);
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pauseBtn.classList.toggle('bg-secondary', isPaused);
+        pauseBtn.classList.toggle('text-on-secondary', isPaused);
+      });
+    }
+
+    // Mic Toggle State
+    const micToggleBtn = document.getElementById('micToggleBtn');
+    const micLabel = document.getElementById('micLabel');
+    let isRecording = true;
+
+    if (micToggleBtn && micLabel) {
+      micToggleBtn.addEventListener('click', () => {
+        isRecording = !isRecording;
+        if (isRecording) {
+          micLabel.textContent = 'Recording Voice (Active)';
+          micToggleBtn.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-secondary text-on-secondary hover:bg-secondary-container transition-all shadow-sm font-title-md text-title-md';
+        } else {
+          micLabel.textContent = 'Voice Muted (Paused)';
+          micToggleBtn.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shadow-sm font-title-md text-title-md';
+        }
+      });
+    }
+
+    // Input Tabs
+    const tabVoice = document.getElementById('tabVoice');
+    const tabText = document.getElementById('tabText');
+    const liveTranscript = document.getElementById('liveTranscript');
+
+    if (tabVoice && tabText) {
+      tabText.addEventListener('click', () => {
+        tabText.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-title-md text-body-sm shadow-sm transition-all';
+        tabVoice.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-title-md text-body-sm transition-all';
+        if (liveTranscript) {
+          liveTranscript.setAttribute('contenteditable', 'true');
+          liveTranscript.focus();
+        }
+      });
+
+      tabVoice.addEventListener('click', () => {
+        tabVoice.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-title-md text-body-sm shadow-sm transition-all';
+        tabText.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-title-md text-body-sm transition-all';
+        if (liveTranscript) {
+          liveTranscript.setAttribute('contenteditable', 'false');
+        }
+      });
+    }
+
+    // Clear Transcript Button
+    const clearBtn = document.getElementById('clearTranscriptBtn');
+    if (clearBtn && liveTranscript) {
+      clearBtn.addEventListener('click', () => {
+        liveTranscript.textContent = 'Listening for your response...';
+      });
+    }
+
+    // Modal / Drawer Trigger
+    const modelDrawerBtn = document.getElementById('modelDrawerBtn');
+    const modelModal = document.getElementById('modelModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const closeModalBtn2 = document.getElementById('closeModalBtn2');
+
+    function openModal() {
+      if (modelModal) {
+        modelModal.classList.remove('hidden');
+        modelModal.classList.add('flex');
+      }
+    }
+
+    function closeModal() {
+      if (modelModal) {
+        modelModal.classList.add('hidden');
+        modelModal.classList.remove('flex');
+      }
+    }
+
+    if (modelDrawerBtn) modelDrawerBtn.addEventListener('click', openModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if (closeModalBtn2) closeModalBtn2.addEventListener('click', closeModal);
+
+    if (modelModal) {
+      modelModal.addEventListener('click', (e) => {
+        if (e.target === modelModal) closeModal();
+      });
+    }
+  })();
+</script></main></div></body></html>
