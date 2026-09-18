@@ -21,22 +21,22 @@ export default function StudentProfilePage() {
   // Academic
   const [college, setCollege] = useState(profile.college || '');
   const [degree, setDegree] = useState(profile.degree || '');
-  const [branch, setBranch] = useState(profile.branch || 'Computer Science & Engineering');
-  const [year, setYear] = useState(profile.year || '3rd Year');
-  const [graduationYear, setGraduationYear] = useState(profile.graduationYear || '2027');
-  const [cgpa, setCgpa] = useState(profile.cgpa || '9.12');
+  const [branch, setBranch] = useState(profile.branch || '');
+  const [year, setYear] = useState(profile.year || '');
+  const [graduationYear, setGraduationYear] = useState(profile.graduationYear || '');
+  const [cgpa, setCgpa] = useState(profile.cgpa || '');
 
   // Career
   const [skillsStr, setSkillsStr] = useState(
     Array.isArray(profile.skills)
       ? profile.skills.map((s) => (typeof s === 'string' ? s : s.name)).join(', ')
-      : 'React.js, TypeScript, Node.js, PostgreSQL, Redis'
+      : ''
   );
   const [interestsStr, setInterestsStr] = useState(
-    Array.isArray(profile.interests) ? profile.interests.join(', ') : 'Full Stack, Distributed Systems, Cloud Infrastructure'
+    Array.isArray(profile.interests) ? profile.interests.join(', ') : ''
   );
-  const [github, setGithub] = useState(profile.github || 'https://github.com/');
-  const [linkedin, setLinkedin] = useState(profile.linkedin || 'https://linkedin.com/in/');
+  const [github, setGithub] = useState(profile.github || '');
+  const [linkedin, setLinkedin] = useState(profile.linkedin || '');
   const [bio, setBio] = useState(profile.bio || '');
 
   // Projects
@@ -47,9 +47,7 @@ export default function StudentProfilePage() {
 
   // Certifications
   const [certifications, setCertifications] = useState(
-    profile.certifications || [
-      { name: 'AWS Certified Cloud Practitioner', issuer: 'Amazon Web Services', date: '2026' }
-    ]
+    profile.certifications || []
   );
   const [newCertName, setNewCertName] = useState('');
   const [newCertIssuer, setNewCertIssuer] = useState('');
@@ -62,10 +60,10 @@ export default function StudentProfilePage() {
       setPhone(profile.phone || '');
       setCollege(profile.college || '');
       setDegree(profile.degree || '');
-      setBranch(profile.branch || 'Computer Science');
-      setYear(profile.year || '3rd Year');
-      setGraduationYear(profile.graduationYear || '2027');
-      setCgpa(profile.cgpa || '9.12');
+      setBranch(profile.branch || '');
+      setYear(profile.year || '');
+      setGraduationYear(profile.graduationYear || '');
+      setCgpa(profile.cgpa || '');
       setBio(profile.bio || '');
       setGithub(profile.github || '');
       setLinkedin(profile.linkedin || '');
@@ -162,11 +160,11 @@ export default function StudentProfilePage() {
 
   const skillsList = Array.isArray(profile.skills)
     ? profile.skills.map((s) => (typeof s === 'string' ? s : s.name))
-    : ['React.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis'];
+    : [];
 
   const interestsList = Array.isArray(profile.interests)
     ? profile.interests
-    : ['Full Stack', 'Distributed Systems', 'Cloud'];
+    : [];
 
   return (
     <div className="p-space-md lg:p-space-lg max-w-7xl mx-auto space-y-6">
@@ -242,7 +240,7 @@ export default function StudentProfilePage() {
               Candidate Summary &amp; Background
             </h3>
             <p className="text-sm text-on-surface-variant leading-relaxed">
-              {profile.bio || 'Pre-final year engineering student passionate about full-stack web applications, distributed systems, and real-time developer tooling.'}
+              {profile.bio || 'No bio added yet. Click \'Edit Profile\' to add a summary about yourself.'}
             </p>
           </div>
 

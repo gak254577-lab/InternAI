@@ -292,7 +292,7 @@ export default function LandingPage() {
             {[
               {
                 title: 'AI Resume Analyzer',
-                desc: 'Get instant line-by-line feedback, quantified bullet rewrites, and keyword alignment against job descriptions.',
+                desc: 'Get instant line-by-line feedback, quantified bullet rewrites, and keyword alignment against internship descriptions.',
                 icon: 'description',
                 route: 'resume-analyzer',
                 tag: '94% ATS Rate'
@@ -327,7 +327,7 @@ export default function LandingPage() {
               },
               {
                 title: 'Application Pipeline Tracker',
-                desc: 'Track every job application with an integrated Kanban board, interview dates, OA links, and reminder triggers.',
+                desc: 'Track every internship application with an integrated Kanban board, interview dates, OA links, and reminder triggers.',
                 icon: 'view_kanban',
                 route: 'my-applications',
                 tag: 'Organized'
@@ -409,7 +409,7 @@ export default function LandingPage() {
               <div className="mt-5 pt-3 border-t border-surface-container-high flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-on-surface-variant block uppercase tracking-wider font-semibold">Stipend</span>
-                  <span className="text-sm font-bold text-primary">₹{job.stipend.toLocaleString()}/mo</span>
+                  <span className="text-sm font-bold text-primary">₹{(job.stipend || 12000).toLocaleString('en-IN')}/mo</span>
                 </div>
                 <button
                   type="button"

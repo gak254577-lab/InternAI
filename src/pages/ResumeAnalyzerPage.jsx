@@ -178,7 +178,9 @@ export default function ResumeAnalyzerPage() {
             </div>
 
             <p className="text-xs text-on-surface-variant leading-relaxed">
-              Your resume outperforms <strong>91%</strong> of applicants in structural readability and quantified impact.
+              {resumeAnalysis.atsScore > 0
+                ? `Your resume scored ${resumeAnalysis.atsScore}% for ATS compatibility.`
+                : 'Upload your resume to see your ATS score.'}
             </p>
 
             <button
@@ -198,22 +200,23 @@ export default function ResumeAnalyzerPage() {
             </h3>
 
             <div className="space-y-3 pt-1">
-              {[
-                { company: 'Razorpay', role: 'SDE Intern', score: 94 },
-                { company: 'Swiggy', role: 'Frontend Intern', score: 92 },
-                { company: 'Cred', role: 'Backend Platform', score: 88 },
-                { company: 'Google', role: 'SWE Summer Intern', score: 85 }
-              ].map((item, idx) => (
-                <div key={idx} className="p-3 rounded-xl bg-surface-container-low flex items-center justify-between">
-                  <div>
-                    <span className="font-bold text-xs text-primary block">{item.company}</span>
-                    <span className="text-[11px] text-on-surface-variant">{item.role}</span>
+              {resumeAnalysis.matchBreakdown && Object.keys(resumeAnalysis.matchBreakdown).length > 0 ? (
+                Object.entries(resumeAnalysis.matchBreakdown).map(([company, data], idx) => (
+                  <div key={idx} className="p-3 rounded-xl bg-surface-container-low flex items-center justify-between">
+                    <div>
+                      <span className="font-bold text-xs text-primary block">{company}</span>
+                      <span className="text-[11px] text-on-surface-variant">{data.role}</span>
+                    </div>
+                    <span className="px-2 py-1 rounded-md bg-surface-container-lowest text-secondary font-bold text-xs border border-secondary/30">
+                      {data.score}% Match
+                    </span>
                   </div>
-                  <span className="px-2 py-1 rounded-md bg-surface-container-lowest text-secondary font-bold text-xs border border-secondary/30">
-                    {item.score}% Match
-                  </span>
+                ))
+              ) : (
+                <div className="p-6 text-center text-xs text-outline border-2 border-dashed border-outline-variant/40 rounded-xl">
+                  Upload your resume to see how well it matches target roles.
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

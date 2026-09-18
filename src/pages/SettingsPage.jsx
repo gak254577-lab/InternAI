@@ -26,7 +26,7 @@ export default function SettingsPage() {
         <div className="space-y-4 text-xs">
           <label className="flex items-center justify-between p-3 rounded-xl bg-surface-container-low cursor-pointer">
             <div>
-              <span className="font-bold text-primary block">Real-time Job Matching Alerts</span>
+              <span className="font-bold text-primary block">Real-time Internship Matching Alerts</span>
               <span className="text-on-surface-variant">Notify immediately when a &gt;90% match role opens</span>
             </div>
             <input

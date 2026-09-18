@@ -66,9 +66,8 @@ export default function DashboardPage() {
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="font-display text-3xl font-bold text-primary">{activeAppsCount}</span>
-            <span className="text-xs text-emerald-600 font-semibold">+2 this week</span>
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">4 in pipeline across 5 stages</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">{activeAppsCount === 0 ? 'No active applications yet' : `${activeAppsCount} application${activeAppsCount > 1 ? 's' : ''} in pipeline`}</p>
         </div>
 
         {/* Card 2: AI Readiness */}
@@ -102,9 +101,8 @@ export default function DashboardPage() {
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="font-display text-3xl font-bold text-primary">{interviewCount}</span>
-            <span className="text-xs text-purple-600 font-semibold">Razorpay &amp; Google</span>
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">Round 2 scheduled tomorrow 3 PM</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">{interviewCount === 0 ? 'No interviews scheduled' : `${interviewCount} interview${interviewCount > 1 ? 's' : ''} scheduled`}</p>
         </div>
 
         {/* Card 4: Prep Streak */}
@@ -119,10 +117,9 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="font-display text-3xl font-bold text-primary">5 Days</span>
-            <span className="text-xs text-amber-600 font-semibold">🔥 Top 5%</span>
+            <span className="font-display text-3xl font-bold text-primary">{studentProfile.streak || 0} Days</span>
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">Complete today's task to keep streak</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">Complete today's task to keep your streak going</p>
         </div>
       </div>
 
@@ -204,7 +201,7 @@ export default function DashboardPage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-headline-sm text-lg font-bold text-primary">
-                Recommended For You
+                Recommended Internships
               </h2>
               <button
                 type="button"
@@ -258,7 +255,7 @@ export default function DashboardPage() {
                     <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 border-t sm:border-t-0 pt-3 sm:pt-0 border-surface-container-high">
                       <div className="text-left sm:text-right">
                         <span className="text-[10px] text-on-surface-variant block uppercase font-semibold">Stipend</span>
-                        <span className="text-sm font-bold text-primary">₹{job.stipend.toLocaleString()}/mo</span>
+                        <span className="text-sm font-bold text-primary">₹{(job.stipend || 12000).toLocaleString('en-IN')}/mo</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -323,7 +320,7 @@ export default function DashboardPage() {
           <div className="p-5 rounded-2xl bg-gradient-to-br from-primary-container to-primary text-on-primary shadow-sm">
             <h3 className="font-headline-sm text-base font-bold text-white">AI Practice Room</h3>
             <p className="text-xs text-on-primary-container mt-1">
-              Ready for your Razorpay Round 2 interview? Test yourself on React reconciliation and cache invalidation.
+              Practice mock interviews with AI feedback tailored to your target roles and skill set.
             </p>
 
             <button
@@ -341,14 +338,14 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-title-md font-bold text-primary">Resume ATS Health</h4>
-                <p className="text-xs text-on-surface-variant mt-0.5">Aanya_Sharma_SDE_Resume.pdf</p>
+                <p className="text-xs text-on-surface-variant mt-0.5">Upload your resume to get started</p>
               </div>
-              <span className="text-2xl font-extrabold text-secondary">89%</span>
+              <span className="text-2xl font-extrabold text-secondary">—</span>
             </div>
 
             <div className="mt-3 p-2.5 rounded-lg bg-surface-container-low text-xs text-on-surface-variant">
-              <span className="font-semibold text-primary block mb-0.5">Recommended Action:</span>
-              Add Docker Compose and Redis metrics to boost ATS pass rate to 95%.
+              <span className="font-semibold text-primary block mb-0.5">Get Started:</span>
+              Upload your resume on the Resume Analyzer page to receive AI-powered ATS feedback.
             </div>
 
             <button

@@ -1,17 +1,25 @@
 /* Base styles to complement Tailwind */
-html, body {
+html {
+  height: 100%;
+  overflow: hidden; /* AppLayout's <main> is the scroll container */
+}
+
+body {
+  height: 100%;
   margin: 0;
   padding: 0;
   background-color: #f8f9ff;
   color: #0b1c30;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden; /* prevents double scrollbar */
 }
 
 #root {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
 }
+
+
 
 /* Material Symbols alignment helper */
 .material-symbols-outlined {

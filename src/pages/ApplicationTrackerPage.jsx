@@ -10,10 +10,10 @@ export default function ApplicationTrackerPage() {
   // Form State for new application
   const [formCompany, setFormCompany] = useState('');
   const [formRole, setFormRole] = useState('');
-  const [formLocation, setFormLocation] = useState('Bengaluru • Hybrid');
-  const [formStipend, setFormStipend] = useState('₹40,000/mo');
+  const [formLocation, setFormLocation] = useState('');
+  const [formStipend, setFormStipend] = useState('');
   const [formStatus, setFormStatus] = useState('applied');
-  const [formNextEvent, setFormNextEvent] = useState('Application Submitted');
+  const [formNextEvent, setFormNextEvent] = useState('');
   const [formNotes, setFormNotes] = useState('');
 
   const columns = [

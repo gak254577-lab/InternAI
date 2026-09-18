@@ -67,45 +67,29 @@ export function AuthProvider({ children }) {
         setUserProfile(data);
         return data;
       } else {
-        // Initial user document creation as required in Task 4
+        // Initial user document creation — blank profile for the student to fill in
+        // themselves (Onboarding / Profile page). No demo/placeholder content.
         const newProfile = {
           uid: user.uid,
-          name: additionalData.name || user.displayName || 'Student Candidate',
+          name: additionalData.name || user.displayName || '',
           email: user.email,
           photoURL: user.photoURL || '/images/student_avatar.png',
-          phone: additionalData.phone || '+91 98765 43210',
-          college: 'Indian Institute of Technology, Roorkee',
-          degree: 'B.Tech Computer Science & Engineering',
-          branch: 'Computer Science',
-          year: '3rd Year',
-          graduationYear: '2027',
-          cgpa: '9.12',
-          skills: ['React.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis'],
-          interests: ['Full Stack', 'Distributed Systems', 'Cloud Infrastructure'],
-          github: 'https://github.com/',
-          linkedin: 'https://linkedin.com/in/',
-          projects: [
-            {
-              id: 'p1',
-              title: 'SyncFlow — Real-Time Collaborative Whiteboard',
-              desc: 'Low-latency WebSockets drawing canvas with CRDT conflict-free resolution and Redis pub/sub.',
-              tags: ['React', 'TypeScript', 'WebSockets', 'Redis'],
-              stars: 142
-            }
-          ],
-          certifications: [
-            {
-              name: 'AWS Certified Cloud Practitioner',
-              issuer: 'Amazon Web Services',
-              date: '2026'
-            }
-          ],
-          resumeMetadata: {
-            resumeName: 'Student_Resume_2026.pdf',
-            updatedAt: new Date().toISOString()
-          },
-          readinessScore: 86,
-          status: 'Ready to Apply',
+          phone: additionalData.phone || '',
+          college: '',
+          degree: '',
+          branch: '',
+          year: '',
+          graduationYear: '',
+          cgpa: '',
+          skills: [],
+          interests: [],
+          github: '',
+          linkedin: '',
+          projects: [],
+          certifications: [],
+          resumeMetadata: null,
+          readinessScore: 0,
+          status: '',
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         };
@@ -117,26 +101,27 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.warn('Firestore sync note:', err);
       // Fallback local profile if Firestore is offline or permissions pending
+      // (kept blank — no placeholder demo content).
       const fallback = {
         uid: user.uid,
-        name: user.displayName || additionalData.name || 'Student Candidate',
+        name: user.displayName || additionalData.name || '',
         email: user.email,
         photoURL: user.photoURL || '/images/student_avatar.png',
-        phone: '+91 98765 43210',
-        college: 'Indian Institute of Technology, Roorkee',
-        degree: 'B.Tech Computer Science & Engineering',
-        branch: 'Computer Science',
-        year: '3rd Year',
-        graduationYear: '2027',
-        cgpa: '9.12',
-        skills: ['React.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis'],
-        interests: ['Full Stack', 'Distributed Systems'],
-        github: 'https://github.com/',
-        linkedin: 'https://linkedin.com/in/',
+        phone: '',
+        college: '',
+        degree: '',
+        branch: '',
+        year: '',
+        graduationYear: '',
+        cgpa: '',
+        skills: [],
+        interests: [],
+        github: '',
+        linkedin: '',
         projects: [],
         certifications: [],
-        readinessScore: 86,
-        status: 'Ready to Apply'
+        readinessScore: 0,
+        status: ''
       };
       setUserProfile(fallback);
       return fallback;
@@ -284,7 +269,7 @@ export function AuthProvider({ children }) {
         const devUser = {
           uid: 'dev_google_student',
           email: 'student.google@iitr.ac.in',
-          displayName: 'Aanya Sharma',
+          displayName: 'Google Student',
           photoURL: '/images/student_avatar.png'
         };
         localStorage.setItem('internai_auth_user', JSON.stringify(devUser));
@@ -304,7 +289,7 @@ export function AuthProvider({ children }) {
         const devUser = {
           uid: 'dev_google_student',
           email: 'student.google@iitr.ac.in',
-          displayName: 'Aanya Sharma',
+          displayName: 'Google Student',
           photoURL: '/images/student_avatar.png'
         };
         localStorage.setItem('internai_auth_user', JSON.stringify(devUser));

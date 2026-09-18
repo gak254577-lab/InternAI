@@ -1,13 +1,39 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { checkEligibility } from '../utils/eligibility';
 
 export default function InternshipDetailsPage() {
-  const { selectedInternship, bookmarks, toggleBookmark, addApplication, navigate, applications } = useApp();
+  const { selectedInternship, bookmarks, toggleBookmark, addApplication, navigate, applications, studentProfile } = useApp();
+  const { userProfile } = useAuth();
   const [appliedSuccess, setAppliedSuccess] = useState(false);
 
   const job = selectedInternship;
   const isSaved = bookmarks.includes(job.id);
   const alreadyApplied = applications.some((a) => a.internshipId === job.id);
+
+  // Prefer the real Firestore profile; fall back to the mock profile if it isn't loaded.
+  const profile = userProfile || studentProfile;
+  const eligibility = useMemo(() => checkEligibility(profile, job || {}), [profile, job]);
+
+  if (!job) {
+    return (
+      <div className="p-space-md lg:p-space-lg max-w-3xl mx-auto text-center py-20">
+        <span className="material-symbols-outlined text-5xl text-outline mb-3">search_off</span>
+        <h2 className="font-headline-sm text-lg font-bold text-primary">No internship selected</h2>
+        <p className="text-sm text-on-surface-variant mt-1 mb-6">
+          Head back to the explorer and pick an internship to view its details.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('explore-internships')}
+          className="px-5 py-2.5 rounded-xl bg-secondary text-on-secondary text-sm font-bold hover:bg-secondary-container transition-all shadow-sm"
+        >
+          Browse Internships
+        </button>
+      </div>
+    );
+  }
 
   const handleApply = () => {
     if (!alreadyApplied) {
@@ -55,7 +81,7 @@ export default function InternshipDetailsPage() {
           </button>
           <button
             type="button"
-            onClick={() => alert(`Job link copied: ${window.location.href}`)}
+            onClick={() => alert(`Internship link copied: ${window.location.href}`)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-surface-container-high bg-surface-container-lowest text-xs font-semibold text-on-surface hover:bg-surface-container-low transition-colors"
           >
             <span className="material-symbols-outlined text-[16px]">ios_share</span>
@@ -104,11 +130,10 @@ export default function InternshipDetailsPage() {
             type="button"
             disabled={alreadyApplied || appliedSuccess}
             onClick={handleApply}
-            className={`px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
-              alreadyApplied || appliedSuccess
+            className={`px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${alreadyApplied || appliedSuccess
                 ? 'bg-emerald-600 text-white cursor-default'
                 : 'bg-secondary text-on-secondary hover:bg-secondary-container hover:shadow-lg transform hover:-translate-y-0.5'
-            }`}
+              }`}
           >
             <span className="material-symbols-outlined text-[18px]">
               {alreadyApplied || appliedSuccess ? 'check_circle' : 'rocket_launch'}
@@ -117,8 +142,8 @@ export default function InternshipDetailsPage() {
               {appliedSuccess
                 ? 'Added to Applications Pipeline!'
                 : alreadyApplied
-                ? 'Application Submitted'
-                : 'Apply with Tailored Resume'}
+                  ? 'Application Submitted'
+                  : 'Apply with Tailored Resume'}
             </span>
           </button>
           <span className="text-[11px] text-outline text-center md:text-right">
@@ -175,6 +200,61 @@ export default function InternshipDetailsPage() {
 
         {/* Right Column (4 cols): AI Match & Criteria Breakdown */}
         <div className="lg:col-span-4 space-y-6">
+          {/* Eligibility Check Card */}
+          <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high space-y-4 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1">
+                <span className="material-symbols-outlined text-[16px]">fact_check</span>
+                Eligibility Check
+              </span>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${eligibility.overallEligible
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                  }`}
+              >
+                {eligibility.overallEligible ? 'Eligible' : 'Check Requirements'}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              {eligibility.checks.map((check, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between gap-2 p-2 rounded-lg bg-surface-container-low text-xs"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className={`material-symbols-outlined text-[16px] flex-shrink-0 ${check.passed ? 'text-emerald-600' : 'text-rose-600'
+                        }`}
+                    >
+                      {check.passed ? 'check_circle' : 'cancel'}
+                    </span>
+                    <span className="font-medium text-on-surface truncate" title={check.detail}>
+                      {check.label}
+                    </span>
+                  </div>
+                  <span className={`font-bold flex-shrink-0 ${check.passed ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    {check.passed ? '✅' : '❌'}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <p
+              className={`text-xs font-semibold leading-relaxed p-3 rounded-xl ${eligibility.overallEligible
+                  ? 'bg-emerald-50 text-emerald-700'
+                  : 'bg-amber-50 text-amber-700'
+                }`}
+            >
+              {eligibility.verdict}
+            </p>
+
+            <p className="text-[10px] text-outline leading-relaxed">
+              This check is based on the requirements listed by the internship provider. The final eligibility decision always belongs to the provider.
+            </p>
+          </div>
+
           {/* Overall Match Diagnostic Card */}
           <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high space-y-4 shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
@@ -200,26 +280,24 @@ export default function InternshipDetailsPage() {
                 return (
                   <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-xl bg-surface-container-low text-xs">
                     <span
-                      className={`material-symbols-outlined text-[18px] flex-shrink-0 ${
-                        isMatched
+                      className={`material-symbols-outlined text-[18px] flex-shrink-0 ${isMatched
                           ? 'text-emerald-600'
                           : isPartial
-                          ? 'text-amber-600'
-                          : 'text-rose-600'
-                      }`}
+                            ? 'text-amber-600'
+                            : 'text-rose-600'
+                        }`}
                     >
                       {isMatched ? 'check_circle' : isPartial ? 'change_circle' : 'cancel'}
                     </span>
                     <div>
                       <span className="font-medium text-on-surface leading-tight block">{req.name}</span>
                       <span
-                        className={`text-[10px] font-bold uppercase tracking-wider mt-0.5 inline-block ${
-                          isMatched
+                        className={`text-[10px] font-bold uppercase tracking-wider mt-0.5 inline-block ${isMatched
                             ? 'text-emerald-700'
                             : isPartial
-                            ? 'text-amber-700'
-                            : 'text-rose-700'
-                        }`}
+                              ? 'text-amber-700'
+                              : 'text-rose-700'
+                          }`}
                       >
                         {isMatched ? 'Verified Match' : isPartial ? 'Partial Match' : 'Skill Gap'}
                       </span>

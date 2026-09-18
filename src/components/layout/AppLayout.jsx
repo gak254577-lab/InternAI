@@ -6,14 +6,23 @@ export default function AppLayout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-on-surface antialiased">
+    // Constrain to viewport height — this makes the scroll container work for mouse wheel
+    <div className="h-screen overflow-hidden bg-background text-on-surface antialiased flex">
+      {/* Fixed Sidebar */}
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-      <div className="lg:pl-64 flex flex-col min-h-screen">
+
+      {/* Right side: header + scrollable content, offset by sidebar width */}
+      <div className="flex flex-col flex-1 lg:pl-64 h-full">
+        {/* Sticky top header */}
         <Header setMobileOpen={setMobileOpen} />
-        <main className="w-full pt-16 flex-1 bg-background">
+
+        {/* THIS is the scroll container — fixed height from flex, mouse wheel works here */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-background pt-16">
           {children}
         </main>
       </div>
     </div>
   );
 }
+
+

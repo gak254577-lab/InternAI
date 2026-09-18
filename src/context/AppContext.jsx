@@ -7,6 +7,8 @@ import {
   initialMockInterview,
   initialResumeAnalysis
 } from './initialData';
+import { fetchAdzunaInternships } from '../services/adzunaService';
+import { fetchLinkedInInternships } from '../services/linkedinService';
 
 const AppContext = createContext(null);
 
@@ -16,7 +18,7 @@ export function AppProvider({ children }) {
     const hash = window.location.hash.replace('#/', '').replace('#', '');
     return hash || 'dashboard';
   });
-  const [selectedInternshipId, setSelectedInternshipId] = useState('int-1');
+  const [selectedInternshipId, setSelectedInternshipId] = useState(null);
 
   // Sync route with URL hash for easy browser history and bookmarks
   useEffect(() => {
@@ -54,7 +56,16 @@ export function AppProvider({ children }) {
 
   const [internships, setInternships] = useState(() => {
     const saved = localStorage.getItem('internai_internships');
-    return saved ? JSON.parse(saved) : initialInternships;
+    if (!saved) return initialInternships;
+    try {
+      const parsed = JSON.parse(saved);
+      // Clean out any legacy mock sample cards with li-sample- IDs
+      return Array.isArray(parsed)
+        ? parsed.filter((i) => !String(i.id).startsWith('li-sample-'))
+        : initialInternships;
+    } catch {
+      return initialInternships;
+    }
   });
 
   const [applications, setApplications] = useState(() => {
@@ -64,7 +75,7 @@ export function AppProvider({ children }) {
 
   const [bookmarks, setBookmarks] = useState(() => {
     const saved = localStorage.getItem('internai_bookmarks');
-    return saved ? JSON.parse(saved) : ['int-1', 'int-3'];
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [roadmap, setRoadmap] = useState(() => {
@@ -81,6 +92,16 @@ export function AppProvider({ children }) {
     const saved = localStorage.getItem('internai_resume_analysis');
     return saved ? JSON.parse(saved) : initialResumeAnalysis;
   });
+
+  // Adzuna live internship fetch state
+  const [adzunaLoading, setAdzunaLoading] = useState(false);
+  const [adzunaError, setAdzunaError] = useState(null);
+  const [adzunaTotalCount, setAdzunaTotalCount] = useState(0);
+
+  // LinkedIn RapidAPI live internship fetch state
+  const [linkedinLoading, setLinkedinLoading] = useState(false);
+  const [linkedinError, setLinkedinError] = useState(null);
+  const [isRapidApiConfigured, setIsRapidApiConfigured] = useState(false);
 
   // Global Search State
   const [globalSearch, setGlobalSearch] = useState('');
@@ -183,24 +204,89 @@ export function AppProvider({ children }) {
     updateProfile({ readinessScore: Math.min(studentProfile.readinessScore + 3, 98) });
   };
 
+  /**
+   * Fetches live internship listings from Adzuna and merges them into state.
+   * Existing locally-added internships (source !== 'adzuna') are preserved.
+   * @param {object} opts - Options forwarded to fetchAdzunaInternships
+   */
+  const fetchLiveInternships = async (opts = {}) => {
+    setAdzunaLoading(true);
+    setAdzunaError(null);
+    try {
+      const {
+        keywords = 'software internship',
+        location = '',
+        country = 'in',
+        page = 1,
+        resultsPerPage = 20
+      } = opts;
+      const { results, totalCount, error } = await fetchAdzunaInternships({
+        keywords, location, country, page, resultsPerPage
+      });
+      if (error) {
+        setAdzunaError(error);
+      } else {
+        setAdzunaTotalCount(totalCount);
+        setInternships((prev) => {
+          const local = prev.filter((i) => i.source !== 'adzuna');
+          return [...results, ...local];
+        });
+      }
+    } catch (err) {
+      setAdzunaError('Unexpected error fetching internships.');
+      console.error('[AppContext] fetchLiveInternships error:', err);
+    } finally {
+      setAdzunaLoading(false);
+    }
+  };
+
+  /**
+   * Fetches LinkedIn internship listings via RapidAPI (Option 2)
+   */
+  const fetchLiveLinkedInInternships = async (opts = {}) => {
+    setLinkedinLoading(true);
+    setLinkedinError(null);
+    try {
+      const { keywords = 'software intern', location = 'India', page = 1 } = opts;
+      const { results, isConfigured, error } = await fetchLinkedInInternships({
+        keywords,
+        location,
+        page,
+      });
+      setIsRapidApiConfigured(isConfigured);
+      if (error) {
+        setLinkedinError(error);
+      }
+      setInternships((prev) => {
+        const nonLinkedIn = prev.filter((i) => i.source !== 'linkedin');
+        return [...results, ...nonLinkedIn];
+      });
+    } catch (err) {
+      setLinkedinError('Error fetching LinkedIn listings.');
+      console.error('[AppContext] fetchLiveLinkedInInternships error:', err);
+    } finally {
+      setLinkedinLoading(false);
+    }
+  };
+
+  /**
+   * Combined fetch across both Adzuna and LinkedIn
+   */
+  const fetchAllLiveInternships = async (opts = {}) => {
+    await Promise.allSettled([
+      fetchLiveInternships(opts),
+      fetchLiveLinkedInInternships(opts),
+    ]);
+  };
+
   const analyzeNewResume = (fileName) => {
     setResumeAnalysis((prev) => ({
       ...prev,
       fileName,
       uploadDate: 'Just now',
-      atsScore: 93,
-      recommendations: [
-        {
-          type: 'keyword_addition',
-          title: 'Docker & Kubernetes Integration',
-          current: 'Created containers for deployment.',
-          suggested: 'Containerized multi-tier microservices with Docker Compose, reducing local development spin-up time by 75%.',
-          impact: '+4 ATS points'
-        },
-        ...prev.recommendations
-      ]
+      atsScore: 0,
+      recommendations: []
     }));
-    updateProfile({ readinessScore: 91 });
   };
 
   const submitInterviewAnswer = (userAnswer) => {
@@ -217,13 +303,13 @@ export function AppProvider({ children }) {
         {
           speaker: 'ai_interviewer',
           timestamp: timeNow,
-          text: "Excellent elaboration on React 19's transition boundaries and using useSyncExternalStore to isolate high-frequency WebSocket updates! Next, how would you design cache invalidation when a merchant updates their bank account profile?"
+          text: 'Good answer! Let me follow up with the next question.'
         }
       ],
       realtimeEvaluation: {
         ...prev.realtimeEvaluation,
         technicalAccuracy: Math.min(prev.realtimeEvaluation.technicalAccuracy + 2, 98),
-        confidenceIndex: 94
+        confidenceIndex: Math.min((prev.realtimeEvaluation.confidenceIndex || 0) + 1, 100)
       }
     }));
   };
@@ -256,7 +342,18 @@ export function AppProvider({ children }) {
         resumeAnalysis,
         analyzeNewResume,
         globalSearch,
-        setGlobalSearch
+        setGlobalSearch,
+        // Adzuna live data
+        fetchLiveInternships,
+        adzunaLoading,
+        adzunaError,
+        adzunaTotalCount,
+        // LinkedIn RapidAPI live data
+        fetchLiveLinkedInInternships,
+        fetchAllLiveInternships,
+        linkedinLoading,
+        linkedinError,
+        isRapidApiConfigured,
       }}
     >
       {children}
