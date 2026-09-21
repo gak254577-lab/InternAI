@@ -11,9 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-.env
-.env.local
-.env.*.local
+# .env is intentionally tracked so cloners can use the project out of the box
+# .env.local
+# .env.*.local
 
 # Editor directories and files
 .vscode/*
