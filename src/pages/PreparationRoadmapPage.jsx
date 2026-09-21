@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
+import { useRoadmapProgress } from '../hooks/useRoadmapProgress';
 
 // ─── Roadmap Templates by Track ────────────────────────────────────────────
 const ROADMAP_TEMPLATES = {
@@ -903,33 +904,31 @@ export default function PreparationRoadmapPage() {
   const { userProfile } = useAuth();
   const profile = userProfile || studentProfile;
 
+  const { completedTasks, toggleTask: _toggleTask, isTaskDone: _isTaskDone, loading: progressLoading } = useRoadmapProgress();
   const [selectedTrack, setSelectedTrack] = useState('fullstack');
-  const [completedTasks, setCompletedTasks] = useState({});
   const [expandedWeek, setExpandedWeek] = useState(1);
 
   const template = ROADMAP_TEMPLATES[selectedTrack];
   const colors = TRACK_COLORS[template.color];
 
-  // Compute progress
+  // Compute overall progress across ALL tracks (sum of all done tasks)
   const progress = useMemo(() => {
     const total = template.milestones.reduce((sum, m) => sum + m.tasks.length, 0);
-    const done = Object.keys(completedTasks).filter((k) => completedTasks[k]).length;
+    const done = template.milestones.reduce((sum, m) =>
+      sum + m.tasks.filter((_, ti) => _isTaskDone(selectedTrack, m.week, ti)).length, 0);
     return { total, done, pct: total > 0 ? Math.round((done / total) * 100) : 0 };
   }, [completedTasks, selectedTrack, template]);
 
   const weekProgress = (weekNum) => {
     const m = template.milestones.find((m) => m.week === weekNum);
     if (!m) return 0;
-    const done = m.tasks.filter((_, ti) => completedTasks[`${selectedTrack}-w${weekNum}-t${ti}`]).length;
+    const done = m.tasks.filter((_, ti) => _isTaskDone(selectedTrack, weekNum, ti)).length;
     return Math.round((done / m.tasks.length) * 100);
   };
 
-  const toggleTask = (weekNum, taskIdx) => {
-    const key = `${selectedTrack}-w${weekNum}-t${taskIdx}`;
-    setCompletedTasks((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const isTaskDone = (weekNum, taskIdx) => !!completedTasks[`${selectedTrack}-w${weekNum}-t${taskIdx}`];
+  // Wrap hook's toggleTask to include selectedTrack
+  const toggleTask = (weekNum, taskIdx) => _toggleTask(selectedTrack, weekNum, taskIdx);
+  const isTaskDone = (weekNum, taskIdx) => _isTaskDone(selectedTrack, weekNum, taskIdx);
 
   const weekStatus = (weekNum) => {
     const pct = weekProgress(weekNum);
@@ -940,6 +939,15 @@ export default function PreparationRoadmapPage() {
 
   return (
     <div className="p-space-md lg:p-space-lg max-w-7xl mx-auto space-y-6">
+
+      {/* ── Syncing Banner ── */}
+      {progressLoading && (
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
+          <span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+          Restoring your saved progress…
+        </div>
+      )}
+
 
       {/* ── Header ── */}
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
