@@ -18,6 +18,7 @@ import SettingsPage from './pages/SettingsPage';
 import HelpPage from './pages/HelpPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import OnboardingPage from './pages/OnboardingPage';
 
 function AppContent() {
   const { currentRoute, navigate } = useApp();
@@ -64,12 +65,15 @@ function AppContent() {
     );
   }
 
-  // Standalone Auth Screens (without sidebar/header)
+  // Standalone Auth & Onboarding Screens (without sidebar/header)
   if (currentRoute === 'login') {
     return <LoginPage />;
   }
   if (currentRoute === 'register') {
     return <RegisterPage />;
+  }
+  if (currentRoute === 'onboarding') {
+    return <OnboardingPage />;
   }
 
   // Page Routing inside AppLayout

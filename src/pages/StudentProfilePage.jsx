@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
+import CollegeSelect from '../components/common/CollegeSelect';
 
 export default function StudentProfilePage() {
   const { userProfile, currentUser, updateUserProfile } = useAuth();
-  const { studentProfile } = useApp();
+  const { studentProfile, updateProfile } = useApp();
 
   // Combine userProfile from Firestore with fallback defaults
   const profile = userProfile || studentProfile;
 
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(() => {
+    return window.location.hash.includes('open-edit');
+  });
   const [activeEditTab, setActiveEditTab] = useState('personal'); // 'personal', 'academic', 'career', 'projects', 'certifications'
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash.includes('open-edit')) {
+      setShowEditModal(true);
+    }
+  }, []);
 
   // Form Fields State
   // Personal
@@ -150,6 +159,9 @@ export default function StudentProfilePage() {
       };
 
       await updateUserProfile(payload);
+      if (updateProfile) {
+        updateProfile(payload);
+      }
       setShowEditModal(false);
     } catch (err) {
       console.error('Error saving profile to Firestore:', err);
@@ -540,14 +552,13 @@ export default function StudentProfilePage() {
                 <div className="space-y-3">
                   <div>
                     <label className="block font-bold text-on-surface uppercase tracking-wider mb-1">
-                      College / University *
+                      College / University in India *
                     </label>
-                    <input
-                      type="text"
-                      required
+                    <CollegeSelect
                       value={college}
-                      onChange={(e) => setCollege(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant text-on-surface text-xs focus:outline-none focus:border-secondary"
+                      onChange={setCollege}
+                      required
+                      placeholder="Select or search your college in India (e.g. IIT, NIT, BITS, VIT)..."
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">

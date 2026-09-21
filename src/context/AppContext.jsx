@@ -55,32 +55,26 @@ export function AppProvider({ children }) {
   });
 
   const [internships, setInternships] = useState(() => {
-    const saved = localStorage.getItem('internai_internships');
-    if (!saved) return initialInternships;
-    try {
-      const parsed = JSON.parse(saved);
-      // Clean out any legacy mock sample cards with li-sample- IDs
-      return Array.isArray(parsed)
-        ? parsed.filter((i) => !String(i.id).startsWith('li-sample-'))
-        : initialInternships;
-    } catch {
-      return initialInternships;
-    }
+    // Always start fresh — internships are fetched live from APIs
+    localStorage.removeItem('internai_internships');
+    return initialInternships;
   });
 
   const [applications, setApplications] = useState(() => {
-    const saved = localStorage.getItem('internai_applications');
-    return saved ? JSON.parse(saved) : initialApplications;
+    // Always start fresh — no pre-loaded demo applications
+    localStorage.removeItem('internai_applications');
+    return initialApplications;
   });
 
   const [bookmarks, setBookmarks] = useState(() => {
-    const saved = localStorage.getItem('internai_bookmarks');
-    return saved ? JSON.parse(saved) : [];
+    localStorage.removeItem('internai_bookmarks');
+    return [];
   });
 
   const [roadmap, setRoadmap] = useState(() => {
-    const saved = localStorage.getItem('internai_roadmap');
-    return saved ? JSON.parse(saved) : initialRoadmapMilestones;
+    // Always start fresh — roadmap is generated per user
+    localStorage.removeItem('internai_roadmap');
+    return initialRoadmapMilestones;
   });
 
   const [mockInterview, setMockInterview] = useState(() => {
@@ -89,8 +83,9 @@ export function AppProvider({ children }) {
   });
 
   const [resumeAnalysis, setResumeAnalysis] = useState(() => {
-    const saved = localStorage.getItem('internai_resume_analysis');
-    return saved ? JSON.parse(saved) : initialResumeAnalysis;
+    // Always start fresh — resume analysis is session-only
+    localStorage.removeItem('internai_resume_analysis');
+    return initialResumeAnalysis;
   });
 
   // Adzuna live internship fetch state
@@ -279,13 +274,23 @@ export function AppProvider({ children }) {
     ]);
   };
 
-  const analyzeNewResume = (fileName) => {
+  const analyzeNewResume = (fileName, analysisData = null) => {
     setResumeAnalysis((prev) => ({
       ...prev,
       fileName,
-      uploadDate: 'Just now',
-      atsScore: 0,
-      recommendations: []
+      uploadDate: new Date().toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric'
+      }),
+      atsScore: analysisData?.atsScore ?? 0,
+      atsScoreReason: analysisData?.atsScoreReason ?? '',
+      scoreBreakdown: analysisData?.scoreBreakdown ?? null,
+      candidateInfo: analysisData?.candidateInfo ?? null,
+      recommendations: analysisData?.recommendations ?? [],
+      parsedData: analysisData?.parsedData ?? { extractedSkills: [], missingKeywordsForTargetRole: [] },
+      matchBreakdown: analysisData?.matchBreakdown ?? {},
+      recommendedInternships: analysisData?.recommendedInternships ?? []
     }));
   };
 

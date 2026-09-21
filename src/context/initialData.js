@@ -66,10 +66,14 @@ export const initialResumeAnalysis = {
   fileName: "",
   uploadDate: "",
   atsScore: 0,
+  atsScoreReason: "",
+  scoreBreakdown: null,
+  candidateInfo: null,
   parsedData: {
     extractedSkills: [],
     missingKeywordsForTargetRole: []
   },
   recommendations: [],
-  matchBreakdown: {}
+  matchBreakdown: {},
+  recommendedInternships: []
 };

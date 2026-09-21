@@ -1,7 +1,9 @@
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 
 export default function DashboardPage() {
+  const { userProfile, currentUser } = useAuth();
   const {
     studentProfile,
     internships,
@@ -13,6 +15,11 @@ export default function DashboardPage() {
     toggleRoadmapTask
   } = useApp();
 
+  const profile = userProfile || studentProfile;
+  const displayName = profile.name || currentUser?.displayName || 'Student Candidate';
+  const firstName = displayName.split(' ')[0] || 'Student';
+  const isProfileIncomplete = !profile.college || !profile.skills || profile.skills.length === 0;
+
   const activeAppsCount = applications.filter((a) => a.column !== 'saved').length;
   const interviewCount = applications.filter((a) => a.column === 'interview').length;
   const currentSprint = roadmap[1] || roadmap[0];
@@ -23,10 +30,10 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl lg:text-3xl font-extrabold text-primary flex items-center gap-2">
-            Good morning, {studentProfile.name.split(' ')[0]} <span className="text-2xl">👋</span>
+            Good morning, {firstName} <span className="text-2xl">👋</span>
           </h1>
           <p className="font-body-md text-sm text-on-surface-variant mt-1">
-            {studentProfile.degree} • {studentProfile.college}
+            {profile.degree || 'Engineering Student'} {profile.college ? `• ${profile.college}` : ''}
           </p>
         </div>
 
@@ -50,6 +57,36 @@ export default function DashboardPage() {
           </button>
         </div>
       </div>
+
+      {/* Onboarding Prompt Banner for New / Incomplete Users */}
+      {isProfileIncomplete && (
+        <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 via-teal-500/10 to-transparent border border-secondary/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-secondary/15 text-secondary flex items-center justify-center flex-shrink-0">
+              <span className="material-symbols-outlined text-[24px]">school</span>
+            </div>
+            <div>
+              <h3 className="font-bold text-sm text-primary flex items-center gap-2">
+                <span>Complete Your Student Profile</span>
+                <span className="text-[10px] uppercase tracking-wider bg-secondary/20 text-secondary px-2 py-0.5 rounded-full font-bold">
+                  Recommended
+                </span>
+              </h3>
+              <p className="text-xs text-on-surface-variant mt-0.5">
+                Fill in your college, degree, and skills to unlock 95%+ accurate AI-matched internships and personalized roadmap.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('onboarding')}
+            className="px-5 py-2.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all flex items-center justify-center gap-1.5 shadow-md flex-shrink-0"
+          >
+            <span>Fill Profile Now</span>
+            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </button>
+        </div>
+      )}
 
       {/* 4 Stat KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -212,75 +249,92 @@ export default function DashboardPage() {
               </button>
             </div>
 
-            <div className="space-y-3">
-              {internships.slice(0, 4).map((job) => {
-                const isSaved = bookmarks.includes(job.id);
-                return (
-                  <div
-                    key={job.id}
-                    className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className={`w-12 h-12 rounded-xl ${job.logoBg} flex-shrink-0 flex items-center justify-center font-bold text-xl`}>
-                        {job.logoText}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3
-                            onClick={() => navigate('internship-details', job.id)}
-                            className="font-title-md font-bold text-primary hover:text-secondary cursor-pointer"
-                          >
-                            {job.title}
-                          </h3>
-                          <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">
-                            {job.matchScore}% Match
-                          </span>
+            {internships.length === 0 ? (
+              <div className="p-8 rounded-2xl border-2 border-dashed border-outline-variant/40 flex flex-col items-center gap-3 text-center">
+                <span className="material-symbols-outlined text-[36px] text-secondary/50">work_outline</span>
+                <div>
+                  <p className="font-bold text-sm text-primary">No internships loaded yet</p>
+                  <p className="text-xs text-on-surface-variant mt-1">Go to Explore Internships to fetch live listings from Adzuna &amp; LinkedIn.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigate('explore-internships')}
+                  className="px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all"
+                >
+                  Explore Internships
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {internships.slice(0, 4).map((job) => {
+                  const isSaved = bookmarks.includes(job.id);
+                  return (
+                    <div
+                      key={job.id}
+                      className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`w-12 h-12 rounded-xl ${job.logoBg} flex-shrink-0 flex items-center justify-center font-bold text-xl`}>
+                          {job.logoText}
                         </div>
-                        <p className="text-xs text-on-surface-variant mt-0.5 font-medium">
-                          {job.company} • {job.location} • {job.duration}
-                        </p>
-                        <p className="text-xs text-on-surface-variant mt-1 line-clamp-1">
-                          {job.matchReason}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5 mt-2">
-                          {job.tags.slice(0, 4).map((t, idx) => (
-                            <span key={idx} className="px-2 py-0.5 rounded bg-surface-container text-on-surface text-[10px] font-medium">
-                              {t}
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3
+                              onClick={() => navigate('internship-details', job.id)}
+                              className="font-title-md font-bold text-primary hover:text-secondary cursor-pointer"
+                            >
+                              {job.title}
+                            </h3>
+                            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">
+                              {job.matchScore}% Match
                             </span>
-                          ))}
+                          </div>
+                          <p className="text-xs text-on-surface-variant mt-0.5 font-medium">
+                            {job.company} • {job.location} • {job.duration}
+                          </p>
+                          <p className="text-xs text-on-surface-variant mt-1 line-clamp-1">
+                            {job.matchReason}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5 mt-2">
+                            {job.tags.slice(0, 4).map((t, idx) => (
+                              <span key={idx} className="px-2 py-0.5 rounded bg-surface-container text-on-surface text-[10px] font-medium">
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 border-t sm:border-t-0 pt-3 sm:pt-0 border-surface-container-high">
+                        <div className="text-left sm:text-right">
+                          <span className="text-[10px] text-on-surface-variant block uppercase font-semibold">Stipend</span>
+                          <span className="text-sm font-bold text-primary">₹{(job.stipend || 12000).toLocaleString('en-IN')}/mo</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleBookmark(job.id)}
+                            aria-label="Bookmark internship"
+                            className="p-2 rounded-lg border border-surface-container-high text-on-surface-variant hover:text-secondary hover:border-secondary transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-[18px]">
+                              {isSaved ? 'bookmark' : 'bookmark_border'}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => navigate('internship-details', job.id)}
+                            className="px-3.5 py-1.5 rounded-lg bg-secondary text-on-secondary text-xs font-semibold hover:bg-secondary-container transition-colors"
+                          >
+                            Details &amp; Apply
+                          </button>
                         </div>
                       </div>
                     </div>
-
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 border-t sm:border-t-0 pt-3 sm:pt-0 border-surface-container-high">
-                      <div className="text-left sm:text-right">
-                        <span className="text-[10px] text-on-surface-variant block uppercase font-semibold">Stipend</span>
-                        <span className="text-sm font-bold text-primary">₹{(job.stipend || 12000).toLocaleString('en-IN')}/mo</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => toggleBookmark(job.id)}
-                          aria-label="Bookmark internship"
-                          className="p-2 rounded-lg border border-surface-container-high text-on-surface-variant hover:text-secondary hover:border-secondary transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-[18px]">
-                            {isSaved ? 'bookmark' : 'bookmark_border'}
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => navigate('internship-details', job.id)}
-                          className="px-3.5 py-1.5 rounded-lg bg-secondary text-on-secondary text-xs font-semibold hover:bg-secondary-container transition-colors"
-                        >
-                          Details &amp; Apply
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
@@ -296,23 +350,37 @@ export default function DashboardPage() {
             </div>
 
             <div className="divide-y divide-surface-container-high mt-3">
-              {applications.slice(0, 4).map((app) => (
-                <div key={app.id} className="py-3 first:pt-0 last:pb-0">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-xs font-bold text-primary">{app.company}</p>
-                      <p className="text-[11px] text-on-surface-variant">{app.role}</p>
-                    </div>
-                    <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-semibold uppercase">
-                      {app.column}
-                    </span>
-                  </div>
-                  <p className="text-xs text-secondary font-medium mt-1.5 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]">event</span>
-                    {app.nextEvent}
-                  </p>
+              {applications.length === 0 ? (
+                <div className="py-6 flex flex-col items-center gap-2 text-center">
+                  <span className="material-symbols-outlined text-[28px] text-secondary/40">event_busy</span>
+                  <p className="text-xs text-on-surface-variant">No applications yet.</p>
+                  <button
+                    type="button"
+                    onClick={() => navigate('explore-internships')}
+                    className="text-xs text-secondary font-semibold hover:underline mt-1"
+                  >
+                    Start applying →
+                  </button>
                 </div>
-              ))}
+              ) : (
+                applications.slice(0, 4).map((app) => (
+                  <div key={app.id} className="py-3 first:pt-0 last:pb-0">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <p className="text-xs font-bold text-primary">{app.company}</p>
+                        <p className="text-[11px] text-on-surface-variant">{app.role}</p>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-semibold uppercase">
+                        {app.column}
+                      </span>
+                    </div>
+                    <p className="text-xs text-secondary font-medium mt-1.5 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[14px]">event</span>
+                      {app.nextEvent}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 

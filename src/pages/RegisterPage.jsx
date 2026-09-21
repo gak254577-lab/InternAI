@@ -31,7 +31,7 @@ export default function RegisterPage() {
     setAuthError(null);
     try {
       await registerWithEmail(name, email, password);
-      navigate('dashboard');
+      navigate('onboarding');
     } catch (err) {
       // Error handled in AuthContext
     } finally {
@@ -44,7 +44,7 @@ export default function RegisterPage() {
     setAuthError(null);
     try {
       await loginWithGoogle();
-      navigate('dashboard');
+      navigate('onboarding');
     } catch (err) {
       // Error handled in AuthContext
     } finally {
