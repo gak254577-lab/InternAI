@@ -440,13 +440,462 @@ const ROADMAP_TEMPLATES = {
       },
     ],
   },
+
+  // ── DATA ANALYST ──────────────────────────────────────────────────────────
+  'data-analyst': {
+    label: 'Data Analyst',
+    icon: 'bar_chart',
+    color: 'teal',
+    milestones: [
+      {
+        week: 1, title: 'Excel, SQL & Data Foundations',
+        description: 'Master the bread-and-butter tools every data analyst uses daily.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Complete SQLZoo all sections including SELECT Within SELECT & SUM/COUNT',
+          'Master Excel: VLOOKUP, XLOOKUP, pivot tables, conditional formatting',
+          'Learn data types, NULL handling, GROUP BY, HAVING, and subqueries',
+          'Solve 20 LeetCode SQL problems (Easy → Medium)',
+          'Clean and analyze a real CSV dataset (e.g., Titanic or Netflix) in Excel',
+        ],
+        resources: [
+          { title: 'SQLZoo – Interactive SQL', url: 'https://sqlzoo.net/', tag: 'Practice' },
+          { title: 'Mode SQL Tutorial', url: 'https://mode.com/sql-tutorial/', tag: 'Free' },
+          { title: 'Excel for Beginners – GFG', url: 'https://www.geeksforgeeks.org/advanced-excel/', tag: 'Guide' },
+        ],
+      },
+      {
+        week: 2, title: 'Python for Data Analysis',
+        description: "Automate analysis and EDA with Python's data science stack.",
+        hours: '12–14 hrs',
+        tasks: [
+          'Complete Kaggle Python + Pandas micro-courses (free certificates)',
+          'Perform full EDA on a Kaggle dataset: missing values, outliers, distributions',
+          'Master Pandas: merge, groupby, pivot_table, melt, apply',
+          'Build 5 data visualizations with Matplotlib and Seaborn',
+          'Automate an Excel report with openpyxl or xlsxwriter',
+        ],
+        resources: [
+          { title: 'Kaggle – Pandas Course', url: 'https://www.kaggle.com/learn/pandas', tag: 'Free' },
+          { title: 'Seaborn Gallery', url: 'https://seaborn.pydata.org/examples/', tag: 'Reference' },
+          { title: 'Real Python – EDA Tutorial', url: 'https://realpython.com/pandas-dataframe/', tag: 'Tutorial' },
+        ],
+      },
+      {
+        week: 3, title: 'Data Visualization & Storytelling',
+        description: 'Turn raw data into compelling visual stories that drive decisions.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Build an interactive dashboard in Power BI or Tableau Public (free)',
+          'Create a Google Data Studio report connected to a Google Sheets dataset',
+          'Study data storytelling principles: chart selection, color theory, annotation',
+          'Recreate 3 professional charts from The Economist or FT in Python',
+          'Publish a Tableau Public dashboard and share it on LinkedIn',
+        ],
+        resources: [
+          { title: 'Tableau Public – Free', url: 'https://public.tableau.com/', tag: 'Tool' },
+          { title: 'Storytelling with Data', url: 'https://www.storytellingwithdata.com/', tag: 'Book' },
+          { title: 'Power BI Learning', url: 'https://learn.microsoft.com/en-us/power-bi/', tag: 'Official' },
+        ],
+      },
+      {
+        week: 4, title: 'Statistics & Probability',
+        description: 'Develop the statistical intuition that separates great analysts from average ones.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Study descriptive statistics: mean, median, variance, standard deviation, IQR',
+          'Learn hypothesis testing: t-test, chi-square, ANOVA — run them in Python',
+          'Understand correlation vs causation with real-world examples',
+          'Complete the Khan Academy Statistics and Probability course',
+          'Run A/B test analysis on a sample dataset and write a report',
+        ],
+        resources: [
+          { title: 'Khan Academy – Statistics', url: 'https://www.khanacademy.org/math/statistics-probability', tag: 'Free' },
+          { title: 'StatQuest – Josh Starmer', url: 'https://www.youtube.com/@statquest', tag: 'YouTube' },
+          { title: 'Think Stats – Free Book', url: 'https://greenteapress.com/thinkstats2/', tag: 'Book' },
+        ],
+      },
+      {
+        week: 5, title: 'Advanced SQL & Business Intelligence',
+        description: 'Write complex analytical queries and work with BI-scale data.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Master window functions: ROW_NUMBER, RANK, LAG, LEAD, NTILE',
+          'Write CTEs (WITH clauses) for complex multi-step analytical queries',
+          'Build a data model in dbt (data build tool) on a sample warehouse',
+          'Query Google BigQuery public datasets with standard SQL',
+          'Solve 10 HackerRank SQL Hard challenges',
+        ],
+        resources: [
+          { title: 'dbt Learn – Free', url: 'https://courses.getdbt.com/', tag: 'Course' },
+          { title: 'BigQuery – Free Sandbox', url: 'https://console.cloud.google.com/bigquery', tag: 'Tool' },
+          { title: 'HackerRank SQL', url: 'https://www.hackerrank.com/domains/sql', tag: 'Practice' },
+        ],
+      },
+      {
+        week: 6, title: 'Portfolio Projects & Applications',
+        description: 'Build 2 end-to-end analyst portfolios and apply aggressively.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Build a full analyst project: SQL → Python EDA → Dashboard → Insight report',
+          'Publish your analysis as a Kaggle notebook or Medium post',
+          'Create a portfolio website listing all your dashboards and projects',
+          'Apply to 15+ Data Analyst internships (LinkedIn, Internshala, Unstop)',
+          'Prepare for case study interviews: product metrics, funnel analysis, SQL rounds',
+        ],
+        resources: [
+          { title: 'Data Analyst Portfolio Guide', url: 'https://www.dataquest.io/blog/build-a-data-science-portfolio/', tag: 'Guide' },
+          { title: 'Unstop – Data Internships', url: 'https://unstop.com/', tag: 'Apply' },
+          { title: 'Ace the Data Science Interview', url: 'https://www.acethedatascienceinterview.com/', tag: 'Book' },
+        ],
+      },
+    ],
+  },
+
+  // ── DATA SCIENTIST ────────────────────────────────────────────────────────
+  'data-scientist': {
+    label: 'Data Scientist',
+    icon: 'science',
+    color: 'indigo',
+    milestones: [
+      {
+        week: 1, title: 'Python, NumPy & Statistics',
+        description: 'Build the mathematical backbone every data scientist needs.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Complete NumPy and SciPy fundamentals: array operations, broadcasting, linear algebra',
+          'Review probability: Bayes theorem, distributions, expected value, CLT',
+          'Master pandas for data manipulation and cleaning (Kaggle micro-course)',
+          'Solve 20 LeetCode Easy/Medium problems in Python',
+          'Complete the Statistics chapter in Jake VanderPlas\'s Python Data Science Handbook',
+        ],
+        resources: [
+          { title: 'Python Data Science Handbook', url: 'https://jakevdp.github.io/PythonDataScienceHandbook/', tag: 'Free Book' },
+          { title: 'StatQuest – Probability', url: 'https://www.youtube.com/@statquest', tag: 'YouTube' },
+          { title: 'Kaggle – NumPy', url: 'https://www.kaggle.com/learn', tag: 'Free' },
+        ],
+      },
+      {
+        week: 2, title: 'Machine Learning Fundamentals',
+        description: 'Build and evaluate classical ML models correctly.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Implement Linear Regression and Logistic Regression from scratch',
+          'Study bias-variance tradeoff, overfitting, regularization (L1/L2)',
+          'Master cross-validation, GridSearchCV, and proper evaluation metrics',
+          'Complete Kaggle Titanic competition (get >78% accuracy)',
+          'Build a full pipeline with sklearn: preprocessing → model → evaluation',
+        ],
+        resources: [
+          { title: 'Kaggle – Intermediate ML', url: 'https://www.kaggle.com/learn/intermediate-machine-learning', tag: 'Free' },
+          { title: 'Hands-On ML with Sklearn', url: 'https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/', tag: 'Book' },
+          { title: 'Scikit-learn User Guide', url: 'https://scikit-learn.org/stable/user_guide.html', tag: 'Official' },
+        ],
+      },
+      {
+        week: 3, title: 'Advanced ML & Feature Engineering',
+        description: 'Learn the techniques that actually win Kaggle competitions and real-world problems.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Master XGBoost, LightGBM, CatBoost — tune hyperparameters with Optuna',
+          'Study advanced feature engineering: target encoding, feature interactions, embeddings',
+          'Learn SHAP values for model interpretability and explainability',
+          'Complete a Kaggle Tabular competition (aim for top 30%)',
+          'Build an ensemble model combining 3+ different algorithms',
+        ],
+        resources: [
+          { title: 'SHAP Documentation', url: 'https://shap.readthedocs.io/', tag: 'Library' },
+          { title: 'Optuna – Hyperparameter Tuning', url: 'https://optuna.org/', tag: 'Tool' },
+          { title: 'Feature Engineering – Kaggle', url: 'https://www.kaggle.com/learn/feature-engineering', tag: 'Free' },
+        ],
+      },
+      {
+        week: 4, title: 'Deep Learning & Neural Networks',
+        description: 'Apply neural networks to real problems in vision, NLP, and tabular data.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Build and train a CNN on CIFAR-10 in PyTorch — achieve >85% accuracy',
+          'Fine-tune a BERT model for sentiment classification (HuggingFace)',
+          'Study attention mechanisms and transformer architecture in depth',
+          'Implement a tabular deep learning model with PyTorch Lightning',
+          'Run experiments with Weights & Biases for tracking and comparison',
+        ],
+        resources: [
+          { title: 'fast.ai – Practical Deep Learning', url: 'https://course.fast.ai/', tag: 'Free Course' },
+          { title: 'HuggingFace – NLP Course', url: 'https://huggingface.co/learn/nlp-course', tag: 'Free' },
+          { title: 'Weights & Biases', url: 'https://wandb.ai/', tag: 'Tool' },
+        ],
+      },
+      {
+        week: 5, title: 'SQL, Data Pipelines & Cloud',
+        description: 'Bridge data science with production-ready data engineering skills.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Master advanced SQL: window functions, CTEs, recursive queries',
+          'Build an Apache Airflow DAG to automate a data pipeline',
+          'Query Google BigQuery with Python (google-cloud-bigquery library)',
+          'Learn Spark basics for large-scale data processing (PySpark)',
+          'Deploy a ML model as a REST API using FastAPI + Docker',
+        ],
+        resources: [
+          { title: 'Apache Airflow Docs', url: 'https://airflow.apache.org/docs/', tag: 'Official' },
+          { title: 'PySpark Tutorial', url: 'https://spark.apache.org/docs/latest/api/python/', tag: 'Official' },
+          { title: 'FastAPI – Build ML APIs', url: 'https://fastapi.tiangolo.com/', tag: 'Framework' },
+        ],
+      },
+      {
+        week: 6, title: 'Research Paper + Portfolio',
+        description: 'Demonstrate depth through research reproduction and a published portfolio.',
+        hours: '16–20 hrs',
+        tasks: [
+          'Reproduce a published ML paper on Papers With Code (with your own code)',
+          'Write a technical blog post on your project (Towards Data Science or Medium)',
+          'Build a portfolio site linking all Kaggle notebooks, GitHub repos, and dashboards',
+          'Apply to 15+ Data Science internships (Google, startups, analytics firms)',
+          'Prepare for case study rounds: A/B testing, metrics design, ML system design',
+        ],
+        resources: [
+          { title: 'Papers With Code', url: 'https://paperswithcode.com/', tag: 'Research' },
+          { title: 'Towards Data Science', url: 'https://towardsdatascience.com/', tag: 'Write' },
+          { title: 'ML System Design – Educative', url: 'https://www.educative.io/courses/machine-learning-system-design', tag: 'Course' },
+        ],
+      },
+    ],
+  },
+
+  // ── CYBER SECURITY ────────────────────────────────────────────────────────
+  'cybersecurity': {
+    label: 'Cyber Security',
+    icon: 'security',
+    color: 'red',
+    milestones: [
+      {
+        week: 1, title: 'Networking & OS Fundamentals',
+        description: 'You can\'t hack what you don\'t understand — master the basics of networking and OS.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Study OSI model and TCP/IP stack: how packets flow across the internet',
+          'Learn IP addressing, subnetting, CIDR, NAT, DNS, DHCP, ARP',
+          'Master Linux command line: permissions, processes, file system, bash scripting',
+          'Practice Wireshark: capture and analyze HTTP, DNS, TCP handshake packets',
+          'Complete TryHackMe "Pre-Security" learning path (free)',
+        ],
+        resources: [
+          { title: 'TryHackMe – Pre-Security', url: 'https://tryhackme.com/path/outline/presecurity', tag: 'Free' },
+          { title: 'Professor Messer – CompTIA Net+', url: 'https://www.professormesser.com/network-plus/n10-008/n10-008-video/n10-008-training-course/', tag: 'Video' },
+          { title: 'Linux Journey', url: 'https://linuxjourney.com/', tag: 'Free' },
+        ],
+      },
+      {
+        week: 2, title: 'Web Application Security (OWASP)',
+        description: 'Learn the OWASP Top 10 vulnerabilities and how to exploit and fix each one.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Study OWASP Top 10: SQLi, XSS, CSRF, IDOR, SSRF, XXE, Broken Auth',
+          'Practice SQLi and XSS on DVWA (Damn Vulnerable Web App) locally',
+          'Use Burp Suite Community to intercept and manipulate HTTP requests',
+          'Complete TryHackMe "OWASP Top 10" room (free)',
+          'Solve 5 web challenges on HackTheBox or PicoCTF',
+        ],
+        resources: [
+          { title: 'OWASP Top 10', url: 'https://owasp.org/www-project-top-ten/', tag: 'Official' },
+          { title: 'Burp Suite – PortSwigger Labs', url: 'https://portswigger.net/web-security', tag: 'Free Labs' },
+          { title: 'PicoCTF', url: 'https://picoctf.org/', tag: 'CTF' },
+        ],
+      },
+      {
+        week: 3, title: 'Penetration Testing & Ethical Hacking',
+        description: 'Learn the methodology professional pentesters use on real engagements.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Study pentesting phases: Recon → Scanning → Exploitation → Post-Exploitation → Reporting',
+          'Learn Nmap for network scanning: host discovery, port scanning, OS detection',
+          'Practice Metasploit on TryHackMe "Metasploit" room (free)',
+          'Exploit a vulnerable VM from VulnHub (e.g., Mr Robot, Basic Pentesting)',
+          'Write a professional pentest report for a practice machine',
+        ],
+        resources: [
+          { title: 'TryHackMe – Jr Penetration Tester', url: 'https://tryhackme.com/path/outline/jrpenetrationtester', tag: 'Path' },
+          { title: 'Hack The Box – Starting Point', url: 'https://www.hackthebox.com/hacker/starting-point', tag: 'Free' },
+          { title: 'VulnHub – Practice VMs', url: 'https://www.vulnhub.com/', tag: 'Free VMs' },
+        ],
+      },
+      {
+        week: 4, title: 'Cryptography & Secure Coding',
+        description: 'Understand cryptographic primitives and write secure code from the ground up.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Study symmetric (AES) and asymmetric (RSA, ECC) cryptography — how they work mathematically',
+          'Learn hashing: SHA-256, bcrypt, scrypt — why MD5/SHA1 are broken',
+          'Understand PKI, TLS handshake, certificate chains, and HTTPS internals',
+          'Fix OWASP Top 10 vulnerabilities in a Python/Node.js web app (code review)',
+          'Solve cryptography challenges on CryptoHack',
+        ],
+        resources: [
+          { title: 'CryptoHack – Cryptography', url: 'https://cryptohack.org/', tag: 'Free CTF' },
+          { title: 'Computerphile – Cryptography', url: 'https://www.youtube.com/@Computerphile', tag: 'YouTube' },
+          { title: 'TLS 1.3 Explained', url: 'https://www.cloudflare.com/learning/ssl/what-is-tls/', tag: 'Article' },
+        ],
+      },
+      {
+        week: 5, title: 'SOC, SIEM & Incident Response',
+        description: 'Learn what defenders do: monitoring, detection, and responding to attacks.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Set up Splunk Free and analyze security logs from a sample dataset',
+          'Study the MITRE ATT&CK framework: tactics, techniques, and procedures',
+          'Practice Splunk queries: SPL searches, dashboards, alert creation',
+          'Complete TryHackMe "SOC Level 1" path',
+          'Analyze a PCAP file from a malware infection and write a report',
+        ],
+        resources: [
+          { title: 'TryHackMe – SOC Level 1', url: 'https://tryhackme.com/path/outline/soclevel1', tag: 'Path' },
+          { title: 'MITRE ATT&CK Framework', url: 'https://attack.mitre.org/', tag: 'Official' },
+          { title: 'Splunk Free Training', url: 'https://www.splunk.com/en_us/training/free-courses.html', tag: 'Free' },
+        ],
+      },
+      {
+        week: 6, title: 'CTF, Certifications & Applications',
+        description: 'Validate your skills with CTF competitions and apply to security internships.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Complete HackTheBox "Easy" machines independently and write writeups',
+          'Participate in a CTF competition (CTFtime.org)',
+          'Earn CompTIA Security+ or eJPT certification (or start studying for it)',
+          'Create a GitHub portfolio with tool scripts, CTF writeups, and security projects',
+          'Apply to 10+ cybersecurity internships (SOC analyst, pentester, security engineer)',
+        ],
+        resources: [
+          { title: 'CTFtime – Upcoming CTFs', url: 'https://ctftime.org/', tag: 'Compete' },
+          { title: 'eJPT – eLearnSecurity', url: 'https://ine.com/learning/certifications/internal/elearnsecurity-junior-penetration-tester-cert', tag: 'Cert' },
+          { title: 'LinkedIn Security Jobs', url: 'https://www.linkedin.com/jobs/cybersecurity-internship/', tag: 'Apply' },
+        ],
+      },
+    ],
+  },
+
+  // ── CLOUD COMPUTING ───────────────────────────────────────────────────────
+  'cloud': {
+    label: 'Cloud Computing',
+    icon: 'cloud',
+    color: 'sky',
+    milestones: [
+      {
+        week: 1, title: 'Cloud Fundamentals & Linux',
+        description: 'Get your foundations right — cloud is built on networking, Linux, and virtualization.',
+        hours: '10–12 hrs',
+        tasks: [
+          'Create a free AWS, GCP, and Azure account — explore the console',
+          'Study cloud service models: IaaS, PaaS, SaaS, FaaS with real examples',
+          'Master Linux administration: SSH, systemd, cron, firewalls (ufw/iptables)',
+          'Complete AWS Cloud Practitioner Essentials (free on AWS Skill Builder)',
+          'Set up a Linux VM on VirtualBox and host a static website on it',
+        ],
+        resources: [
+          { title: 'AWS Skill Builder – Free', url: 'https://skillbuilder.aws/', tag: 'Official' },
+          { title: 'Google Cloud Fundamentals', url: 'https://www.cloudskillsboost.google/', tag: 'Free' },
+          { title: 'Linux Upskill Challenge', url: 'https://linuxupskillchallenge.org/', tag: 'Free' },
+        ],
+      },
+      {
+        week: 2, title: 'AWS Core Services',
+        description: 'Hands-on mastery of the services every AWS cloud engineer uses daily.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Launch EC2 instances: AMIs, security groups, key pairs, elastic IPs',
+          'Set up an S3 bucket with versioning, lifecycle policies, and static website hosting',
+          'Configure VPC: subnets, route tables, internet gateway, NAT gateway',
+          'Deploy a Node.js/Python app on EC2 with a load balancer (ALB)',
+          'Use AWS IAM: create roles, policies, and practice least privilege',
+        ],
+        resources: [
+          { title: 'AWS Free Tier', url: 'https://aws.amazon.com/free/', tag: 'Free' },
+          { title: 'ACloudGuru – AWS SAA', url: 'https://acloudguru.com/', tag: 'Course' },
+          { title: 'AWS Well-Architected', url: 'https://aws.amazon.com/architecture/well-architected/', tag: 'Official' },
+        ],
+      },
+      {
+        week: 3, title: 'Containers: Docker & Kubernetes',
+        description: 'Master container orchestration — the foundation of modern cloud-native apps.',
+        hours: '14–16 hrs',
+        tasks: [
+          'Containerize a multi-service app with Docker Compose (API + DB + Redis)',
+          'Push images to Docker Hub and AWS ECR',
+          'Set up a Kubernetes cluster with k3s or minikube locally',
+          'Deploy an app on Kubernetes: Pods, Deployments, Services, Ingress, ConfigMaps',
+          'Complete the Kubernetes "Hello Minikube" tutorial and scale a deployment',
+        ],
+        resources: [
+          { title: 'Play with Kubernetes', url: 'https://labs.play-with-k8s.com/', tag: 'Free Lab' },
+          { title: 'Kubernetes – Official Tutorial', url: 'https://kubernetes.io/docs/tutorials/', tag: 'Official' },
+          { title: 'Docker – Get Started', url: 'https://docs.docker.com/get-started/', tag: 'Official' },
+        ],
+      },
+      {
+        week: 4, title: 'Infrastructure as Code (IaC)',
+        description: 'Automate cloud infrastructure using code — the standard in every DevOps team.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Write Terraform configs to provision EC2, S3, VPC, and RDS on AWS',
+          'Learn Terraform state management, remote backends (S3 + DynamoDB lock)',
+          'Use Ansible to configure servers: install packages, manage files, deploy apps',
+          'Study AWS CloudFormation vs Terraform — when to use which',
+          'Practice with the Terraform AWS provider: destroy and recreate infra with one command',
+        ],
+        resources: [
+          { title: 'Terraform Learn – HashiCorp', url: 'https://developer.hashicorp.com/terraform/tutorials', tag: 'Official' },
+          { title: 'Ansible – Get Started', url: 'https://docs.ansible.com/ansible/latest/getting_started/', tag: 'Official' },
+          { title: 'Gruntwork – Terraform Book', url: 'https://www.terraformupandrunning.com/', tag: 'Book' },
+        ],
+      },
+      {
+        week: 5, title: 'CI/CD, Monitoring & Security',
+        description: 'Ship faster and safer with automated pipelines and observability.',
+        hours: '12–14 hrs',
+        tasks: [
+          'Build a full CI/CD pipeline with GitHub Actions: test → build → push Docker → deploy to ECS',
+          'Set up CloudWatch dashboards, alarms, and log groups for a running application',
+          'Learn cloud security: S3 bucket policies, VPC security groups, AWS Config rules',
+          'Configure AWS CloudTrail for audit logging and set up a security alert',
+          'Implement auto-scaling on AWS: target tracking, scheduled, and step scaling',
+        ],
+        resources: [
+          { title: 'GitHub Actions – AWS Deploy', url: 'https://github.com/marketplace/actions/configure-aws-credentials', tag: 'Tool' },
+          { title: 'AWS CloudWatch Docs', url: 'https://docs.aws.amazon.com/cloudwatch/', tag: 'Official' },
+          { title: 'Cloud Security Alliance', url: 'https://cloudsecurityalliance.org/research/guidance/', tag: 'Guide' },
+        ],
+      },
+      {
+        week: 6, title: 'Certification & Applications',
+        description: 'Earn an industry-recognized cloud certification and land your internship.',
+        hours: '14–18 hrs',
+        tasks: [
+          'Pass AWS Cloud Practitioner exam (₹9,000 or use free voucher programs)',
+          'OR earn Google Cloud Associate Cloud Engineer certification',
+          'Build a cloud portfolio project: serverless app or multi-tier architecture on AWS',
+          'Write a detailed architecture diagram with cost estimation',
+          'Apply to 15+ Cloud/DevOps internships on LinkedIn, Internshala, and Naukri',
+        ],
+        resources: [
+          { title: 'AWS Certification – CLF-C02', url: 'https://aws.amazon.com/certification/certified-cloud-practitioner/', tag: 'Cert' },
+          { title: 'ExamTopics – Free Practice', url: 'https://www.examtopics.com/', tag: 'Practice' },
+          { title: 'Naukri – Cloud Jobs', url: 'https://www.naukri.com/cloud-computing-internship-jobs', tag: 'Apply' },
+        ],
+      },
+    ],
+  },
 };
 
+
 const TRACK_COLORS = {
-  blue: { bg: 'bg-blue-50', border: 'border-blue-200', badge: 'bg-blue-100 text-blue-800', icon: 'text-blue-600', progress: 'bg-blue-500', ring: 'ring-blue-200' },
-  purple: { bg: 'bg-purple-50', border: 'border-purple-200', badge: 'bg-purple-100 text-purple-800', icon: 'text-purple-600', progress: 'bg-purple-500', ring: 'ring-purple-200' },
-  green: { bg: 'bg-emerald-50', border: 'border-emerald-200', badge: 'bg-emerald-100 text-emerald-800', icon: 'text-emerald-600', progress: 'bg-emerald-500', ring: 'ring-emerald-200' },
-  orange: { bg: 'bg-orange-50', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-800', icon: 'text-orange-600', progress: 'bg-orange-500', ring: 'ring-orange-200' },
+  blue:   { bg: 'bg-blue-50',   border: 'border-blue-200',   badge: 'bg-blue-100 text-blue-800',     icon: 'text-blue-600',   progress: 'bg-blue-500',   ring: 'ring-blue-200'   },
+  purple: { bg: 'bg-purple-50', border: 'border-purple-200', badge: 'bg-purple-100 text-purple-800',   icon: 'text-purple-600', progress: 'bg-purple-500', ring: 'ring-purple-200' },
+  green:  { bg: 'bg-emerald-50',border: 'border-emerald-200',badge: 'bg-emerald-100 text-emerald-800', icon: 'text-emerald-600',progress: 'bg-emerald-500',ring: 'ring-emerald-200'},
+  orange: { bg: 'bg-orange-50', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-800',   icon: 'text-orange-600', progress: 'bg-orange-500', ring: 'ring-orange-200' },
+  teal:   { bg: 'bg-teal-50',   border: 'border-teal-200',   badge: 'bg-teal-100 text-teal-800',       icon: 'text-teal-600',   progress: 'bg-teal-500',   ring: 'ring-teal-200'   },
+  indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', badge: 'bg-indigo-100 text-indigo-800',   icon: 'text-indigo-600', progress: 'bg-indigo-500', ring: 'ring-indigo-200' },
+  red:    { bg: 'bg-red-50',    border: 'border-red-200',    badge: 'bg-red-100 text-red-800',         icon: 'text-red-600',    progress: 'bg-red-500',    ring: 'ring-red-200'    },
+  sky:    { bg: 'bg-sky-50',    border: 'border-sky-200',    badge: 'bg-sky-100 text-sky-800',         icon: 'text-sky-600',    progress: 'bg-sky-500',    ring: 'ring-sky-200'    },
 };
 
 export default function PreparationRoadmapPage() {
@@ -518,7 +967,7 @@ export default function PreparationRoadmapPage() {
       </div>
 
       {/* ── Track Selector ── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
         {Object.entries(ROADMAP_TEMPLATES).map(([key, tpl]) => {
           const c = TRACK_COLORS[tpl.color];
           const isActive = selectedTrack === key;
