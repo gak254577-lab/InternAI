@@ -73,7 +73,19 @@ export const initialResumeAnalysis = {
     extractedSkills: [],
     missingKeywordsForTargetRole: []
   },
+  contactInfoDetected: {
+    email: false,
+    phone: false,
+    linkedin: false,
+    github: false
+  },
+  extractedEducation: [],
+  extractedProjects: [],
+  extractedCertifications: [],
+  missingInformation: [],
+  improvements: [],
   recommendations: [],
+  matchAgainstRole: null,
   matchBreakdown: {},
   recommendedInternships: []
 };

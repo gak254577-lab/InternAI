@@ -15,6 +15,7 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  deleteField,
   serverTimestamp
 } from 'firebase/firestore';
 
@@ -51,5 +52,6 @@ export {
   setDoc,
   getDoc,
   updateDoc,
+  deleteField,
   serverTimestamp
 };

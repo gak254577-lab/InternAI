@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 
 export default function ApplicationTrackerPage() {
-  const { applications, addApplication, updateApplicationColumn, deleteApplication, navigate } = useApp();
+  const { applications, addApplication, updateApplicationColumn, deleteApplication, navigate, navigateToInterview } = useApp();
   const [viewMode, setViewMode] = useState('kanban'); // 'kanban' or 'list'
   const [showAddModal, setShowAddModal] = useState(false);
   const [filterText, setFilterText] = useState('');
@@ -220,6 +220,16 @@ export default function ApplicationTrackerPage() {
                           ))}
                         </select>
                       </div>
+
+                      {/* Practice Interview CTA */}
+                      <button
+                        type="button"
+                        onClick={() => navigateToInterview(app.id)}
+                        className="w-full mt-1 py-1.5 rounded-lg bg-secondary text-on-secondary text-[10px] font-bold hover:bg-secondary-container transition-all flex items-center justify-center gap-1 shadow-sm"
+                      >
+                        <span className="material-symbols-outlined text-[13px]">mic</span>
+                        Practice Interview
+                      </button>
                     </div>
                   ))}
 
@@ -274,14 +284,25 @@ export default function ApplicationTrackerPage() {
                     {app.nextEvent || 'None'}
                   </td>
                   <td className="px-5 py-4 text-right">
-                    <button
-                      type="button"
-                      onClick={() => deleteApplication(app.id)}
-                      className="p-1.5 text-outline hover:text-error transition-colors"
-                      title="Delete application"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">delete</span>
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => navigateToInterview(app.id)}
+                        className="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary text-[10px] font-bold hover:bg-secondary-container transition-all flex items-center gap-1 shadow-sm"
+                        title="Practice Interview for this application"
+                      >
+                        <span className="material-symbols-outlined text-[13px]">mic</span>
+                        Practice
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => deleteApplication(app.id)}
+                        className="p-1.5 text-outline hover:text-error transition-colors"
+                        title="Delete application"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">delete</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

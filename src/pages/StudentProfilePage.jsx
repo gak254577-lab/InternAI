@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 import CollegeSelect from '../components/common/CollegeSelect';
+import { uploadAndAnalyzeResume } from '../services/geminiService';
 
 export default function StudentProfilePage() {
-  const { userProfile, currentUser, updateUserProfile } = useAuth();
-  const { studentProfile, updateProfile } = useApp();
+  const { userProfile, currentUser, updateUserProfile, saveResumeToProfile, deleteResumeFromProfile } = useAuth();
+  const { studentProfile, updateProfile, navigate, loadSavedResume, clearResumeAnalysis } = useApp();
 
   // Combine userProfile from Firestore with fallback defaults
   const profile = userProfile || studentProfile;
+
+  const fileInputRef = useRef(null);
+  const [isUploadingResume, setIsUploadingResume] = useState(false);
+  const [resumeUploadError, setResumeUploadError] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeletingResume, setIsDeletingResume] = useState(false);
 
   const [showEditModal, setShowEditModal] = useState(() => {
     return window.location.hash.includes('open-edit');
@@ -129,6 +136,70 @@ export default function StudentProfilePage() {
     setCertifications((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleResumeFileSelected = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    const allowedExtensions = ['.pdf', '.docx', '.txt'];
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    if (!allowedExtensions.includes(ext)) {
+      setResumeUploadError('Please upload a PDF (.pdf), Word (.docx), or Text (.txt) file.');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setResumeUploadError('File size exceeds the 10 MB limit.');
+      return;
+    }
+
+    setIsUploadingResume(true);
+    setResumeUploadError(null);
+
+    try {
+      const targetRoles = profile.interests?.length > 0
+        ? profile.interests
+        : profile.skills?.length > 0
+        ? profile.skills.map((s) => (typeof s === 'string' ? s : s.name))
+        : ['Software Engineering Intern'];
+
+      // Analyze with backend Gemini endpoint
+      const analysisData = await uploadAndAnalyzeResume(file, targetRoles);
+
+      // Save directly to Firestore
+      const saved = await saveResumeToProfile({
+        fileName: file.name,
+        fileSize: file.size,
+        ...analysisData,
+      });
+
+      // Also populate local AppContext active resume state
+      if (loadSavedResume && saved) {
+        loadSavedResume(saved);
+      }
+    } catch (err) {
+      console.error('Error uploading resume from profile:', err);
+      setResumeUploadError(err.message || 'Failed to analyze and save resume.');
+    } finally {
+      setIsUploadingResume(false);
+    }
+  };
+
+  const handleDeleteResume = async () => {
+    setIsDeletingResume(true);
+    try {
+      await deleteResumeFromProfile();
+      if (clearResumeAnalysis) {
+        clearResumeAnalysis();
+      }
+      setShowDeleteConfirm(false);
+    } catch (err) {
+      console.error('Error deleting resume:', err);
+    } finally {
+      setIsDeletingResume(false);
+    }
+  };
+
   const handleSaveToFirestore = async (e) => {
     e.preventDefault();
     setIsSaving(true);
@@ -152,10 +223,7 @@ export default function StudentProfilePage() {
         linkedin,
         projects,
         certifications,
-        resumeMetadata: profile.resumeMetadata || {
-          resumeName: 'Student_Resume_2026.pdf',
-          updatedAt: new Date().toISOString()
-        }
+        resumeMetadata: profile.resumeMetadata || null
       };
 
       await updateUserProfile(payload);
@@ -434,31 +502,210 @@ export default function StudentProfilePage() {
             </div>
           </div>
 
-          {/* Resume Metadata Data Model */}
-          <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-3">
-            <h3 className="font-title-md font-bold text-primary">
-              Resume Metadata
-            </h3>
-            <div className="p-3 rounded-xl bg-surface-container-low text-xs space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant">Current File</span>
-                <span className="font-bold text-primary truncate max-w-[150px]">
-                  {profile.resumeMetadata?.resumeName || 'Student_Resume.pdf'}
+          {/* Resume / CV Card */}
+          <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-title-md font-bold text-primary flex items-center gap-2">
+                <span className="material-symbols-outlined text-[20px] text-secondary">description</span>
+                Resume / CV
+              </h3>
+              {profile.resumeMetadata && (
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Stored in Firestore
                 </span>
+              )}
+            </div>
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.docx,.txt"
+              onChange={handleResumeFileSelected}
+              className="hidden"
+            />
+
+            {/* Uploading Spinner */}
+            {isUploadingResume && (
+              <div className="p-6 rounded-xl bg-secondary/5 border border-secondary/20 flex flex-col items-center justify-center text-center space-y-2">
+                <span className="material-symbols-outlined animate-spin text-secondary text-[28px]">
+                  progress_activity
+                </span>
+                <p className="text-xs font-bold text-primary">Analyzing with Gemini & Saving to Firestore…</p>
+                <p className="text-[11px] text-on-surface-variant">Extracting skills, evaluating ATS score, and updating your profile.</p>
               </div>
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="text-outline">Last Synced</span>
-                <span className="text-on-surface-variant">
-                  {profile.resumeMetadata?.updatedAt
-                    ? new Date(profile.resumeMetadata.updatedAt).toLocaleDateString()
-                    : 'Recently'}
-                </span>
+            )}
+
+            {/* Error banner */}
+            {resumeUploadError && (
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between">
+                <span>{resumeUploadError}</span>
+                <button
+                  type="button"
+                  onClick={() => setResumeUploadError(null)}
+                  className="text-rose-600 hover:text-rose-900 font-bold ml-2"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
+            {/* Resume Details Card if exists */}
+            {!isUploadingResume && profile.resumeMetadata ? (
+              <div className="space-y-3">
+                <div className="p-4 rounded-xl bg-surface-container-low border border-surface-container-high/80 space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-10 h-10 rounded-xl bg-secondary/15 text-secondary flex items-center justify-center flex-shrink-0">
+                        <span className="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-xs text-primary truncate max-w-[170px]" title={profile.resumeMetadata.fileName}>
+                          {profile.resumeMetadata.fileName || 'Resume.pdf'}
+                        </h4>
+                        <p className="text-[10px] text-on-surface-variant mt-0.5">
+                          {profile.resumeMetadata.fileSize
+                            ? `${(profile.resumeMetadata.fileSize / 1024).toFixed(1)} KB • `
+                            : ''}
+                          {profile.resumeMetadata.uploadedAt
+                            ? new Date(profile.resumeMetadata.uploadedAt).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })
+                            : 'Recently uploaded'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {profile.resumeMetadata.atsScore !== undefined && (
+                      <div className="text-right flex-shrink-0">
+                        <span className="px-2 py-0.5 rounded-lg text-xs font-black bg-secondary text-on-secondary shadow-xs">
+                          {profile.resumeMetadata.atsScore}/100
+                        </span>
+                        <span className="block text-[9px] font-bold text-outline uppercase tracking-wider mt-0.5">
+                          ATS Score
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Contact presence detected in resume */}
+                  {profile.resumeMetadata.contactInfoDetected && (
+                    <div className="pt-2 border-t border-surface-container-high/60 flex items-center gap-1.5 flex-wrap text-[10px]">
+                      <span className="text-outline font-semibold">Detected:</span>
+                      {Object.entries(profile.resumeMetadata.contactInfoDetected).map(([key, val]) => (
+                        <span
+                          key={key}
+                          className={`px-1.5 py-0.5 rounded capitalize ${
+                            val
+                              ? 'bg-emerald-50 text-emerald-700 font-bold border border-emerald-200/60'
+                              : 'bg-surface-container text-outline'
+                          }`}
+                        >
+                          {key} {val ? '✓' : '✗'}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Resume Action Buttons */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (loadSavedResume && profile.resumeMetadata) {
+                        loadSavedResume(profile.resumeMetadata);
+                      }
+                      navigate('resume-analyzer');
+                    }}
+                    className="py-2 px-3 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">visibility</span>
+                    View ATS Report
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="py-2 px-3 rounded-xl border border-surface-container-high hover:bg-surface-container-low text-primary text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">sync</span>
+                    Replace Resume
+                  </button>
+                </div>
+
+                {/* Delete button */}
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="w-full py-1.5 text-rose-600 hover:text-rose-700 text-xs font-semibold hover:bg-rose-50 rounded-lg transition-all flex items-center justify-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[15px]">delete</span>
+                  Delete Resume from Profile
+                </button>
+              </div>
+            ) : !isUploadingResume ? (
+              /* Empty state: Upload dropzone */
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="p-6 text-center border-2 border-dashed border-surface-container-high hover:border-secondary/60 rounded-2xl cursor-pointer hover:bg-surface-container-low/50 transition-all space-y-2 group"
+              >
+                <div className="w-12 h-12 mx-auto rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <span className="material-symbols-outlined text-[26px]">upload_file</span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-xs text-primary">Upload Your Resume</h4>
+                  <p className="text-[11px] text-on-surface-variant mt-0.5">
+                    PDF, DOCX, or TXT (up to 10 MB)
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="px-3.5 py-1.5 rounded-xl bg-secondary/10 text-secondary text-xs font-bold hover:bg-secondary/20 transition-colors"
+                >
+                  Choose File &amp; Save
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          {/* Delete Confirmation Modal */}
+          {showDeleteConfirm && (
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+              <div className="bg-surface-container-lowest rounded-2xl p-6 max-w-sm w-full border border-surface-container-high shadow-xl space-y-4 animate-fadeIn">
+                <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+                  <span className="material-symbols-outlined text-[28px]">delete_forever</span>
+                </div>
+                <div className="text-center space-y-1">
+                  <h4 className="font-bold text-base text-primary">Delete Resume?</h4>
+                  <p className="text-xs text-on-surface-variant leading-relaxed">
+                    This will permanently remove your stored resume metadata and ATS analysis from your Firestore profile.
+                  </p>
+                </div>
+                <div className="flex gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowDeleteConfirm(false)}
+                    disabled={isDeletingResume}
+                    className="flex-1 py-2 rounded-xl border border-surface-container-high text-xs font-bold text-primary hover:bg-surface-container-low transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDeleteResume}
+                    disabled={isDeletingResume}
+                    className="flex-1 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                  >
+                    {isDeletingResume ? 'Deleting…' : 'Yes, Delete'}
+                  </button>
+                </div>
               </div>
             </div>
-            <p className="text-[11px] text-outline italic">
-              * Resume file uploads will be connected to Firebase Storage in a subsequent task.
-            </p>
-          </div>
+          )}
         </div>
       </div>
 

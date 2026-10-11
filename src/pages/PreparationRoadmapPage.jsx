@@ -900,12 +900,11 @@ const TRACK_COLORS = {
 };
 
 export default function PreparationRoadmapPage() {
-  const { studentProfile, navigate } = useApp();
+  const { studentProfile, navigate, selectedTrack, setSelectedTrack } = useApp();
   const { userProfile } = useAuth();
   const profile = userProfile || studentProfile;
 
   const { completedTasks, toggleTask: _toggleTask, isTaskDone: _isTaskDone, loading: progressLoading } = useRoadmapProgress();
-  const [selectedTrack, setSelectedTrack] = useState('fullstack');
   const [expandedWeek, setExpandedWeek] = useState(1);
 
   const template = ROADMAP_TEMPLATES[selectedTrack];

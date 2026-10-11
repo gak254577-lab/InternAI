@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { uploadAndAnalyzeResume } from '../services/geminiService';
 import { matchResumeWithInternships } from '../utils/resumeMatcher';
 
@@ -145,9 +146,11 @@ const PROGRESS_STEPS = [
 ];
 
 export default function ResumeAnalyzerPage() {
+  const { currentUser, userProfile, saveResumeToProfile } = useAuth();
   const {
     resumeAnalysis,
     analyzeNewResume,
+    loadSavedResume,
     studentProfile,
     internships,
     fetchLiveInternships,
@@ -160,6 +163,14 @@ export default function ResumeAnalyzerPage() {
   const [error, setError] = useState(null);
   const [hasResult, setHasResult] = useState(Boolean(resumeAnalysis?.fileName));
   const fileInputRef = useRef(null);
+
+  // Auto-load saved resume from Firestore if user is logged in and no session resume loaded
+  useEffect(() => {
+    if (!resumeAnalysis?.fileName && userProfile?.resumeMetadata) {
+      loadSavedResume(userProfile.resumeMetadata);
+      setHasResult(true);
+    }
+  }, [userProfile?.resumeMetadata]);
 
   // Ensure internships are loaded for matching
   useEffect(() => {
@@ -226,10 +237,21 @@ export default function ResumeAnalyzerPage() {
       setProgressStep(5);
 
       // Save to global state
-      analyzeNewResume(file.name, {
+      const completeAnalysis = {
         ...analysisData,
         recommendedInternships: matchedInternships,
-      });
+      };
+
+      analyzeNewResume(file.name, completeAnalysis);
+
+      // Persist to Firestore if user is authenticated
+      if (currentUser && saveResumeToProfile) {
+        await saveResumeToProfile({
+          fileName: file.name,
+          fileSize: file.size,
+          ...completeAnalysis,
+        });
+      }
 
       setHasResult(true);
     } catch (err) {
@@ -453,8 +475,14 @@ export default function ResumeAnalyzerPage() {
                     <h3 className="font-display text-base lg:text-lg font-bold text-primary truncate">
                       {resumeAnalysis.fileName || 'Resume.pdf'}
                     </h3>
-                    <p className="text-xs text-on-surface-variant">
-                      Evaluated on {resumeAnalysis.uploadDate || 'Today'} • Powered by Gemini 2.5 Flash
+                    <p className="text-xs text-on-surface-variant flex items-center gap-1.5 flex-wrap">
+                      <span>Evaluated on {resumeAnalysis.uploadDate || 'Today'} • Powered by Gemini 2.5 Flash</span>
+                      {currentUser && (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          <span className="material-symbols-outlined text-[13px]">cloud_done</span>
+                          Synced with Firestore
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -474,6 +502,54 @@ export default function ResumeAnalyzerPage() {
                     'Your resume has been comprehensively scanned against industry applicant tracking systems.'}
                 </p>
               </div>
+
+              {/* Contact Links Detection */}
+              {resumeAnalysis.contactInfoDetected && (
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mr-1">
+                    Contact Presence:
+                  </span>
+                  {[
+                    { key: 'email', label: 'Email' },
+                    { key: 'phone', label: 'Phone' },
+                    { key: 'linkedin', label: 'LinkedIn' },
+                    { key: 'github', label: 'GitHub' },
+                  ].map((item) => {
+                    const detected = Boolean(resumeAnalysis.contactInfoDetected?.[item.key]);
+                    return (
+                      <span
+                        key={item.key}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all ${
+                          detected
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-surface-container text-on-surface-variant border-surface-container-high'
+                        }`}
+                        title={detected ? `${item.label} found in resume` : `${item.label} not detected`}
+                      >
+                        <span className="material-symbols-outlined text-[14px]">
+                          {detected ? 'check_circle' : 'cancel'}
+                        </span>
+                        {item.label}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Missing Resume Elements Warning */}
+              {resumeAnalysis.missingInformation && resumeAnalysis.missingInformation.length > 0 && (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-[11px] uppercase tracking-wider text-amber-800">
+                    <span className="material-symbols-outlined text-[16px]">info</span>
+                    Missing Standard Resume Elements
+                  </div>
+                  <ul className="list-disc list-inside space-y-0.5 text-xs text-on-surface-variant">
+                    {resumeAnalysis.missingInformation.map((info, idx) => (
+                      <li key={idx}>{info}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-1">
@@ -746,6 +822,40 @@ export default function ResumeAnalyzerPage() {
                         <p className="leading-relaxed font-medium">{rec.suggested}</p>
                       </div>
                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Targeted Actionable Resume Improvements */}
+          {(resumeAnalysis.improvements || []).length > 0 && (
+            <div className="p-6 lg:p-8 rounded-3xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
+                <div>
+                  <h3 className="font-display text-lg font-extrabold text-primary flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[22px] text-amber-500">checklist</span>
+                    Targeted Resume Improvements
+                  </h3>
+                  <p className="text-xs text-on-surface-variant mt-0.5">
+                    Specific, contextual guidance based on the exact projects and content in your resume.
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
+                  {resumeAnalysis.improvements.length} Insights
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {resumeAnalysis.improvements.map((imp, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container-high/80 flex items-start gap-2.5 text-xs text-on-surface leading-relaxed"
+                  >
+                    <span className="material-symbols-outlined text-[18px] text-amber-600 mt-0.5 flex-shrink-0">
+                      check_circle_outline
+                    </span>
+                    <span>{imp}</span>
                   </div>
                 ))}
               </div>

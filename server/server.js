@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { extractResumeText, analyzeResumeWithGemini } from './resumeAnalyzer.js';
+import { generateInterviewQuestion, evaluateAnswer, generateFinalReport } from './mockInterviewer.js';
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
 
 // Configure Multer for file uploads (10 MB max, memory storage)
 const upload = multer({
@@ -25,7 +26,7 @@ const upload = multer({
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'InternAI Resume Analyzer Backend' });
+  res.json({ status: 'ok', service: 'InternAI Backend' });
 });
 
 // Resume analysis endpoint
@@ -35,14 +36,12 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
   }
 
   try {
-    // 1. Text extraction using suitable PDF/DOCX/TXT libraries
     const resumeText = await extractResumeText(
       req.file.buffer,
       req.file.originalname,
       req.file.mimetype
     );
 
-    // 2. Parse target roles
     let targetRoles = [];
     if (req.body?.targetRoles) {
       try {
@@ -54,7 +53,6 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
       }
     }
 
-    // 3. Gemini 2.5 Flash analysis & ATS score calculation
     const analysis = await analyzeResumeWithGemini(resumeText, targetRoles);
 
     res.json({
@@ -69,6 +67,50 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
     res.status(status).json({
       error: err.message || 'Failed to analyze resume.',
     });
+  }
+});
+
+// ── Mock Interview API Endpoints ──────────────────────────────────────────────
+
+/**
+ * POST /api/mock-interview/generate-question
+ * Body: { application, userProfile, previousQuestions, currentAnswers, questionNumber, totalQuestions, difficulty, lastEvaluation }
+ */
+app.post('/api/mock-interview/generate-question', async (req, res) => {
+  try {
+    const result = await generateInterviewQuestion(req.body || {});
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error('[server] generate-question error:', err);
+    res.status(500).json({ error: err.message || 'Failed to generate interview question.' });
+  }
+});
+
+/**
+ * POST /api/mock-interview/evaluate-answer
+ * Body: { question, answer, category, application, userProfile }
+ */
+app.post('/api/mock-interview/evaluate-answer', async (req, res) => {
+  try {
+    const result = await evaluateAnswer(req.body || {});
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error('[server] evaluate-answer error:', err);
+    res.status(500).json({ error: err.message || 'Failed to evaluate answer.' });
+  }
+});
+
+/**
+ * POST /api/mock-interview/final-report
+ * Body: { application, userProfile, questionsAnswered }
+ */
+app.post('/api/mock-interview/final-report', async (req, res) => {
+  try {
+    const result = await generateFinalReport(req.body || {});
+    res.json({ success: true, ...result });
+  } catch (err) {
+    console.error('[server] final-report error:', err);
+    res.status(500).json({ error: err.message || 'Failed to generate final report.' });
   }
 });
 

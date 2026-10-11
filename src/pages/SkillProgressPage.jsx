@@ -1,56 +1,256 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 
+// ── Role keyword hints — used to surface relevant skills for a given role title ─
+const ROLE_KEYWORD_HINTS = [
+  { kw: ['frontend', 'ui', 'react', 'vue', 'angular', 'web platform'],  skills: ['React', 'TypeScript', 'CSS', 'JavaScript', 'Next.js', 'HTML', 'Figma'] },
+  { kw: ['backend', 'server', 'api', 'platform', 'system', 'infra'],    skills: ['Node.js', 'Python', 'PostgreSQL', 'Redis', 'Docker', 'REST API', 'System Design'] },
+  { kw: ['fullstack', 'full stack', 'full-stack'],                        skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'REST API'] },
+  { kw: ['ml', 'machine learning', 'ai', 'data science', 'nlp'],         skills: ['Python', 'TensorFlow', 'PyTorch', 'Pandas', 'Scikit-learn', 'SQL'] },
+  { kw: ['data analyst', 'analytics', 'bi', 'business intelligence'],    skills: ['SQL', 'Python', 'Tableau', 'Excel', 'Power BI', 'Statistics'] },
+  { kw: ['devops', 'cloud', 'sre', 'platform engineer'],                  skills: ['Docker', 'Kubernetes', 'AWS', 'Terraform', 'Linux', 'CI/CD'] },
+  { kw: ['android', 'ios', 'mobile'],                                     skills: ['Kotlin', 'Swift', 'Flutter', 'React Native', 'Firebase'] },
+  { kw: ['security', 'cyber', 'penetration'],                             skills: ['Python', 'Linux', 'Network Security', 'OWASP', 'Bash'] },
+];
+
+/**
+ * Given the user's own skills + a role title, compute a dynamic gap list.
+ * Required levels are synthesised per role keyword match; "current" comes
+ * from the user's actual proficiency for matching skill names.
+ */
+function computeGapsForRole(roleTitle, userSkills) {
+  const lower = roleTitle.toLowerCase();
+
+  // Find the best matching hint bucket
+  let hintSkills = [];
+  for (const { kw, skills } of ROLE_KEYWORD_HINTS) {
+    if (kw.some((k) => lower.includes(k))) { hintSkills = skills; break; }
+  }
+  // Fallback: use the role title words as a keyword set
+  if (hintSkills.length === 0) {
+    const words = roleTitle.split(/\W+/).filter((w) => w.length > 3);
+    hintSkills = words.slice(0, 6);
+  }
+
+  // Cross-reference hint skills with the user's actual skill list
+  const gaps = hintSkills.map((hintName) => {
+    const match = userSkills.find(
+      (s) => s.name.toLowerCase().includes(hintName.toLowerCase()) ||
+             hintName.toLowerCase().includes(s.name.toLowerCase())
+    );
+    const current  = match ? match.level : 0;
+    const required = 75 + Math.floor(Math.random() * 0) + (hintName.length % 3) * 5; // deterministic ~75-85
+    const diff = current - required;
+    const status = current === 0 ? 'Not Added'
+      : diff >= 5  ? 'Surplus'
+      : diff >= 0  ? 'Ready'
+      : diff >= -12 ? 'In Progress'
+      : 'Gap';
+    return { skill: match ? match.name : hintName, required, current, status };
+  });
+
+  return gaps;
+}
+
+// ── Skill category auto-detection ─────────────────────────────────────────────
+const CATEGORY_MAP = [
+  { cat: 'Frontend',         kw: ['react', 'vue', 'angular', 'next', 'svelte', 'html', 'css', 'sass', 'tailwind', 'webpack', 'vite', 'ui', 'ux'] },
+  { cat: 'Backend',          kw: ['node', 'express', 'fastapi', 'django', 'flask', 'spring', 'go', 'rust', 'php', 'laravel', 'graphql', 'grpc', 'rest', 'api'] },
+  { cat: 'Database',         kw: ['sql', 'postgres', 'postgresql', 'mysql', 'mongodb', 'redis', 'firebase', 'supabase', 'dynamo', 'cassandra', 'elasticsearch', 'sqlite'] },
+  { cat: 'DevOps & Cloud',   kw: ['docker', 'kubernetes', 'k8s', 'aws', 'azure', 'gcp', 'terraform', 'ansible', 'ci/cd', 'jenkins', 'linux', 'bash', 'nginx', 'cloud'] },
+  { cat: 'Languages',        kw: ['python', 'javascript', 'typescript', 'java', 'c++', 'c#', 'ruby', 'kotlin', 'swift', 'dart', 'scala', 'r', 'matlab'] },
+  { cat: 'ML / AI',          kw: ['machine learning', 'deep learning', 'tensorflow', 'pytorch', 'scikit', 'pandas', 'numpy', 'nlp', 'transformer', 'bert', 'neural', 'keras', 'ml', 'ai', 'llm', 'hugging'] },
+  { cat: 'Data & Analytics', kw: ['tableau', 'power bi', 'looker', 'bigquery', 'spark', 'airflow', 'etl', 'analytics', 'matplotlib', 'seaborn', 'excel', 'data'] },
+  { cat: 'Security',         kw: ['security', 'penetration', 'owasp', 'cryptography', 'ctf', 'burp', 'nmap', 'wireshark', 'soc', 'ethical', 'firewall'] },
+  { cat: 'Mobile',           kw: ['android', 'ios', 'flutter', 'react native', 'xamarin', 'expo'] },
+  { cat: 'Tools & VCS',      kw: ['git', 'github', 'gitlab', 'jira', 'confluence', 'figma', 'postman', 'swagger'] },
+];
+
+function inferCategory(name) {
+  const lower = (name || '').toLowerCase();
+  for (const { cat, kw } of CATEGORY_MAP) {
+    if (kw.some((k) => lower.includes(k))) return cat;
+  }
+  return 'General';
+}
+
+/** Normalise a raw skill (string or partial object) → canonical rich object */
+function normalizeSkill(raw, idx) {
+  if (typeof raw === 'string') {
+    return { id: `skill-${idx}`, name: raw.trim(), level: 65, category: inferCategory(raw), verified: false };
+  }
+  return {
+    id:       raw.id       || `skill-${idx}`,
+    name:     raw.name     || String(raw),
+    level:    raw.level    ?? 65,
+    category: raw.category || inferCategory(raw.name || ''),
+    verified: raw.verified || false,
+  };
+}
+
+// ── Track → skill keyword mapping ────────────────────────────────────────────
+const TRACK_SKILL_KEYWORDS = {
+  fullstack:        ['react', 'typescript', 'javascript', 'node', 'express', 'mongodb', 'sql', 'postgres', 'html', 'css', 'rest', 'api', 'git', 'docker', 'redis', 'graphql', 'next', 'vue', 'angular'],
+  ml:               ['python', 'machine learning', 'deep learning', 'tensorflow', 'pytorch', 'scikit', 'pandas', 'numpy', 'nlp', 'transformer', 'bert', 'data', 'ai', 'neural', 'ml', 'kaggle', 'hugging'],
+  backend:          ['node', 'java', 'python', 'go', 'rust', 'c++', 'express', 'fastapi', 'spring', 'sql', 'postgres', 'redis', 'kafka', 'docker', 'kubernetes', 'microservice', 'api', 'grpc', 'system'],
+  frontend:         ['react', 'vue', 'angular', 'javascript', 'typescript', 'html', 'css', 'sass', 'tailwind', 'next', 'webpack', 'vite', 'figma', 'ui', 'ux', 'animation', 'a11y', 'accessibility'],
+  'data-analyst':   ['sql', 'excel', 'python', 'tableau', 'power bi', 'pandas', 'matplotlib', 'seaborn', 'data', 'analytics', 'bi', 'statistics', 'reporting', 'etl', 'looker', 'bigquery'],
+  'data-scientist': ['python', 'r', 'machine learning', 'statistics', 'pandas', 'numpy', 'scikit', 'tensorflow', 'pytorch', 'sql', 'data', 'spark', 'airflow', 'feature engineering', 'ml', 'xgboost'],
+  cybersecurity:    ['security', 'penetration', 'network', 'linux', 'python', 'bash', 'owasp', 'cryptography', 'ctf', 'burp', 'nmap', 'wireshark', 'soc', 'siem', 'splunk', 'firewall', 'ethical'],
+  cloud:            ['aws', 'azure', 'gcp', 'google cloud', 'docker', 'kubernetes', 'terraform', 'ansible', 'linux', 'devops', 'ci/cd', 'cloud', 'serverless', 'iam', 's3', 'ec2', 'lambda', 'cloudformation'],
+};
+
+const TRACK_LABELS = {
+  fullstack:        'Full Stack Developer',
+  ml:               'Machine Learning / AI',
+  backend:          'Backend / Systems',
+  frontend:         'Frontend / UI Engineering',
+  'data-analyst':   'Data Analyst',
+  'data-scientist': 'Data Scientist',
+  cybersecurity:    'Cyber Security',
+  cloud:            'Cloud Computing',
+};
+
+const TRACK_COLORS = {
+  fullstack:        { icon: 'layers',           bg: 'bg-blue-50',   border: 'border-blue-200',   text: 'text-blue-700'   },
+  ml:               { icon: 'psychology',        bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700' },
+  backend:          { icon: 'dns',               bg: 'bg-emerald-50',border: 'border-emerald-200',text: 'text-emerald-700'},
+  frontend:         { icon: 'desktop_windows',   bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700' },
+  'data-analyst':   { icon: 'bar_chart',         bg: 'bg-teal-50',   border: 'border-teal-200',   text: 'text-teal-700'  },
+  'data-scientist': { icon: 'science',           bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700'},
+  cybersecurity:    { icon: 'security',          bg: 'bg-red-50',    border: 'border-red-200',    text: 'text-red-700'   },
+  cloud:            { icon: 'cloud',             bg: 'bg-sky-50',    border: 'border-sky-200',    text: 'text-sky-700'   },
+};
+
+
+
+// ─────────────────────────────────────────────────────────────────────────────
 export default function SkillProgressPage() {
-  const { studentProfile, updateProfile, navigate } = useApp();
-  const [selectedTargetRole, setSelectedTargetRole] = useState('razorpay');
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [syncSuccess, setSyncSuccess] = useState(false);
+  const { selectedTrack, navigate, applications } = useApp();
+  const { userProfile, updateUserProfile } = useAuth();
 
-  const handleSyncGitHub = () => {
+  // Normalise skills from Firestore — handles both plain strings and rich objects
+  const skills = useMemo(() => {
+    const raw = userProfile?.skills || [];
+    return raw.map((s, i) => normalizeSkill(s, i));
+  }, [userProfile?.skills]);
+
+  // ── UI state ──
+  const [isSyncing, setIsSyncing]                   = useState(false);
+  const [syncSuccess, setSyncSuccess]               = useState(false);
+  const [isSaving, setIsSaving]                     = useState(false);
+  const [selectedAppId, setSelectedAppId]           = useState(null);
+  const [showAddPanel, setShowAddPanel]             = useState(false);
+  const [editingId, setEditingId]                   = useState(null);
+  const [newSkillName, setNewSkillName]             = useState('');
+  const [newSkillLevel, setNewSkillLevel]           = useState(65);
+
+  // ── Derived values ──
+  const trackMeta  = TRACK_COLORS[selectedTrack] || TRACK_COLORS.fullstack;
+  const trackLabel = TRACK_LABELS[selectedTrack] || selectedTrack;
+  const keywords   = TRACK_SKILL_KEYWORDS[selectedTrack] || [];
+
+  const filteredSkills = skills.filter((s) => {
+    const hay = `${s.name} ${s.category}`.toLowerCase();
+    return keywords.some((kw) => hay.includes(kw.toLowerCase()));
+  });
+  const displaySkills  = filteredSkills.length > 0 ? filteredSkills : skills;
+  const isFiltered     = filteredSkills.length > 0 && filteredSkills.length < skills.length;
+  const verifiedCount  = skills.filter((s) => s.verified).length;
+
+  // Deduplicate applications by company+role for the dropdown
+  const appliedList = useMemo(() => {
+    const seen = new Set();
+    return (applications || []).filter((app) => {
+      const key = `${app.company}__${app.role}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [applications]);
+
+  // Auto-select first applied internship if nothing selected yet
+  const effectiveAppId = selectedAppId || appliedList[0]?.id || null;
+  const selectedApp    = appliedList.find((a) => a.id === effectiveAppId) || null;
+
+  // Compute gaps from the user's real skills for the selected role
+  const activeGaps = useMemo(() => {
+    if (!selectedApp) return [];
+    return computeGapsForRole(`${selectedApp.role} ${selectedApp.company}`, skills);
+  }, [selectedApp, skills]);
+
+  // ── Persist to Firestore ──
+  const persistSkills = useCallback(async (updated) => {
+    setIsSaving(true);
+    await updateUserProfile({ skills: updated });
+    setIsSaving(false);
+  }, [updateUserProfile]);
+
+  // ── Action handlers ──
+  const handleAddSkill = async () => {
+    const trimmed = newSkillName.trim();
+    if (!trimmed) return;
+    const newSkill = {
+      id: `skill-${Date.now()}`,
+      name: trimmed,
+      level: Number(newSkillLevel),
+      category: inferCategory(trimmed),
+      verified: false,
+    };
+    await persistSkills([...skills, newSkill]);
+    setNewSkillName('');
+    setNewSkillLevel(65);
+    setShowAddPanel(false);
+  };
+
+  const handleUpdateLevel = async (id, newLevel) => {
+    const updated = skills.map((s) => s.id === id ? { ...s, level: Number(newLevel) } : s);
+    await persistSkills(updated);
+    setEditingId(null);
+  };
+
+  const handleDeleteSkill = async (id) => {
+    await persistSkills(skills.filter((s) => s.id !== id));
+  };
+
+  const handleSyncGitHub = async () => {
+    if (!userProfile?.github) {
+      alert('Add your GitHub URL in your Profile first, then sync to boost verified skills!');
+      return;
+    }
     setIsSyncing(true);
-    setTimeout(() => {
-      setIsSyncing(false);
-      setSyncSuccess(true);
-      // Boost a couple verified skill levels
-      const updatedSkills = studentProfile.skills.map((s) => {
-        if (s.name === 'Redis & Invalidation') return { ...s, level: 82, verified: true };
-        if (s.name === 'Docker & Containerization') return { ...s, level: 75, verified: true };
-        return s;
-      });
-      updateProfile({ skills: updatedSkills, readinessScore: 89 });
-      setTimeout(() => setSyncSuccess(false), 3000);
-    }, 1500);
+    await new Promise((r) => setTimeout(r, 1800));
+    const BOOST_KEYWORDS = ['react', 'next', 'typescript', 'javascript', 'node', 'express', 'python', 'docker'];
+    const boosted = skills.map((s) => {
+      const lower = s.name.toLowerCase();
+      if (BOOST_KEYWORDS.some((k) => lower.includes(k))) {
+        return { ...s, level: Math.min(s.level + 5, 98), verified: true };
+      }
+      return s;
+    });
+    await persistSkills(boosted);
+    setIsSyncing(false);
+    setSyncSuccess(true);
+    setTimeout(() => setSyncSuccess(false), 3000);
   };
 
-  const roleGapMatrices = {
-    razorpay: [
-      { skill: 'React.js', required: 90, current: 94, status: 'Surplus' },
-      { skill: 'TypeScript', required: 85, current: 88, status: 'Ready' },
-      { skill: 'Node.js & Express', required: 80, current: 86, status: 'Ready' },
-      { skill: 'Redis & Invalidation', required: 80, current: 78, status: 'In Progress' },
-      { skill: 'Docker', required: 75, current: 70, status: 'In Progress' },
-      { skill: 'Kubernetes', required: 60, current: 50, status: 'Gap' }
-    ],
-    google: [
-      { skill: 'Data Structures & Algos', required: 95, current: 90, status: 'In Progress' },
-      { skill: 'System Architecture', required: 80, current: 74, status: 'In Progress' },
-      { skill: 'Concurrency & OS', required: 85, current: 82, status: 'Ready' },
-      { skill: 'Graph Algorithms', required: 90, current: 88, status: 'Ready' }
-    ],
-    cred: [
-      { skill: 'PostgreSQL ACID', required: 90, current: 85, status: 'In Progress' },
-      { skill: 'Redis Caching', required: 85, current: 78, status: 'In Progress' },
-      { skill: 'Message Queues (Kafka)', required: 75, current: 60, status: 'Gap' },
-      { skill: 'High Concurrency', required: 85, current: 80, status: 'Ready' }
-    ]
+  const handleExport = () => {
+    const json = JSON.stringify({ skills, generatedAt: new Date().toISOString() }, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'skill_matrix.json';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const activeGaps = roleGapMatrices[selectedTargetRole] || roleGapMatrices.razorpay;
-
+  // ─────────────────────────────────────────────────────────────────────────
   return (
     <div className="p-space-md lg:p-space-lg max-w-7xl mx-auto space-y-6">
-      {/* Title Header */}
+
+      {/* ── Page header ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl lg:text-3xl font-extrabold text-primary">
@@ -61,135 +261,261 @@ export default function SkillProgressPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <button
             type="button"
             onClick={handleSyncGitHub}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-container text-on-primary text-xs font-bold hover:bg-primary transition-all shadow-sm"
+            disabled={isSyncing}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-container text-on-primary text-xs font-bold hover:bg-primary transition-all shadow-sm disabled:opacity-60"
           >
-            <span className={`material-symbols-outlined text-[16px] text-on-tertiary-container ${isSyncing ? 'animate-spin' : ''}`}>
-              sync
-            </span>
-            <span>{isSyncing ? 'Scanning Repos...' : syncSuccess ? 'Synced with GitHub!' : 'Sync GitHub Repos'}</span>
+            <span className={`material-symbols-outlined text-[16px] text-on-tertiary-container ${isSyncing ? 'animate-spin' : ''}`}>sync</span>
+            <span>{isSyncing ? 'Scanning Repos…' : syncSuccess ? '✓ Synced!' : 'Sync GitHub'}</span>
           </button>
+
           <button
             type="button"
-            onClick={() => alert('Skill matrix report exported in JSON format.')}
+            onClick={() => setShowAddPanel((p) => !p)}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all shadow-sm"
+          >
+            <span className="material-symbols-outlined text-[16px]">add</span>
+            <span>Add Skill</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleExport}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface text-xs font-semibold hover:bg-surface-container-low transition-colors"
           >
             <span className="material-symbols-outlined text-[16px]">file_download</span>
-            <span>Export Report</span>
+            <span>Export</span>
           </button>
         </div>
       </div>
 
-      {/* Main Grid: Skills Matrix (8 cols) + Role Gap Matrix (4 cols) */}
+      {/* ── Add-skill panel ── */}
+      {showAddPanel && (
+        <div className="p-5 rounded-2xl bg-surface-container-lowest border border-secondary/30 shadow-md space-y-4">
+          <h3 className="text-sm font-bold text-primary flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[18px] text-secondary">add_circle</span>
+            Add a New Skill
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div className="sm:col-span-2 space-y-1">
+              <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Skill Name</label>
+              <input
+                type="text"
+                value={newSkillName}
+                onChange={(e) => setNewSkillName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddSkill()}
+                placeholder="e.g. React.js, Python, Docker…"
+                className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant text-xs text-primary font-medium focus:outline-none focus:border-secondary placeholder:text-on-surface-variant/50"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
+                Proficiency — {newSkillLevel}%
+              </label>
+              <input
+                type="range" min={10} max={100} step={5}
+                value={newSkillLevel}
+                onChange={(e) => setNewSkillLevel(Number(e.target.value))}
+                className="w-full accent-secondary"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-2 justify-end">
+            <button
+              type="button"
+              onClick={() => { setShowAddPanel(false); setNewSkillName(''); setNewSkillLevel(65); }}
+              className="px-4 py-1.5 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleAddSkill}
+              disabled={!newSkillName.trim() || isSaving}
+              className="px-5 py-1.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all disabled:opacity-50"
+            >
+              {isSaving ? 'Saving…' : 'Add Skill'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Main grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
-        {/* Left Column (8 cols): Skills Progress Bars */}
+
+        {/* Left — Skills Matrix (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
           <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
-              <h3 className="font-headline-sm text-lg font-bold text-primary">
-                Engineered Competency Matrix
-              </h3>
-              <span className="text-xs text-secondary font-bold">
-                {studentProfile.skills.filter((s) => s.verified).length} Verified by Code
-              </span>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {studentProfile.skills.map((skill, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-surface-container-low border border-surface-container-high/60 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs text-primary flex items-center gap-1">
-                      {skill.name}
-                      {skill.verified && (
-                        <span className="material-symbols-outlined text-[14px] text-secondary" title="Verified by GitHub repository">
-                          verified
-                        </span>
-                      )}
+            {/* Matrix header */}
+            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high gap-2 flex-wrap">
+              <div>
+                <h3 className="font-headline-sm text-lg font-bold text-primary">Engineered Competency Matrix</h3>
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${trackMeta.bg} ${trackMeta.border} ${trackMeta.text}`}>
+                    <span className="material-symbols-outlined text-[13px]">{trackMeta.icon}</span>
+                    {trackLabel}
+                  </span>
+                  {isFiltered && (
+                    <span className="text-[11px] text-on-surface-variant">
+                      Showing {displaySkills.length} of {skills.length} skills
                     </span>
-                    <span className="font-extrabold text-xs text-secondary">{skill.level}%</span>
-                  </div>
-
-                  {/* Level bar */}
-                  <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden">
-                    <div
-                      className="bg-secondary h-full rounded-full transition-all duration-300"
-                      style={{ width: `${skill.level}%` }}
-                    ></div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px] text-on-surface-variant font-medium">
-                    <span>Category: {skill.category}</span>
-                    <span className={skill.level >= 85 ? 'text-emerald-700 font-bold' : 'text-amber-700 font-bold'}>
-                      {skill.level >= 85 ? 'Production Ready' : 'Intermediate'}
-                    </span>
-                  </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => navigate('preparation-roadmap')}
+                    className="text-[11px] text-secondary font-semibold hover:underline flex items-center gap-0.5"
+                  >
+                    <span className="material-symbols-outlined text-[13px]">swap_horiz</span>
+                    Change domain
+                  </button>
                 </div>
-              ))}
+              </div>
+              <div className="flex items-center gap-3">
+                {isSaving && (
+                  <span className="text-[11px] text-on-surface-variant flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
+                    Saving…
+                  </span>
+                )}
+                <span className="text-xs text-secondary font-bold flex-shrink-0">{verifiedCount} Verified by Code</span>
+              </div>
             </div>
+
+            {/* Empty state */}
+            {skills.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-14 text-center gap-4">
+                <span className="material-symbols-outlined text-[56px] text-on-surface-variant opacity-30">bar_chart</span>
+                <div>
+                  <p className="text-sm font-bold text-on-surface-variant">No skills added yet</p>
+                  <p className="text-xs text-on-surface-variant mt-1 max-w-xs mx-auto">
+                    Click <strong>Add Skill</strong> above to build your competency matrix, or add skills from your Profile page.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAddPanel(true)}
+                  className="mt-1 px-5 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all"
+                >
+                  + Add Your First Skill
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {displaySkills.map((skill) => (
+                  <SkillCard
+                    key={skill.id}
+                    skill={skill}
+                    isEditing={editingId === skill.id}
+                    onEdit={() => setEditingId(skill.id)}
+                    onCancelEdit={() => setEditingId(null)}
+                    onUpdateLevel={(lvl) => handleUpdateLevel(skill.id, lvl)}
+                    onDelete={() => handleDeleteSkill(skill.id)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Right Column (4 cols): Target Role Gap Matrix */}
+        {/* Right — role gap + summary (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
+
+          {/* Target Role Gap Matrix */}
           <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-secondary">
-                Comparative Alignment
-              </span>
-              <h3 className="font-headline-sm text-lg font-bold text-primary mt-1">
-                Target Role Gap Matrix
-              </h3>
+              <span className="text-xs font-bold uppercase tracking-wider text-secondary">Comparative Alignment</span>
+              <h3 className="font-headline-sm text-lg font-bold text-primary mt-1">Applied Role Gap Matrix</h3>
             </div>
 
-            {/* Role selector dropdown */}
-            <div>
-              <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">
-                Target Internship Role
-              </label>
-              <select
-                value={selectedTargetRole}
-                onChange={(e) => setSelectedTargetRole(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant text-xs text-primary font-bold focus:outline-none focus:border-secondary"
-              >
-                <option value="razorpay">Razorpay — SDE Intern (Web Platforms)</option>
-                <option value="google">Google — SWE Summer Intern 2027</option>
-                <option value="cred">CRED — Backend Platform Intern</option>
-              </select>
-            </div>
+            {appliedList.length === 0 ? (
+              /* No applications yet */
+              <div className="flex flex-col items-center justify-center py-10 text-center gap-3">
+                <span className="material-symbols-outlined text-[44px] text-on-surface-variant opacity-30">work_outline</span>
+                <div>
+                  <p className="text-sm font-bold text-on-surface-variant">No applications yet</p>
+                  <p className="text-xs text-on-surface-variant mt-1 max-w-[200px] mx-auto">
+                    Apply to internships and your skill gap vs each role will appear here.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigate('explore-internships')}
+                  className="mt-1 px-4 py-1.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all"
+                >
+                  Explore Internships
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Applied role selector */}
+                <div>
+                  <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">
+                    Your Applied Role
+                  </label>
+                  <select
+                    value={effectiveAppId || ''}
+                    onChange={(e) => setSelectedAppId(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant text-xs text-primary font-bold focus:outline-none focus:border-secondary"
+                  >
+                    {appliedList.map((app) => (
+                      <option key={app.id} value={app.id}>
+                        {app.company} — {app.role}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedApp && (
+                    <p className="text-[10px] text-on-surface-variant mt-1 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[11px]">info</span>
+                      Skill gap vs your current proficiency
+                    </p>
+                  )}
+                </div>
 
-            {/* Gap Matrix items */}
-            <div className="space-y-3 pt-2">
-              {activeGaps.map((item, idx) => {
-                const isReady = item.status === 'Ready' || item.status === 'Surplus';
-                const isGap = item.status === 'Gap';
-                return (
-                  <div key={idx} className="p-3 rounded-xl bg-surface-container-low text-xs space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-primary">{item.skill}</span>
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                          isReady
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : isGap
-                            ? 'bg-rose-100 text-rose-800'
-                            : 'bg-amber-100 text-amber-800'
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between text-[11px] text-on-surface-variant">
-                      <span>Required: {item.required}%</span>
-                      <span className="font-semibold text-primary">Current: {item.current}%</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                {/* Gap items */}
+                <div className="space-y-3">
+                  {activeGaps.map((item, idx) => {
+                    const isNotAdded = item.status === 'Not Added';
+                    const isReady    = item.status === 'Ready' || item.status === 'Surplus';
+                    const isGap      = item.status === 'Gap';
+                    const pct        = isNotAdded ? 0 : Math.min(100, Math.round((item.current / item.required) * 100));
+                    return (
+                      <div key={idx} className="p-3 rounded-xl bg-surface-container-low text-xs space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-primary">{item.skill}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                            isReady    ? 'bg-emerald-100 text-emerald-800' :
+                            isGap      ? 'bg-rose-100 text-rose-800' :
+                            isNotAdded ? 'bg-slate-100 text-slate-600' :
+                                         'bg-amber-100 text-amber-800'
+                          }`}>{item.status}</span>
+                        </div>
+                        <div className="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              isReady    ? 'bg-emerald-500' :
+                              isGap      ? 'bg-rose-500' :
+                              isNotAdded ? 'bg-slate-300' :
+                                           'bg-amber-500'
+                            }`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] text-on-surface-variant">
+                          <span>Required: ~{item.required}%</span>
+                          <span className="font-semibold text-primary">
+                            {isNotAdded ? 'Not in skills' : `Current: ${item.current}%`}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
 
             <button
               type="button"
@@ -199,8 +525,132 @@ export default function SkillProgressPage() {
               Bridge Skill Gaps in Roadmap
             </button>
           </div>
+
+          {/* Skill Summary card — only when skills exist */}
+          {skills.length > 0 && (
+            <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-3">
+              <h4 className="text-sm font-bold text-primary">Skill Summary</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <StatPill label="Total Skills"     value={skills.length} />
+                <StatPill label="Avg Proficiency"  value={`${Math.round(skills.reduce((a, s) => a + s.level, 0) / skills.length)}%`} />
+                <StatPill label="Production Ready" value={skills.filter((s) => s.level >= 85).length} color="text-emerald-700" />
+                <StatPill label="Verified"         value={verifiedCount}                               color="text-secondary"    />
+              </div>
+              <div className="pt-2 border-t border-surface-container-high space-y-1.5">
+                <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">By Category</p>
+                {Object.entries(
+                  skills.reduce((acc, s) => { acc[s.category] = (acc[s.category] || 0) + 1; return acc; }, {})
+                )
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([cat, count]) => (
+                    <div key={cat} className="flex items-center justify-between text-xs">
+                      <span className="text-on-surface-variant font-medium">{cat}</span>
+                      <span className="font-bold text-primary">{count}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
+// ── SkillCard ─────────────────────────────────────────────────────────────────
+function SkillCard({ skill, isEditing, onEdit, onCancelEdit, onUpdateLevel, onDelete }) {
+  const [localLevel, setLocalLevel] = useState(skill.level);
+  React.useEffect(() => { setLocalLevel(skill.level); }, [skill.level]);
+
+  const levelLabel = localLevel >= 90 ? 'Expert'
+    : localLevel >= 75 ? 'Production Ready'
+    : localLevel >= 55 ? 'Intermediate'
+    : 'Beginner';
+  const levelColor = localLevel >= 90 ? 'text-emerald-700'
+    : localLevel >= 75 ? 'text-emerald-600'
+    : localLevel >= 55 ? 'text-amber-700'
+    : 'text-rose-600';
+  const barColor = localLevel >= 90 ? 'bg-emerald-500'
+    : localLevel >= 75 ? 'bg-secondary'
+    : localLevel >= 55 ? 'bg-amber-500'
+    : 'bg-rose-500';
+
+  return (
+    <div className="p-4 rounded-xl bg-surface-container-low border border-surface-container-high/60 space-y-2 group hover:shadow-sm transition-shadow">
+      <div className="flex items-center justify-between">
+        <span className="font-bold text-xs text-primary flex items-center gap-1">
+          {skill.name}
+          {skill.verified && (
+            <span className="material-symbols-outlined text-[14px] text-secondary" title="Verified by GitHub">verified</span>
+          )}
+        </span>
+        <div className="flex items-center gap-1">
+          <span className="font-extrabold text-xs text-secondary">{isEditing ? localLevel : skill.level}%</span>
+          {!isEditing && (
+            <>
+              <button
+                type="button" onClick={onEdit} title="Edit proficiency"
+                className="opacity-0 group-hover:opacity-100 ml-1 p-0.5 rounded-md hover:bg-surface-container transition-opacity"
+              >
+                <span className="material-symbols-outlined text-[13px] text-on-surface-variant">edit</span>
+              </button>
+              <button
+                type="button" onClick={onDelete} title="Remove skill"
+                className="opacity-0 group-hover:opacity-100 p-0.5 rounded-md hover:bg-rose-50 transition-opacity"
+              >
+                <span className="material-symbols-outlined text-[13px] text-rose-500">delete</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+        <div
+          className={`${barColor} h-full rounded-full transition-all duration-500`}
+          style={{ width: `${isEditing ? localLevel : skill.level}%` }}
+        />
+      </div>
+
+      {isEditing ? (
+        <div className="space-y-2 pt-1">
+          <div className="flex items-center gap-2">
+            <input
+              type="range" min={10} max={100} step={5}
+              value={localLevel}
+              onChange={(e) => setLocalLevel(Number(e.target.value))}
+              className="flex-1 accent-secondary"
+            />
+            <span className="text-xs font-bold text-primary w-8 text-right">{localLevel}%</span>
+          </div>
+          <div className="flex gap-2 justify-end">
+            <button type="button" onClick={onCancelEdit}
+              className="text-[11px] px-2.5 py-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+              Cancel
+            </button>
+            <button type="button" onClick={() => onUpdateLevel(localLevel)}
+              className="text-[11px] px-3 py-1 rounded-lg bg-secondary text-on-secondary font-bold hover:opacity-90 transition-all">
+              Save
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between text-[10px] text-on-surface-variant font-medium">
+          <span>Category: {skill.category}</span>
+          <span className={`${levelColor} font-bold`}>{levelLabel}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Stat pill ─────────────────────────────────────────────────────────────────
+function StatPill({ label, value, color = 'text-primary' }) {
+  return (
+    <div className="bg-surface-container-low rounded-xl p-2.5 text-center">
+      <p className={`text-base font-extrabold ${color}`}>{value}</p>
+      <p className="text-[10px] text-on-surface-variant mt-0.5">{label}</p>
+    </div>
+  );
+}
+

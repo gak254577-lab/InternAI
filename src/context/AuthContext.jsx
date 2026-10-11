@@ -13,6 +13,7 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  deleteField,
   serverTimestamp,
   isFirebaseConfigured
 } from '../services/firebase';
@@ -121,7 +122,8 @@ export function AuthProvider({ children }) {
         projects: [],
         certifications: [],
         readinessScore: 0,
-        status: ''
+        status: '',
+        resumeMetadata: null
       };
       setUserProfile(fallback);
       return fallback;
@@ -346,6 +348,89 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Save or update user resume in Firestore
+  const saveResumeToProfile = async (resumeData) => {
+    if (!currentUser) return null;
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      const resumeMetadata = {
+        fileName: resumeData.fileName || 'Resume.pdf',
+        fileSize: resumeData.fileSize || 0,
+        uploadedAt: new Date().toISOString(),
+        atsScore: resumeData.atsScore ?? 0,
+        atsScoreReason: resumeData.atsScoreReason || '',
+        scoreBreakdown: resumeData.scoreBreakdown || null,
+        candidateInfo: resumeData.candidateInfo || null,
+        extractedSkills: resumeData.parsedData?.extractedSkills || resumeData.extractedSkills || [],
+        missingKeywords: resumeData.parsedData?.missingKeywordsForTargetRole || resumeData.missingKeywords || [],
+        extractedEducation: resumeData.extractedEducation || [],
+        extractedProjects: resumeData.extractedProjects || [],
+        extractedCertifications: resumeData.extractedCertifications || [],
+        missingInformation: resumeData.missingInformation || [],
+        improvements: resumeData.improvements || [],
+        recommendations: resumeData.recommendations || [],
+        contactInfoDetected: resumeData.contactInfoDetected || {
+          email: false,
+          phone: false,
+          linkedin: false,
+          github: false,
+        },
+        matchAgainstRole: resumeData.matchAgainstRole || null,
+        recommendedInternships: resumeData.recommendedInternships || [],
+      };
+
+      await updateDoc(userRef, {
+        resumeMetadata,
+        updatedAt: serverTimestamp(),
+      });
+
+      setUserProfile((prev) => ({
+        ...prev,
+        resumeMetadata,
+      }));
+
+      showToast('Resume saved to your profile in Firestore!', 'success');
+      return resumeMetadata;
+    } catch (err) {
+      console.warn('Firestore resume save error:', err);
+      // Fallback local update
+      setUserProfile((prev) => ({
+        ...prev,
+        resumeMetadata: resumeData,
+      }));
+      showToast('Resume saved locally.', 'info');
+      return resumeData;
+    }
+  };
+
+  // Delete resume from Firestore
+  const deleteResumeFromProfile = async () => {
+    if (!currentUser) return;
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      await updateDoc(userRef, {
+        resumeMetadata: deleteField(),
+        updatedAt: serverTimestamp(),
+      });
+
+      setUserProfile((prev) => {
+        const next = { ...prev };
+        delete next.resumeMetadata;
+        return next;
+      });
+
+      showToast('Resume deleted from Firestore profile.', 'info');
+    } catch (err) {
+      console.warn('Firestore resume delete error:', err);
+      setUserProfile((prev) => {
+        const next = { ...prev };
+        delete next.resumeMetadata;
+        return next;
+      });
+      showToast('Resume removed locally.', 'info');
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -359,6 +444,8 @@ export function AuthProvider({ children }) {
         loginWithGoogle,
         logout,
         updateUserProfile,
+        saveResumeToProfile,
+        deleteResumeFromProfile,
         isFirebaseConfigured
       }}
     >

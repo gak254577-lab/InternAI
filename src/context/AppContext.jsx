@@ -19,6 +19,8 @@ export function AppProvider({ children }) {
     return hash || 'dashboard';
   });
   const [selectedInternshipId, setSelectedInternshipId] = useState(null);
+  // Selected application for Mock Interview
+  const [selectedApplicationId, setSelectedApplicationId] = useState(null);
 
   // Sync route with URL hash for easy browser history and bookmarks
   useEffect(() => {
@@ -48,10 +50,26 @@ export function AppProvider({ children }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  /**
+   * Navigate to Mock Interview pre-loaded with a specific application.
+   * @param {string} applicationId - The application's id field
+   */
+  const navigateToInterview = (applicationId) => {
+    setSelectedApplicationId(applicationId);
+    window.location.hash = '/mock-interview';
+    setCurrentRoute('mock-interview');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Persistent State in LocalStorage
   const [studentProfile, setStudentProfile] = useState(() => {
     const saved = localStorage.getItem('internai_student_profile');
     return saved ? JSON.parse(saved) : initialStudentProfile;
+  });
+
+  // Selected preparation track — shared between PreparationRoadmapPage & SkillProgressPage
+  const [selectedTrack, setSelectedTrack] = useState(() => {
+    return localStorage.getItem('internai_selected_track') || 'fullstack';
   });
 
   const [internships, setInternships] = useState(() => {
@@ -105,6 +123,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('internai_student_profile', JSON.stringify(studentProfile));
   }, [studentProfile]);
+
+  useEffect(() => {
+    localStorage.setItem('internai_selected_track', selectedTrack);
+  }, [selectedTrack]);
 
   useEffect(() => {
     localStorage.setItem('internai_internships', JSON.stringify(internships));
@@ -290,8 +312,52 @@ export function AppProvider({ children }) {
       recommendations: analysisData?.recommendations ?? [],
       parsedData: analysisData?.parsedData ?? { extractedSkills: [], missingKeywordsForTargetRole: [] },
       matchBreakdown: analysisData?.matchBreakdown ?? {},
-      recommendedInternships: analysisData?.recommendedInternships ?? []
+      recommendedInternships: analysisData?.recommendedInternships ?? [],
+      contactInfoDetected: analysisData?.contactInfoDetected ?? { email: false, phone: false, linkedin: false, github: false },
+      extractedEducation: analysisData?.extractedEducation ?? [],
+      extractedProjects: analysisData?.extractedProjects ?? [],
+      extractedCertifications: analysisData?.extractedCertifications ?? [],
+      missingInformation: analysisData?.missingInformation ?? [],
+      improvements: analysisData?.improvements ?? [],
+      matchAgainstRole: analysisData?.matchAgainstRole ?? null,
     }));
+  };
+
+  const loadSavedResume = (savedResumeData) => {
+    if (!savedResumeData) return;
+    setResumeAnalysis({
+      fileName: savedResumeData.fileName || 'Saved_Resume.pdf',
+      uploadDate: savedResumeData.uploadedAt
+        ? new Date(savedResumeData.uploadedAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: '2-digit',
+            year: 'numeric'
+          })
+        : 'Saved',
+      atsScore: savedResumeData.atsScore ?? 0,
+      atsScoreReason: savedResumeData.atsScoreReason || '',
+      scoreBreakdown: savedResumeData.scoreBreakdown || null,
+      candidateInfo: savedResumeData.candidateInfo || null,
+      recommendations: savedResumeData.recommendations || [],
+      parsedData: {
+        extractedSkills: savedResumeData.extractedSkills || [],
+        missingKeywordsForTargetRole: savedResumeData.missingKeywords || [],
+      },
+      matchBreakdown: savedResumeData.matchBreakdown || {},
+      recommendedInternships: savedResumeData.recommendedInternships || [],
+      contactInfoDetected: savedResumeData.contactInfoDetected || { email: false, phone: false, linkedin: false, github: false },
+      extractedEducation: savedResumeData.extractedEducation || [],
+      extractedProjects: savedResumeData.extractedProjects || [],
+      extractedCertifications: savedResumeData.extractedCertifications || [],
+      missingInformation: savedResumeData.missingInformation || [],
+      improvements: savedResumeData.improvements || [],
+      matchAgainstRole: savedResumeData.matchAgainstRole || null,
+    });
+  };
+
+  const clearResumeAnalysis = () => {
+    localStorage.removeItem('internai_resume_analysis');
+    setResumeAnalysis(initialResumeAnalysis);
   };
 
   const submitInterviewAnswer = (userAnswer) => {
@@ -346,8 +412,13 @@ export function AppProvider({ children }) {
         submitInterviewAnswer,
         resumeAnalysis,
         analyzeNewResume,
+        loadSavedResume,
+        clearResumeAnalysis,
         globalSearch,
         setGlobalSearch,
+        // Shared preparation track (synced between Roadmap & Skill Progress pages)
+        selectedTrack,
+        setSelectedTrack,
         // Adzuna live data
         fetchLiveInternships,
         adzunaLoading,
@@ -359,6 +430,10 @@ export function AppProvider({ children }) {
         linkedinLoading,
         linkedinError,
         isRapidApiConfigured,
+        // Mock Interview — application selection
+        selectedApplicationId,
+        setSelectedApplicationId,
+        navigateToInterview,
       }}
     >
       {children}
