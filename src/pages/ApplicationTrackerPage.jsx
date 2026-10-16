@@ -3,7 +3,6 @@ import { useApp } from '../context/AppContext';
 
 export default function ApplicationTrackerPage() {
   const { applications, addApplication, updateApplicationColumn, deleteApplication, navigate, navigateToInterview } = useApp();
-  const [viewMode, setViewMode] = useState('kanban'); // 'kanban' or 'list'
   const [showAddModal, setShowAddModal] = useState(false);
   const [filterText, setFilterText] = useState('');
 
@@ -67,34 +66,6 @@ export default function ApplicationTrackerPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* View Toggle */}
-          <div className="flex rounded-lg bg-surface-container-lowest border border-surface-container-high p-1 text-xs">
-            <button
-              type="button"
-              onClick={() => setViewMode('kanban')}
-              className={`px-3 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors ${
-                viewMode === 'kanban'
-                  ? 'bg-primary-container text-on-primary'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <span className="material-symbols-outlined text-[16px]">view_kanban</span>
-              <span>Kanban</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors ${
-                viewMode === 'list'
-                  ? 'bg-primary-container text-on-primary'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              <span className="material-symbols-outlined text-[16px]">view_list</span>
-              <span>List</span>
-            </button>
-          </div>
-
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
@@ -126,8 +97,7 @@ export default function ApplicationTrackerPage() {
       </div>
 
       {/* Kanban Board View */}
-      {viewMode === 'kanban' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start pb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start pb-4">
           {columns.map((col) => {
             const colApps = filteredApps.filter((a) => {
               if (col.id === 'applied') {
@@ -245,73 +215,6 @@ export default function ApplicationTrackerPage() {
             );
           })}
         </div>
-      ) : (
-        /* List View */
-        <div className="rounded-2xl bg-surface-container-lowest border border-surface-container-high overflow-hidden shadow-sm">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-surface-container-low text-on-surface-variant font-bold uppercase tracking-wider border-b border-surface-container-high">
-              <tr>
-                <th className="px-5 py-3.5">Company &amp; Role</th>
-                <th className="px-5 py-3.5">Stage</th>
-                <th className="px-5 py-3.5">Location &amp; Stipend</th>
-                <th className="px-5 py-3.5">Next Milestone</th>
-                <th className="px-5 py-3.5 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-surface-container-high">
-              {filteredApps.map((app) => (
-                <tr key={app.id} className="hover:bg-surface-container-low/50 transition-colors">
-                  <td className="px-5 py-4">
-                    <span className="font-bold text-primary block text-sm">{app.company}</span>
-                    <span className="text-on-surface-variant">{app.role}</span>
-                  </td>
-                  <td className="px-5 py-4">
-                    <select
-                      value={app.column === 'saved' ? 'saved' : 'applied'}
-                      onChange={(e) => updateApplicationColumn(app.id, e.target.value)}
-                      className="bg-surface-container px-2.5 py-1 rounded-lg text-xs font-semibold text-primary focus:outline-none cursor-pointer"
-                    >
-                      {columns.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.label}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="px-5 py-4">
-                    <span className="block text-primary font-semibold">{app.stipend}</span>
-                    <span className="text-on-surface-variant">{app.location}</span>
-                  </td>
-                  <td className="px-5 py-4 text-secondary font-medium">
-                    {app.nextEvent || 'None'}
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        type="button"
-                        onClick={() => navigateToInterview(app.id)}
-                        className="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary text-[10px] font-bold hover:bg-secondary-container transition-all flex items-center gap-1 shadow-sm"
-                        title="Practice Interview for this application"
-                      >
-                        <span className="material-symbols-outlined text-[13px]">mic</span>
-                        Practice
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => deleteApplication(app.id)}
-                        className="p-1.5 text-outline hover:text-error transition-colors"
-                        title="Delete application"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">delete</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {/* Add Application Modal */}
       {showAddModal && (
