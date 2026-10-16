@@ -1000,11 +1000,8 @@ export default function PreparationRoadmapPage() {
         })}
       </div>
 
-      {/* ── Main Grid ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-        {/* ── Left: Milestones (8 cols) ── */}
-        <div className="lg:col-span-8 space-y-4">
+      {/* ── Milestones Feed (Full Width) ── */}
+      <div className="space-y-4">
           {template.milestones.map((milestone) => {
             const status = weekStatus(milestone.week);
             const pct = weekProgress(milestone.week);
@@ -1140,122 +1137,6 @@ export default function PreparationRoadmapPage() {
             );
           })}
         </div>
-
-        {/* ── Right: Progress & Tips (4 cols) ── */}
-        <div className="lg:col-span-4 space-y-5">
-
-          {/* Overall Progress */}
-          <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
-            <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-4">
-              Overall Progress
-            </h3>
-            <div className="flex items-center justify-center mb-4">
-              <div className="relative w-28 h-28">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                  <circle cx="18" cy="18" r="15" fill="none" stroke="#e2e8f0" strokeWidth="3.5" />
-                  <circle
-                    cx="18" cy="18" r="15" fill="none"
-                    stroke={progress.pct === 100 ? '#10b981' : '#6366f1'}
-                    strokeWidth="3.5"
-                    strokeDasharray={`${progress.pct * 0.942} 100`}
-                    strokeLinecap="round"
-                    style={{ transition: 'stroke-dasharray 0.5s ease' }}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="font-display text-2xl font-black text-primary">{progress.pct}%</span>
-                  <span className="text-[10px] text-on-surface-variant font-semibold">Complete</span>
-                </div>
-              </div>
-            </div>
-            <p className="text-xs text-on-surface-variant text-center mb-1">
-              <strong className="text-on-surface">{progress.done}</strong> of <strong className="text-on-surface">{progress.total}</strong> tasks done
-            </p>
-
-            {/* Week-by-week bars */}
-            <div className="mt-4 space-y-2">
-              {template.milestones.map((m) => {
-                const pct = weekProgress(m.week);
-                return (
-                  <div key={m.week} className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-on-surface-variant w-7 flex-shrink-0">W{m.week}</span>
-                    <div className="flex-1 h-1.5 bg-surface-container rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all ${colors.progress}`}
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] font-semibold text-on-surface-variant w-8 text-right">{pct}%</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Track Info */}
-          <div className={`p-5 rounded-2xl ${colors.bg} border ${colors.border}`}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className={`material-symbols-outlined text-[22px] ${colors.icon}`}>{template.icon}</span>
-              <h3 className="font-bold text-on-surface text-sm">{template.label} Track</h3>
-            </div>
-            <ul className="space-y-1.5 text-xs text-on-surface-variant">
-              <li className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[14px] text-emerald-600">schedule</span>
-                6 weeks · ~70–90 hrs total
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[14px] text-emerald-600">emoji_events</span>
-                {template.milestones.reduce((sum, m) => sum + m.tasks.length, 0)} tasks · {template.milestones.length * 3} curated resources
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[14px] text-emerald-600">target</span>
-                Optimized for Indian tech internships
-              </li>
-            </ul>
-          </div>
-
-          {/* Quick Tips */}
-          <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
-            <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[15px] text-secondary">lightbulb</span>
-              Pro Tips
-            </h3>
-            <div className="space-y-3 text-xs text-on-surface-variant">
-              {[
-                { icon: 'today', text: 'Dedicate 1.5–2 hours every day. Consistency beats marathons.' },
-                { icon: 'share', text: 'Build in public — tweet your progress, GitHub streak matters.' },
-                { icon: 'group', text: 'Find an accountability partner or join a study Discord server.' },
-                { icon: 'send', text: 'Apply while learning. Don\'t wait until you feel "ready".' },
-              ].map((tip, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <span className="material-symbols-outlined text-[15px] text-secondary flex-shrink-0 mt-0.5">{tip.icon}</span>
-                  <span className="leading-relaxed">{tip.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="space-y-2">
-            <button
-              type="button"
-              onClick={() => navigate('resume-analyzer')}
-              className="w-full py-2.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all flex items-center justify-center gap-1.5 shadow-sm"
-            >
-              <span className="material-symbols-outlined text-[16px]">description</span>
-              Analyze My Resume
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('explore-internships')}
-              className="w-full py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface text-xs font-bold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-1.5"
-            >
-              <span className="material-symbols-outlined text-[16px]">work</span>
-              Explore Internships
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
   );
 }

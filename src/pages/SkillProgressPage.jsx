@@ -264,30 +264,11 @@ export default function SkillProgressPage() {
         <div className="flex items-center gap-2.5 flex-wrap">
           <button
             type="button"
-            onClick={handleSyncGitHub}
-            disabled={isSyncing}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-container text-on-primary text-xs font-bold hover:bg-primary transition-all shadow-sm disabled:opacity-60"
-          >
-            <span className={`material-symbols-outlined text-[16px] text-on-tertiary-container ${isSyncing ? 'animate-spin' : ''}`}>sync</span>
-            <span>{isSyncing ? 'Scanning Repos…' : syncSuccess ? '✓ Synced!' : 'Sync GitHub'}</span>
-          </button>
-
-          <button
-            type="button"
             onClick={() => setShowAddPanel((p) => !p)}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all shadow-sm"
           >
             <span className="material-symbols-outlined text-[16px]">add</span>
             <span>Add Skill</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleExport}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface text-xs font-semibold hover:bg-surface-container-low transition-colors"
-          >
-            <span className="material-symbols-outlined text-[16px]">file_download</span>
-            <span>Export</span>
           </button>
         </div>
       </div>

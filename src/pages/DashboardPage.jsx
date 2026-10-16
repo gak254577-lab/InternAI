@@ -12,7 +12,8 @@ export default function DashboardPage() {
     toggleBookmark,
     navigate,
     roadmap,
-    toggleRoadmapTask
+    toggleRoadmapTask,
+    resumeAnalysis
   } = useApp();
 
   const profile = userProfile || studentProfile;
@@ -20,9 +21,34 @@ export default function DashboardPage() {
   const firstName = displayName.split(' ')[0] || 'Student';
   const isProfileIncomplete = !profile.college || !profile.skills || profile.skills.length === 0;
 
-  const activeAppsCount = applications.filter((a) => a.column !== 'saved').length;
+  // 1. Applied Internships Count
+  const appliedAppsCount = applications.filter((a) => a.column === 'applied' || a.column !== 'saved').length;
   const interviewCount = applications.filter((a) => a.column === 'interview').length;
   const currentSprint = roadmap[1] || roadmap[0];
+
+  // 2. Current Resume ATS Score
+  const atsScore =
+    (resumeAnalysis && typeof resumeAnalysis.atsScore === 'number' && resumeAnalysis.atsScore > 0)
+      ? resumeAnalysis.atsScore
+      : (userProfile?.resumeMetadata?.atsScore ?? studentProfile?.resumeMetadata?.atsScore ?? 0);
+
+  // 3. Avg Proficiency of Skill Progress
+  const rawSkills = userProfile?.skills?.length
+    ? userProfile.skills
+    : (studentProfile?.skills || []);
+  const normalizedSkills = rawSkills.map((s, idx) => {
+    if (typeof s === 'string') {
+      return { id: `skill-${idx}`, name: s.trim(), level: 65 };
+    }
+    return {
+      id: s?.id || `skill-${idx}`,
+      name: s?.name || String(s),
+      level: typeof s?.level === 'number' ? s.level : 65
+    };
+  });
+  const avgProficiency = normalizedSkills.length > 0
+    ? Math.round(normalizedSkills.reduce((acc, s) => acc + s.level, 0) / normalizedSkills.length)
+    : 0;
 
   return (
     <div className="p-space-md lg:p-space-lg max-w-7xl mx-auto space-y-space-lg">
@@ -90,7 +116,7 @@ export default function DashboardPage() {
 
       {/* 4 Stat KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Active Applications */}
+        {/* Card 1: Active Apps (Applied Internships) */}
         <div
           onClick={() => navigate('my-applications')}
           className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all cursor-pointer"
@@ -102,32 +128,50 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="font-display text-3xl font-bold text-primary">{activeAppsCount}</span>
+            <span className="font-display text-3xl font-bold text-primary">{appliedAppsCount}</span>
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">{activeAppsCount === 0 ? 'No active applications yet' : `${activeAppsCount} application${activeAppsCount > 1 ? 's' : ''} in pipeline`}</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">
+            {appliedAppsCount === 0 ? 'No applied internships yet' : `${appliedAppsCount} internship${appliedAppsCount > 1 ? 's' : ''} applied`}
+          </p>
         </div>
 
-        {/* Card 2: AI Readiness */}
+        {/* Card 2: Resume ATS Score */}
         <div
-          onClick={() => navigate('roadmap')}
+          onClick={() => navigate('resume-analyzer')}
           className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">AI Readiness</span>
+            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Resume ATS Score</span>
             <div className="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
+              <span className="material-symbols-outlined text-[18px]">fact_check</span>
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="font-display text-3xl font-bold text-secondary">{studentProfile.readinessScore}%</span>
-            <span className="text-xs text-emerald-600 font-semibold">Tier 1 Target</span>
+            <span className="font-display text-3xl font-bold text-secondary">
+              {atsScore > 0 ? `${atsScore}%` : '0%'}
+            </span>
+            {atsScore >= 75 ? (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
+                Strong ATS
+              </span>
+            ) : atsScore > 0 ? (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200">
+                Needs Work
+              </span>
+            ) : (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-surface-container text-outline px-2 py-0.5 rounded-full border border-outline-variant/40">
+                Not Scanned
+              </span>
+            )}
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">Based on verified coursework &amp; projects</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">
+            {atsScore > 0 ? 'Current ATS keyword match score' : 'Upload resume in AI Analyzer to score'}
+          </p>
         </div>
 
         {/* Card 3: Interviews Scheduled */}
         <div
-          onClick={() => navigate('my-applications')}
+          onClick={() => navigate('mock-interview')}
           className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all cursor-pointer"
         >
           <div className="flex items-center justify-between">
@@ -142,29 +186,50 @@ export default function DashboardPage() {
           <p className="text-[11px] text-on-surface-variant mt-1">{interviewCount === 0 ? 'No interviews scheduled' : `${interviewCount} interview${interviewCount > 1 ? 's' : ''} scheduled`}</p>
         </div>
 
-        {/* Card 4: Prep Streak */}
+        {/* Card 4: Avg Skill Proficiency */}
         <div
-          onClick={() => navigate('roadmap')}
+          onClick={() => navigate('skill-progress')}
           className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high hover:border-secondary hover:shadow-md transition-all cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Daily Streak</span>
+            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Avg Proficiency</span>
             <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-              <span className="material-symbols-outlined text-[18px]">local_fire_department</span>
+              <span className="material-symbols-outlined text-[18px]">trending_up</span>
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="font-display text-3xl font-bold text-primary">{studentProfile.streak || 0} Days</span>
+            <span className="font-display text-3xl font-bold text-primary">
+              {avgProficiency}%
+            </span>
+            {avgProficiency >= 75 ? (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
+                Advanced
+              </span>
+            ) : avgProficiency >= 50 ? (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                Intermediate
+              </span>
+            ) : avgProficiency > 0 ? (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200">
+                Beginner
+              </span>
+            ) : (
+              <span className="text-[10px] uppercase tracking-wider font-bold bg-surface-container text-outline px-2 py-0.5 rounded-full border border-outline-variant/40">
+                No Skills
+              </span>
+            )}
           </div>
-          <p className="text-[11px] text-on-surface-variant mt-1">Complete today's task to keep your streak going</p>
+          <p className="text-[11px] text-on-surface-variant mt-1">
+            {normalizedSkills.length > 0
+              ? `Skill progress across ${normalizedSkills.length} tracked skill${normalizedSkills.length > 1 ? 's' : ''}`
+              : 'Add skills in Skill Progress to track'}
+          </p>
         </div>
       </div>
 
-      {/* Main Grid: Recommended Feed (Col 8) + Sidebar Widgets (Col 4) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
-        {/* Left Column (8 cols): Top Matches + Current Sprint */}
-        <div className="lg:col-span-8 space-y-space-lg">
-          {/* Active Roadmap Sprint Progress Card */}
+      {/* Main Content Feed (Full Width) */}
+      <div className="space-y-space-lg">
+        {/* Active Roadmap Sprint Progress Card */}
           {currentSprint && (
             <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
               <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
@@ -337,95 +402,6 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
-
-        {/* Right Column (4 cols): Deadlines + Quick Tools */}
-        <div className="lg:col-span-4 space-y-space-lg">
-          {/* Upcoming Deadlines & Interviews */}
-          <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
-              <h3 className="font-title-md font-bold text-primary">Deadlines &amp; Events</h3>
-              <span className="text-xs font-bold text-secondary cursor-pointer" onClick={() => navigate('my-applications')}>
-                View Board
-              </span>
-            </div>
-
-            <div className="divide-y divide-surface-container-high mt-3">
-              {applications.length === 0 ? (
-                <div className="py-6 flex flex-col items-center gap-2 text-center">
-                  <span className="material-symbols-outlined text-[28px] text-secondary/40">event_busy</span>
-                  <p className="text-xs text-on-surface-variant">No applications yet.</p>
-                  <button
-                    type="button"
-                    onClick={() => navigate('explore-internships')}
-                    className="text-xs text-secondary font-semibold hover:underline mt-1"
-                  >
-                    Start applying →
-                  </button>
-                </div>
-              ) : (
-                applications.slice(0, 4).map((app) => (
-                  <div key={app.id} className="py-3 first:pt-0 last:pb-0">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-xs font-bold text-primary">{app.company}</p>
-                        <p className="text-[11px] text-on-surface-variant">{app.role}</p>
-                      </div>
-                      <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-semibold uppercase">
-                        {app.column}
-                      </span>
-                    </div>
-                    <p className="text-xs text-secondary font-medium mt-1.5 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[14px]">event</span>
-                      {app.nextEvent}
-                    </p>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Quick Preparation Tools Widget */}
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-primary-container to-primary text-on-primary shadow-sm">
-            <h3 className="font-headline-sm text-base font-bold text-white">AI Practice Room</h3>
-            <p className="text-xs text-on-primary-container mt-1">
-              Practice mock interviews with AI feedback tailored to your target roles and skill set.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => navigate('mock-interview')}
-              className="w-full mt-4 py-2.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all flex items-center justify-center gap-2 shadow-sm"
-            >
-              <span className="material-symbols-outlined text-[16px]">mic</span>
-              <span>Launch Mock Interview</span>
-            </button>
-          </div>
-
-          {/* Resume Quick Stats */}
-          <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-title-md font-bold text-primary">Resume ATS Health</h4>
-                <p className="text-xs text-on-surface-variant mt-0.5">Upload your resume to get started</p>
-              </div>
-              <span className="text-2xl font-extrabold text-secondary">—</span>
-            </div>
-
-            <div className="mt-3 p-2.5 rounded-lg bg-surface-container-low text-xs text-on-surface-variant">
-              <span className="font-semibold text-primary block mb-0.5">Get Started:</span>
-              Upload your resume on the Resume Analyzer page to receive AI-powered ATS feedback.
-            </div>
-
-            <button
-              type="button"
-              onClick={() => navigate('resume-analyzer')}
-              className="w-full mt-3 py-2 rounded-lg border border-secondary text-secondary text-xs font-semibold hover:bg-secondary hover:text-on-secondary transition-colors"
-            >
-              Analyze &amp; Optimize
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
   );
 }
