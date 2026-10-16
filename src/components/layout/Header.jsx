@@ -3,7 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Header({ setMobileOpen }) {
-  const { globalSearch, setGlobalSearch, navigate, internships } = useApp();
+  const { globalSearch, setGlobalSearch, navigate } = useApp();
   const { currentUser, userProfile, logout } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -11,28 +11,6 @@ export default function Header({ setMobileOpen }) {
 
   const displayName = userProfile?.name || currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Student Candidate';
   const displayPhoto = currentUser?.photoURL || userProfile?.photoURL || '/images/student_avatar.png';
-  const readiness = userProfile?.readinessScore || 86;
-
-  // Cmd + K shortcut to focus search
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const handleQuickMatch = () => {
-    const best = [...internships].sort((a, b) => b.matchScore - a.matchScore)[0];
-    if (best) {
-      navigate('internship-details', best.id);
-    } else {
-      navigate('explore-internships');
-    }
-  };
 
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter') {
@@ -76,29 +54,6 @@ export default function Header({ setMobileOpen }) {
 
       {/* Right Actions Cluster */}
       <div className="flex items-center gap-space-sm lg:gap-space-md relative">
-        {/* AI Readiness Badge */}
-        <div
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tertiary-fixed/30 border border-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md font-semibold cursor-pointer"
-          onClick={() => navigate('roadmap')}
-          title="Click to view preparation roadmap"
-        >
-          <span className="material-symbols-outlined text-[16px] text-on-tertiary-container">
-            auto_awesome
-          </span>
-          <span>AI Readiness {readiness}%</span>
-        </div>
-
-        {/* Quick AI Match Button */}
-        <button
-          type="button"
-          onClick={handleQuickMatch}
-          className="inline-flex items-center gap-1.5 px-3 lg:px-4 py-2 rounded-lg bg-secondary text-on-secondary font-title-md text-title-md hover:bg-secondary-container transition-all shadow-sm"
-        >
-          <span className="material-symbols-outlined text-[18px]">temp_preferences_custom</span>
-          <span className="hidden sm:inline">Quick AI Match</span>
-        </button>
-
-        <div className="h-6 w-px bg-surface-container-high hidden sm:block"></div>
 
         {/* Notifications Dropdown */}
         <div className="relative">
