@@ -155,6 +155,7 @@ export default function ResumeAnalyzerPage() {
     internships,
     fetchLiveInternships,
     navigate,
+    openApplyAndTrack,
   } = useApp();
 
   const [isDragging, setIsDragging] = useState(false);
@@ -989,25 +990,14 @@ export default function ResumeAnalyzerPage() {
                         >
                           View Details
                         </button>
-                        {internship.applyUrl && internship.applyUrl !== '#' ? (
-                          <a
-                            href={internship.applyUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all text-center flex items-center justify-center gap-1"
-                          >
-                            <span>Apply Now</span>
-                            <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                          </a>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => navigate('internship-details', internship.id)}
-                            className="flex-1 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all text-center"
-                          >
-                            Apply via Portal
-                          </button>
-                        )}
+                        <button
+                          type="button"
+                          onClick={() => openApplyAndTrack(internship)}
+                          className="flex-1 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all text-center flex items-center justify-center gap-1 shadow-sm"
+                        >
+                          <span>Apply Now</span>
+                          <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                        </button>
                       </div>
                     </div>
                   );

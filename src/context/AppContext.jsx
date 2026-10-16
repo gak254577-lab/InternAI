@@ -9,6 +9,7 @@ import {
 } from './initialData';
 import { fetchAdzunaInternships } from '../services/adzunaService';
 import { fetchLinkedInInternships } from '../services/linkedinService';
+import { useToast } from './ToastContext';
 
 const AppContext = createContext(null);
 
@@ -119,6 +120,39 @@ export function AppProvider({ children }) {
   // Global Search State
   const [globalSearch, setGlobalSearch] = useState('');
 
+  // "Did you apply?" Return tracking state
+  const { showToast } = useToast() || {};
+  const [pendingApplyJob, setPendingApplyJob] = useState(() => {
+    try {
+      const saved = localStorage.getItem('internai_pending_apply');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [showApplyModal, setShowApplyModal] = useState(false);
+
+  // Return-from-external-site detection when user tabs back
+  useEffect(() => {
+    const handleFocus = () => {
+      try {
+        const stored = localStorage.getItem('internai_pending_apply');
+        if (stored) {
+          const job = JSON.parse(stored);
+          if (job && (job.id || job.title)) {
+            setPendingApplyJob(job);
+            setTimeout(() => {
+              setShowApplyModal(true);
+            }, 350);
+          }
+        }
+      } catch (_) {}
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, []);
+
   // Persist handlers
   useEffect(() => {
     localStorage.setItem('internai_student_profile', JSON.stringify(studentProfile));
@@ -185,6 +219,118 @@ export function AppProvider({ children }) {
 
   const deleteApplication = (appId) => {
     setApplications((prev) => prev.filter((app) => app.id !== appId));
+  };
+
+  /**
+   * Opens the external internship application link and stores the job
+   * in pending state so that when the user returns to the tab, the
+   * "Did you apply?" confirmation popup displays.
+   */
+  const openApplyAndTrack = (job) => {
+    if (!job) return;
+    const externalUrl =
+      job.applyUrl ||
+      job.url ||
+      job.externalUrl ||
+      (job.source === 'linkedin'
+        ? `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent((job.title || '') + ' ' + (job.company || ''))}`
+        : `https://internshala.com/internships/${encodeURIComponent(job.title || 'software')}`);
+
+    setPendingApplyJob(job);
+    try {
+      localStorage.setItem('internai_pending_apply', JSON.stringify(job));
+    } catch (_) {}
+
+    window.open(externalUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  /**
+   * Called when the user confirms they applied from the popup.
+   * Automatically adds the application to the 'applied' pipeline column.
+   */
+  const confirmApplied = (jobOverride = null) => {
+    const targetJob = jobOverride || pendingApplyJob;
+    if (targetJob) {
+      const alreadyApplied = applications.some((a) => a.internshipId === targetJob.id);
+      if (!alreadyApplied) {
+        addApplication({
+          internshipId: targetJob.id,
+          company: targetJob.company || 'Company',
+          role: targetJob.title || 'Intern',
+          status: 'applied',
+          column: 'applied',
+          location: targetJob.location || 'Remote / India',
+          stipend: targetJob.stipend
+            ? typeof targetJob.stipend === 'number'
+              ? `₹${targetJob.stipend.toLocaleString()}/mo`
+              : targetJob.stipend
+            : '',
+          nextEvent: 'Application Submitted • Awaiting Recruiter Review',
+          notes: `Applied externally via ${targetJob.source === 'linkedin' ? 'LinkedIn' : targetJob.source === 'adzuna' ? 'Adzuna' : 'career portal'}.`,
+          appliedExternally: true,
+        });
+        if (showToast) {
+          showToast(`Added application for ${targetJob.company || 'internship'} to your Tracker!`, 'success');
+        }
+      } else {
+        if (showToast) {
+          showToast(`Application for ${targetJob.company || 'this role'} is already tracked!`, 'info');
+        }
+      }
+    }
+    setShowApplyModal(false);
+    setPendingApplyJob(null);
+    try {
+      localStorage.removeItem('internai_pending_apply');
+    } catch (_) {}
+  };
+
+  /**
+   * Called when user chooses to save the internship for later from the popup.
+   * Adds the application under the 'saved' wishlist column.
+   */
+  const saveApplyForLater = (jobOverride = null) => {
+    const targetJob = jobOverride || pendingApplyJob;
+    if (targetJob) {
+      const alreadyExists = applications.some((a) => a.internshipId === targetJob.id);
+      if (!alreadyExists) {
+        addApplication({
+          internshipId: targetJob.id,
+          company: targetJob.company || 'Company',
+          role: targetJob.title || 'Intern',
+          status: 'saved',
+          column: 'saved',
+          location: targetJob.location || 'Remote / India',
+          stipend: targetJob.stipend
+            ? typeof targetJob.stipend === 'number'
+              ? `₹${targetJob.stipend.toLocaleString()}/mo`
+              : targetJob.stipend
+            : '',
+          nextEvent: 'Saved in Wishlist • Apply soon',
+          notes: 'Saved after visiting external portal.',
+          appliedExternally: false,
+        });
+        if (showToast) {
+          showToast(`Saved ${targetJob.company || 'internship'} to your Applications Wishlist!`, 'info');
+        }
+      }
+    }
+    setShowApplyModal(false);
+    setPendingApplyJob(null);
+    try {
+      localStorage.removeItem('internai_pending_apply');
+    } catch (_) {}
+  };
+
+  /**
+   * Dismiss the "Did you apply?" popup without adding to applications.
+   */
+  const dismissApplyModal = () => {
+    setShowApplyModal(false);
+    setPendingApplyJob(null);
+    try {
+      localStorage.removeItem('internai_pending_apply');
+    } catch (_) {}
   };
 
   const toggleRoadmapTask = (milestoneId, taskId) => {
@@ -434,6 +580,13 @@ export function AppProvider({ children }) {
         selectedApplicationId,
         setSelectedApplicationId,
         navigateToInterview,
+        // Global Apply Tracking & Confirmation Modal
+        pendingApplyJob,
+        showApplyModal,
+        openApplyAndTrack,
+        confirmApplied,
+        saveApplyForLater,
+        dismissApplyModal,
       }}
     >
       {children}

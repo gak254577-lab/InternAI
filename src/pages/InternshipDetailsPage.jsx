@@ -3,99 +3,19 @@ import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import { checkEligibility } from '../utils/eligibility';
 
-// ─── "Did You Apply?" Confirmation Modal ─────────────────────────────────────
-function ApplyConfirmationModal({ job, onYes, onNo, onLater, onClose }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}
-    >
-      <div
-        className="relative w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-high p-6 space-y-5"
-        style={{ background: 'var(--color-surface-container-lowest, #fff)' }}
-      >
-        {/* Close X */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors"
-          aria-label="Dismiss"
-        >
-          <span className="material-symbols-outlined text-[20px]">close</span>
-        </button>
 
-        {/* Icon + heading */}
-        <div className="flex flex-col items-center text-center gap-3 pt-2">
-          <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center">
-            <span className="material-symbols-outlined text-4xl text-secondary">help_outline</span>
-          </div>
-          <div>
-            <h2 className="text-lg font-extrabold text-primary leading-tight">
-              Did you submit your application?
-            </h2>
-            <p className="text-xs text-on-surface-variant mt-1">
-              You visited <strong>{job?.company || 'the company'}</strong>'s external site.
-              Let us know so we can track your progress.
-            </p>
-          </div>
-        </div>
-
-        {/* Job summary pill */}
-        {job && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high">
-            <div className={`w-10 h-10 rounded-xl ${job.logoBg} flex items-center justify-center font-extrabold text-lg flex-shrink-0`}>
-              {job.logoText}
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-bold text-on-surface truncate">{job.title}</p>
-              <p className="text-xs text-on-surface-variant truncate">{job.company} · {job.location}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Action buttons */}
-        <div className="space-y-2.5">
-          <button
-            type="button"
-            onClick={onYes}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all"
-          >
-            <span className="material-symbols-outlined text-[18px]">check_circle</span>
-            Yes, I applied! ✅
-          </button>
-          <button
-            type="button"
-            onClick={onLater}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-secondary text-secondary font-bold text-sm hover:bg-secondary/10 transition-all"
-          >
-            <span className="material-symbols-outlined text-[18px]">schedule</span>
-            I'll apply later
-          </button>
-          <button
-            type="button"
-            onClick={onNo}
-            className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-on-surface-variant text-sm font-medium hover:bg-surface-container transition-all"
-          >
-            <span className="material-symbols-outlined text-[16px]">cancel</span>
-            No, I didn't apply
-          </button>
-        </div>
-
-        <p className="text-center text-[10px] text-outline leading-relaxed">
-          Your tracking data is stored locally and helps you manage your application pipeline.
-        </p>
-      </div>
-    </div>
-  );
-}
-// ─────────────────────────────────────────────────────────────────────────────
 
 export default function InternshipDetailsPage() {
-  const { selectedInternship, bookmarks, toggleBookmark, addApplication, navigate, applications, studentProfile } = useApp();
+  const {
+    selectedInternship,
+    bookmarks,
+    toggleBookmark,
+    navigate,
+    applications,
+    studentProfile,
+    openApplyAndTrack,
+  } = useApp();
   const { userProfile } = useAuth();
-  const [appliedSuccess, setAppliedSuccess] = useState(false);
-  const [showApplyModal, setShowApplyModal] = useState(false);
-  const pendingExternalApply = useRef(false);
 
   const job = selectedInternship;
   const isSaved = bookmarks.includes(job?.id);
@@ -104,28 +24,6 @@ export default function InternshipDetailsPage() {
   // Prefer the real Firestore profile; fall back to the mock profile if it isn't loaded.
   const profile = userProfile || studentProfile;
   const eligibility = useMemo(() => checkEligibility(profile, job || {}), [profile, job]);
-
-  // ── Return-from-external-site detection ──────────────────────────────────
-  // NOTE: window.open() keeps the original tab 'visible', so visibilitychange
-  // does NOT fire. window 'focus' fires reliably when the user tabs back.
-  const fallbackTimerRef = useRef(null);
-
-  const triggerModal = useCallback(() => {
-    if (!pendingExternalApply.current) return;
-    pendingExternalApply.current = false;
-    if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
-    // Small delay so the page paint settles before the modal pops in
-    setTimeout(() => setShowApplyModal(true), 350);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('focus', triggerModal);
-    return () => {
-      window.removeEventListener('focus', triggerModal);
-      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
-    };
-  }, [triggerModal]);
-  // ─────────────────────────────────────────────────────────────────────────
 
   if (!job) {
     return (
@@ -146,84 +44,13 @@ export default function InternshipDetailsPage() {
     );
   }
 
-  /**
-   * Opens the external apply URL in a new tab and arms the
-   * visibility-change listener so we can prompt the user on return.
-   */
   const handleExternalApply = () => {
-    const externalUrl = job?.applyUrl || job?.url || job?.externalUrl ||
-      (job?.source === 'linkedin'
-        ? `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent((job.title || '') + ' ' + (job.company || ''))}`
-        : `https://internshala.com/internships/${encodeURIComponent(job?.title || 'software')}`);
-
-    // Arm the listener BEFORE opening the tab
-    pendingExternalApply.current = true;
-    window.open(externalUrl, '_blank', 'noopener,noreferrer');
-
-    // Fallback: if the user doesn't switch tabs but closes the new one directly,
-    // show the modal after 10 seconds anyway.
-    fallbackTimerRef.current = setTimeout(() => {
-      if (pendingExternalApply.current) triggerModal();
-    }, 10000);
-  };
-
-  /** Called when user confirms "Yes, I applied" from the modal */
-  const handleConfirmApplied = () => {
-    setShowApplyModal(false);
-    if (!alreadyApplied) {
-      addApplication({
-        internshipId: job.id,
-        company: job.company,
-        role: job.title,
-        status: 'applied',
-        location: job.location,
-        stipend: job.stipend ? `₹${job.stipend.toLocaleString()}/mo` : '',
-        nextEvent: 'Application Submitted • Awaiting Recruiter Review',
-        notes: `Applied externally via ${job.source === 'linkedin' ? 'LinkedIn' : 'external site'}. AI Match Score: ${job.matchScore ?? '—'}%.`,
-        column: 'applied',
-        appliedExternally: true,
-      });
-    }
-    setAppliedSuccess(true);
-    setTimeout(() => navigate('my-applications'), 1200);
-  };
-
-  /** Called when user says "I'll apply later" */
-  const handleApplyLater = () => {
-    setShowApplyModal(false);
-    if (!alreadyApplied) {
-      addApplication({
-        internshipId: job.id,
-        company: job.company,
-        role: job.title,
-        status: 'pending',
-        location: job.location,
-        stipend: job.stipend ? `₹${job.stipend.toLocaleString()}/mo` : '',
-        nextEvent: 'Pending — Application not yet submitted',
-        notes: `Visited external site but did not apply yet. AI Match Score: ${job.matchScore ?? '—'}%.`,
-        column: 'applied',
-        appliedExternally: false,
-      });
-    }
-  };
-
-  /** Called when user says "No, I didn't apply" — just dismiss */
-  const handleDidNotApply = () => {
-    setShowApplyModal(false);
+    openApplyAndTrack(job);
   };
 
   return (
     <div className="p-space-md lg:p-space-lg max-w-7xl mx-auto space-y-space-lg">
-      {/* ── "Did You Apply?" Modal ── */}
-      {showApplyModal && (
-        <ApplyConfirmationModal
-          job={job}
-          onYes={handleConfirmApplied}
-          onNo={handleDidNotApply}
-          onLater={handleApplyLater}
-          onClose={handleDidNotApply}
-        />
-      )}
+
       {/* Back button breadcrumb */}
       <div className="flex items-center justify-between">
         <button

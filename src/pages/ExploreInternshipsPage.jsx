@@ -19,6 +19,7 @@ export default function ExploreInternshipsPage() {
     linkedinLoading,
     linkedinError,
     isRapidApiConfigured,
+    openApplyAndTrack,
   } = useApp();
 
   // Filters State
@@ -576,15 +577,14 @@ export default function ExploreInternshipsPage() {
                         </span>
                       </button>
 
-                      <a
-                        href={job.applyUrl || '#'}
-                        target="_blank"
-                        rel="noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => openApplyAndTrack(job)}
                         className="px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all shadow-sm flex items-center gap-1"
                       >
                         <span>Apply Now</span>
                         <span className="material-symbols-outlined text-[16px]">open_in_new</span>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
