@@ -6,11 +6,7 @@
       "destination": "https://api.adzuna.com/v1/api/:path*"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]

@@ -58,22 +58,26 @@ export async function extractResumeText(buffer, originalname = '', mimetype = ''
     try {
       if (typeof pdfParse === 'function') {
         const data = await pdfParse(buffer);
-        return (data.text || '').trim();
+        const text = (data.text || '').trim();
+        if (text.length >= 30) return text;
       } else if (pdfParse?.PDFParse) {
         const parser = new pdfParse.PDFParse({ data: buffer });
         const result = await parser.getText();
         if (typeof parser.destroy === 'function') {
           await parser.destroy();
         }
-        return (result?.text || '').trim();
+        const text = (result?.text || '').trim();
+        if (text.length >= 30) return text;
       } else if (typeof pdfParse?.default === 'function') {
         const data = await pdfParse.default(buffer);
-        return (data.text || '').trim();
+        const text = (data.text || '').trim();
+        if (text.length >= 30) return text;
       }
     } catch (pdfErr) {
-      console.warn('[resumeAnalyzer] PDF extraction error:', pdfErr.message);
-      throw new Error(`Failed to extract text from PDF: ${pdfErr.message}`);
+      console.warn('[resumeAnalyzer] Local PDF parser notice (falling back to Gemini native PDF reader):', pdfErr.message);
     }
+    // Return empty so analyzeResumeWithGemini will send the PDF buffer directly to Gemini
+    return '';
   }
 
   // Fallback: try utf-8 string
@@ -120,20 +124,31 @@ export function calculateATSScore(breakdown) {
  *
  * @param {string} resumeText - Extracted text from candidate's resume
  * @param {string[]} [targetRoles=[]] - Candidate's target internship roles
+ * @param {Buffer} [fileBuffer=null] - Optional raw file buffer for multimodal PDF analysis
+ * @param {string} [mimeType=''] - Optional MIME type of the uploaded file
  * @returns {Promise<object>} Structured analysis result
  */
-export async function analyzeResumeWithGemini(resumeText, targetRoles = []) {
+export async function analyzeResumeWithGemini(
+  resumeText = '',
+  targetRoles = [],
+  fileBuffer = null,
+  mimeType = ''
+) {
   const apiKey = getFreshApiKey();
   if (!apiKey) {
     throw new Error(
-      'GEMINI_API_KEY is not configured on the server. Please check your .env file.'
+      'GEMINI_API_KEY is not configured on the server. Please add GEMINI_API_KEY to your Vercel Environment Variables.'
     );
   }
 
   const cleanedText = (resumeText || '').trim();
-  if (cleanedText.length < 50) {
+  const isPdf =
+    mimeType === 'application/pdf' ||
+    (fileBuffer && fileBuffer.length > 4 && fileBuffer.slice(0, 4).toString() === '%PDF');
+
+  if (cleanedText.length < 50 && (!fileBuffer || !isPdf)) {
     throw new Error(
-      'The uploaded document contains too little text to analyze. Please ensure your resume is not an image-only scan and contains readable text.'
+      'The uploaded document contains too little readable text to analyze. Please ensure your resume is not empty or corrupted.'
     );
   }
 
@@ -153,10 +168,14 @@ export async function analyzeResumeWithGemini(resumeText, targetRoles = []) {
   const prompt = `
 You are an ATS and career-advisory assistant analyzing a student's resume for an internship application platform.
 
-Resume text (raw extracted text from PDF/DOCX/TXT):
+${
+  cleanedText.length >= 50
+    ? `Resume text (raw extracted text from document):
 """
 ${cleanedText.slice(0, 10000)}
-"""
+"""`
+    : `Please read and analyze the attached resume document directly.`
+}
 
 Target internship:
 - Role: ${targetRoleStr}
@@ -266,7 +285,20 @@ Return ONLY valid JSON, no markdown formatting, no commentary, in exactly this s
         },
       });
 
-      const result = await model.generateContent(prompt);
+      const payload =
+        isPdf && fileBuffer
+          ? [
+              {
+                inlineData: {
+                  data: fileBuffer.toString('base64'),
+                  mimeType: 'application/pdf',
+                },
+              },
+              prompt,
+            ]
+          : prompt;
+
+      const result = await model.generateContent(payload);
       const responseText = result.response.text();
 
       const parsed = JSON.parse(responseText);
