@@ -16,8 +16,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
     { id: 'my-applications', label: 'My Applications', icon: 'send' },
     { id: 'preparation-roadmap', label: 'Preparation Roadmap', icon: 'alt_route' },
     { id: 'mock-interview', label: 'Mock Interview', icon: 'mic' },
-    { id: 'skill-progress', label: 'Skill Progress', icon: 'trending_up' },
-    { id: 'profile', label: 'Profile', icon: 'person' }
+    { id: 'skill-progress', label: 'Skill Progress', icon: 'trending_up' }
   ];
 
   const secondaryItems = [
@@ -134,7 +133,11 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
 
           {/* Mini Student Profile Card */}
           <div
-            className="mx-space-sm p-space-sm rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col gap-space-xs cursor-pointer hover:border-secondary transition-all"
+            className={`mx-space-sm p-space-sm rounded-xl border flex flex-col gap-space-xs cursor-pointer transition-all ${
+              currentRoute === 'profile'
+                ? 'bg-surface-container border-secondary ring-1 ring-secondary/30 shadow-sm'
+                : 'bg-surface-container-low border-surface-container-high hover:border-secondary'
+            }`}
             onClick={() => {
               navigate('profile');
               if (setMobileOpen) setMobileOpen(false);
