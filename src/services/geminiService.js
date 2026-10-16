@@ -31,15 +31,32 @@ export async function uploadAndAnalyzeResume(file, targetRoles = []) {
     throw new Error('File size exceeds the 10 MB limit. Please upload a smaller file.');
   }
 
-  const formData = new FormData();
-  formData.append('resume', file);
-  if (targetRoles && targetRoles.length > 0) {
-    formData.append('targetRoles', JSON.stringify(targetRoles));
-  }
+  const base64Data = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result === 'string') {
+        const commaIndex = result.indexOf(',');
+        resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
+      } else {
+        resolve('');
+      }
+    };
+    reader.onerror = () => reject(new Error('Failed to read the selected file.'));
+    reader.readAsDataURL(file);
+  });
 
   const response = await fetch('/api/analyze-resume', {
     method: 'POST',
-    body: formData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      fileData: base64Data,
+      fileName: file.name,
+      fileType: file.type || (ext === '.pdf' ? 'application/pdf' : 'text/plain'),
+      targetRoles,
+    }),
   });
 
   const data = await response.json().catch(() => ({}));

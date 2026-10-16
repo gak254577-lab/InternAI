@@ -3,7 +3,7 @@ import { extractResumeText, analyzeResumeWithGemini } from '../server/resumeAnal
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+  limits: { fileSize: 10 * 1024 * 1024 },
 }).single('resume');
 
 function runMiddleware(req, res, fn) {
@@ -15,66 +15,74 @@ function runMiddleware(req, res, fn) {
   });
 }
 
+function readBody(req) {
+  if (req.body && typeof req.body === 'object') return Promise.resolve(req.body);
+  return new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', (chunk) => { data += chunk; });
+    req.on('end', () => {
+      try { resolve(JSON.parse(data || '{}')); }
+      catch { resolve({}); }
+    });
+    req.on('error', reject);
+  });
+}
+
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
-    await runMiddleware(req, res, upload);
-  } catch (err) {
-    console.error('[API analyze-resume] Multer error:', err);
-    return res.status(400).json({ error: err.message || 'File upload failed' });
-  }
-
-  if (!req.file) {
-    return res.status(400).json({ error: 'No resume file uploaded. Please select a file.' });
-  }
-
-  try {
+    let fileBuffer = null;
+    let fileName = '';
+    let mimeType = '';
     let targetRoles = [];
-    if (req.body?.targetRoles) {
-      try {
-        targetRoles = typeof req.body.targetRoles === 'string'
-          ? JSON.parse(req.body.targetRoles)
-          : req.body.targetRoles;
-      } catch {
-        targetRoles = [String(req.body.targetRoles)];
+
+    const contentType = req.headers['content-type'] || '';
+
+    if (contentType.includes('application/json')) {
+      const body = await readBody(req);
+      if (!body.fileData) {
+        return res.status(400).json({ error: 'No resume file data provided.' });
+      }
+      fileBuffer = Buffer.from(body.fileData, 'base64');
+      fileName = body.fileName || 'resume.pdf';
+      mimeType = body.fileType || (fileName.endsWith('.pdf') ? 'application/pdf' : 'text/plain');
+      targetRoles = Array.isArray(body.targetRoles) ? body.targetRoles : [];
+    } else {
+      await runMiddleware(req, res, upload);
+      if (!req.file) {
+        return res.status(400).json({ error: 'No resume file uploaded. Please select a file.' });
+      }
+      fileBuffer = req.file.buffer;
+      fileName = req.file.originalname;
+      mimeType = req.file.mimetype;
+      if (req.body?.targetRoles) {
+        try {
+          targetRoles = typeof req.body.targetRoles === 'string'
+            ? JSON.parse(req.body.targetRoles)
+            : req.body.targetRoles;
+        } catch {
+          targetRoles = [String(req.body.targetRoles)];
+        }
       }
     }
 
-    // 1. Attempt text extraction from file buffer
-    const resumeText = await extractResumeText(
-      req.file.buffer,
-      req.file.originalname,
-      req.file.mimetype
-    );
-
-    // 2. Perform Gemini analysis (with raw buffer fallback for PDFs)
-    const analysis = await analyzeResumeWithGemini(
-      resumeText,
-      targetRoles,
-      req.file.buffer,
-      req.file.mimetype
-    );
+    const resumeText = await extractResumeText(fileBuffer, fileName, mimeType);
+    const analysis = await analyzeResumeWithGemini(resumeText, targetRoles, fileBuffer, mimeType);
 
     return res.status(200).json({
       success: true,
-      fileName: req.file.originalname,
-      fileSize: req.file.size,
+      fileName,
+      fileSize: fileBuffer.length,
       ...analysis,
     });
   } catch (err) {
-    console.error('[API analyze-resume] Analysis error:', err);
+    console.error('[API analyze-resume error]:', err);
     const status = err.status || 500;
     return res.status(status).json({
       error: err.message || 'Failed to analyze resume.',
@@ -83,8 +91,5 @@ export default async function handler(req, res) {
 }
 
 export const config = {
-  api: {
-    bodyParser: false,
-    maxDuration: 60,
-  },
+  maxDuration: 60,
 };

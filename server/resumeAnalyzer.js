@@ -24,8 +24,13 @@ function getFreshApiKey() {
   return process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
 }
 
-const require = createRequire(import.meta.url);
-const pdfParse = require('pdf-parse');
+let pdfParse = null;
+try {
+  const require = createRequire(import.meta.url);
+  pdfParse = require('pdf-parse');
+} catch (e) {
+  console.warn('[resumeAnalyzer] pdf-parse unavailable, falling back to native Gemini PDF reader');
+}
 
 /**
  * Extract raw text from an uploaded file buffer based on MIME type or extension.

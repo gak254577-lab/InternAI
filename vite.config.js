@@ -13,11 +13,62 @@ function resumeAnalyzerPlugin() {
   return {
     name: 'resume-analyzer-api',
     configureServer(server) {
-      server.middlewares.use('/api/analyze-resume', (req, res) => {
+      server.middlewares.use('/api/analyze-resume', async (req, res) => {
         if (req.method !== 'POST') {
           res.statusCode = 405;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ error: 'Method Not Allowed' }));
+          return;
+        }
+
+        const contentType = req.headers['content-type'] || '';
+
+        const handleProcess = async (fileBuffer, fileName, mimeType, targetRoles) => {
+          try {
+            const resumeText = await extractResumeText(fileBuffer, fileName, mimeType);
+            const analysis = await analyzeResumeWithGemini(resumeText, targetRoles, fileBuffer, mimeType);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({
+              success: true,
+              fileName,
+              fileSize: fileBuffer.length,
+              ...analysis,
+            }));
+          } catch (analysisErr) {
+            console.error('[API /api/analyze-resume error]:', analysisErr);
+            const status = analysisErr.status || 500;
+            res.statusCode = status;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({
+              error: analysisErr.message || 'Failed to analyze resume',
+            }));
+          }
+        };
+
+        if (contentType.includes('application/json')) {
+          let data = '';
+          req.on('data', (chunk) => { data += chunk; });
+          req.on('end', async () => {
+            try {
+              const body = JSON.parse(data || '{}');
+              if (!body.fileData) {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: 'No resume file data provided.' }));
+                return;
+              }
+              const fileBuffer = Buffer.from(body.fileData, 'base64');
+              const fileName = body.fileName || 'resume.pdf';
+              const mimeType = body.fileType || (fileName.endsWith('.pdf') ? 'application/pdf' : 'text/plain');
+              const targetRoles = Array.isArray(body.targetRoles) ? body.targetRoles : [];
+              await handleProcess(fileBuffer, fileName, mimeType, targetRoles);
+            } catch (err) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: err.message || 'Invalid JSON body' }));
+            }
+          });
           return;
         }
 
@@ -36,46 +87,18 @@ function resumeAnalyzerPlugin() {
             return;
           }
 
-          try {
-            // 1. Text extraction using suitable PDF/DOCX/TXT libraries
-            const resumeText = await extractResumeText(
-              req.file.buffer,
-              req.file.originalname,
-              req.file.mimetype
-            );
-
-            // 2. Parse target roles if provided
-            let targetRoles = [];
-            if (req.body?.targetRoles) {
-              try {
-                targetRoles = typeof req.body.targetRoles === 'string'
-                  ? JSON.parse(req.body.targetRoles)
-                  : req.body.targetRoles;
-              } catch {
-                targetRoles = [String(req.body.targetRoles)];
-              }
+          let targetRoles = [];
+          if (req.body?.targetRoles) {
+            try {
+              targetRoles = typeof req.body.targetRoles === 'string'
+                ? JSON.parse(req.body.targetRoles)
+                : req.body.targetRoles;
+            } catch {
+              targetRoles = [String(req.body.targetRoles)];
             }
-
-            // 3. Gemini Flash analysis & ATS score calculation
-            const analysis = await analyzeResumeWithGemini(resumeText, targetRoles);
-
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({
-              success: true,
-              fileName: req.file.originalname,
-              fileSize: req.file.size,
-              ...analysis
-            }));
-          } catch (analysisErr) {
-            console.error('[API /api/analyze-resume error]:', analysisErr);
-            const status = analysisErr.status || 500;
-            res.statusCode = status;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({
-              error: analysisErr.message || 'Failed to analyze resume'
-            }));
           }
+
+          await handleProcess(req.file.buffer, req.file.originalname, req.file.mimetype, targetRoles);
         });
       });
     }
