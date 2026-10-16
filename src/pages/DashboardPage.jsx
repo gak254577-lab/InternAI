@@ -62,26 +62,6 @@ export default function DashboardPage() {
             {profile.degree || 'Engineering Student'} {profile.college ? `• ${profile.college}` : ''}
           </p>
         </div>
-
-        <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => navigate('profile')}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-container-lowest border border-surface-container-high text-on-surface text-xs font-semibold hover:bg-surface-container-low transition-colors"
-          >
-            <span className="material-symbols-outlined text-[16px]">tune</span>
-            <span>Preferences</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('roadmap')}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary-container text-on-primary text-xs font-semibold hover:bg-primary transition-all shadow-sm"
-          >
-            <span className="material-symbols-outlined text-[16px] text-on-tertiary-container">bolt</span>
-            <span>Refresh AI Matches</span>
-          </button>
-        </div>
       </div>
 
       {/* Onboarding Prompt Banner for New / Incomplete Users */}
