@@ -291,21 +291,7 @@ export default function ResumeAnalyzerPage() {
 
   const handleDragLeave = () => setIsDragging(false);
 
-  // Matched internships list (from analysis state or freshly calculated)
-  const recommendedInternships = useMemo(() => {
-    if (resumeAnalysis?.recommendedInternships?.length > 0) {
-      return resumeAnalysis.recommendedInternships;
-    }
-    if (resumeAnalysis?.parsedData?.extractedSkills?.length > 0) {
-      const candidateProfile = {
-        extractedSkills: resumeAnalysis.parsedData.extractedSkills,
-        targetRoles: studentProfile?.targetRoles || ['Software Engineering Intern'],
-      };
-      const pool = internships && internships.length > 0 ? internships : FALLBACK_INTERNSHIPS;
-      return matchResumeWithInternships(candidateProfile, pool);
-    }
-    return [];
-  }, [resumeAnalysis, internships, studentProfile]);
+
 
   // Overall ATS score metrics
   const score = resumeAnalysis?.atsScore || 0;
@@ -863,153 +849,35 @@ export default function ResumeAnalyzerPage() {
             </div>
           )}
 
-          {/* Recommended Internships (Matched Against Existing Internships) */}
-          <div className="p-6 lg:p-8 rounded-3xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-surface-container-high">
+          {/* Link to AI Matching Section */}
+          <div className="p-6 lg:p-8 rounded-3xl bg-gradient-to-r from-secondary/10 via-primary-container/10 to-transparent border border-secondary/25 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-secondary text-on-secondary flex items-center justify-center flex-shrink-0 shadow-sm">
+                <span className="material-symbols-outlined text-[26px]">smart_toy</span>
+              </div>
               <div>
-                <h3 className="font-display text-lg font-extrabold text-primary flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[22px] text-secondary">recommend</span>
-                  Recommended Internships for Your Resume
-                </h3>
-                <p className="text-xs text-on-surface-variant mt-0.5">
-                  Single-pass matching against live listings — ranked by Resume Match Score with per-internship skill gap analysis.
+                <div className="flex items-center gap-2">
+                  <h3 className="font-display text-base font-extrabold text-primary">
+                    Recommended Internships for Your Resume
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-bold">
+                    AI Matching
+                  </span>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                  We've matched your extracted skills and profile against live internship listings with detailed skill gap analysis in the AI Matching section.
                 </p>
               </div>
-              <span className="text-xs font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full self-start sm:self-auto">
-                {recommendedInternships.length} Internships Matched
-              </span>
             </div>
 
-            {recommendedInternships.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {recommendedInternships.slice(0, 6).map((internship) => {
-                  const matchScore = internship.resumeMatchScore || 75;
-                  const matchColor =
-                    matchScore >= 80
-                      ? 'text-emerald-700 bg-emerald-50 border-emerald-200'
-                      : matchScore >= 60
-                      ? 'text-amber-700 bg-amber-50 border-amber-200'
-                      : 'text-rose-700 bg-rose-50 border-rose-200';
-
-                  return (
-                    <div
-                      key={internship.id}
-                      className="p-5 rounded-2xl bg-surface-container-low/60 border border-surface-container-high/80 hover:border-secondary/50 transition-all flex flex-col justify-between space-y-4 shadow-2xs hover:shadow-sm"
-                    >
-                      <div className="space-y-3">
-                        {/* Header: Logo, Title, Match Score */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-3 min-w-0">
-                            <div
-                              className={`w-11 h-11 rounded-xl font-bold flex items-center justify-center flex-shrink-0 text-sm ${
-                                internship.logoBg || 'bg-blue-100 text-blue-700'
-                              }`}
-                            >
-                              {internship.logoText || (internship.company?.charAt(0) || 'C')}
-                            </div>
-                            <div className="min-w-0">
-                              <h4 className="font-bold text-sm text-primary truncate">
-                                {internship.title}
-                              </h4>
-                              <p className="text-xs text-on-surface-variant font-medium">
-                                {internship.company} • {internship.location || 'India'}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Match Score Badge */}
-                          <div className={`px-2.5 py-1 rounded-xl text-xs font-black border flex items-center gap-1 flex-shrink-0 ${matchColor}`}>
-                            <span className="material-symbols-outlined text-[14px]">bolt</span>
-                            {matchScore}% Match
-                          </div>
-                        </div>
-
-                        {/* Stipend & Details */}
-                        <div className="flex flex-wrap items-center gap-3 text-[11px] text-on-surface-variant">
-                          <span className="font-bold text-primary">
-                            ₹{(internship.stipend || 20000).toLocaleString()}/mo
-                          </span>
-                          <span>•</span>
-                          <span>{internship.roleType || 'Full-Time Intern'}</span>
-                          <span>•</span>
-                          <span>{internship.duration || '3-6 months'}</span>
-                        </div>
-
-                        {/* Matched Skills */}
-                        {internship.matchedSkills && internship.matchedSkills.length > 0 && (
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">
-                              Matched Skills ({internship.matchedSkills.length})
-                            </span>
-                            <div className="flex flex-wrap gap-1.5">
-                              {internship.matchedSkills.map((s, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200 flex items-center gap-1"
-                                >
-                                  <span className="material-symbols-outlined text-[12px] text-emerald-600">done</span>
-                                  {s}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Missing Skills */}
-                        {internship.missingSkills && internship.missingSkills.length > 0 && (
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider block">
-                              Missing Skills ({internship.missingSkills.length})
-                            </span>
-                            <div className="flex flex-wrap gap-1.5">
-                              {internship.missingSkills.slice(0, 4).map((s, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-2 py-0.5 rounded bg-rose-50 text-rose-800 text-[11px] font-semibold border border-rose-200 flex items-center gap-1"
-                                >
-                                  <span className="material-symbols-outlined text-[12px] text-rose-500">close</span>
-                                  {s}
-                                </span>
-                              ))}
-                              {internship.missingSkills.length > 4 && (
-                                <span className="text-[10px] text-on-surface-variant self-center">
-                                  +{internship.missingSkills.length - 4} more
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Action buttons */}
-                      <div className="flex items-center gap-2 pt-2 border-t border-surface-container-high/60">
-                        <button
-                          type="button"
-                          onClick={() => navigate('internship-details', internship.id)}
-                          className="flex-1 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs font-bold transition-all text-center"
-                        >
-                          View Details
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => openApplyAndTrack(internship)}
-                          className="flex-1 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all text-center flex items-center justify-center gap-1 shadow-sm"
-                        >
-                          <span>Apply Now</span>
-                          <span className="material-symbols-outlined text-[14px]">open_in_new</span>
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="p-8 text-center bg-surface-container-low rounded-2xl">
-                <p className="text-sm text-on-surface-variant">
-                  Loading live internship listings to match against your resume...
-                </p>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => navigate('ai-matching')}
+              className="px-5 py-3 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all flex items-center justify-center gap-2 shadow-sm flex-shrink-0"
+            >
+              <span>View in AI Matching</span>
+              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
           </div>
         </div>
       )}

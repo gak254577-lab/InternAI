@@ -19,6 +19,7 @@ import HelpPage from './pages/HelpPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OnboardingPage from './pages/OnboardingPage';
+import AIMatchingPage from './pages/AIMatchingPage';
 
 function AppContent() {
   const { currentRoute, navigate } = useApp();
@@ -85,8 +86,9 @@ function AppContent() {
         return <DashboardPage />;
       case 'explore-internships':
       case 'explore':
-      case 'ai-matching':
         return <ExploreInternshipsPage />;
+      case 'ai-matching':
+        return <AIMatchingPage />;
       case 'internship-details':
         return <InternshipDetailsPage />;
       case 'resume-analyzer':
