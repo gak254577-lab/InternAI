@@ -14,11 +14,15 @@ npm install
 
 ### 2. Environment Variables (.env)
 
-The `.env` file is already included in the repository with **Firebase Authentication**, **Firestore**, **Adzuna Job Search**, and **RapidAPI** pre-configured. You can run the app immediately out of the box!
+Create a `.env` file by copying the template:
+```bash
+cp .env.example .env
+```
 
-> **Note on Gemini AI (Resume Analyzer):**
-> Due to GitHub security policies, the Gemini API key is left as a placeholder in `.env`.
-> To enable the AI Resume Analyzer, get a free key at [Google AI Studio](https://aistudio.google.com/apikey) and paste it into `.env`:
+Your `.env` file is ignored by Git, ensuring your API keys are never leaked to GitHub.
+
+> **Configuring Gemini AI:**
+> Get a free key at [Google AI Studio](https://aistudio.google.com/apikey) and add it to your `.env`:
 > ```env
 > GEMINI_API_KEY=your_gemini_api_key_here
 > VITE_GEMINI_API_KEY=your_gemini_api_key_here

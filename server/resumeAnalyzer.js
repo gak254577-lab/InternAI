@@ -1,15 +1,31 @@
+import fs from 'fs';
+import path from 'path';
 import { createRequire } from 'module';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import mammoth from 'mammoth';
 import dotenv from 'dotenv';
 
-// Load environment variables from .env
+// Load environment variables
 dotenv.config();
+
+function getFreshApiKey() {
+  for (const filename of ['.env.local', '.env']) {
+    try {
+      const fullPath = path.resolve(process.cwd(), filename);
+      if (fs.existsSync(fullPath)) {
+        const parsed = dotenv.parse(fs.readFileSync(fullPath, 'utf8'));
+        const key = parsed.GEMINI_API_KEY || parsed.VITE_GEMINI_API_KEY;
+        if (key && !key.startsWith('your_') && !key.includes('placeholder')) {
+          return key.trim();
+        }
+      }
+    } catch (_) {}
+  }
+  return process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
+}
 
 const require = createRequire(import.meta.url);
 const pdfParse = require('pdf-parse');
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
 
 /**
  * Extract raw text from an uploaded file buffer based on MIME type or extension.
@@ -107,7 +123,8 @@ export function calculateATSScore(breakdown) {
  * @returns {Promise<object>} Structured analysis result
  */
 export async function analyzeResumeWithGemini(resumeText, targetRoles = []) {
-  if (!GEMINI_API_KEY) {
+  const apiKey = getFreshApiKey();
+  if (!apiKey) {
     throw new Error(
       'GEMINI_API_KEY is not configured on the server. Please check your .env file.'
     );
@@ -120,7 +137,7 @@ export async function analyzeResumeWithGemini(resumeText, targetRoles = []) {
     );
   }
 
-  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY, { apiVersion: 'v1' });
+  const genAI = new GoogleGenerativeAI(apiKey, { apiVersion: 'v1' });
 
   const modelsToTry = [
     'gemini-2.5-flash',

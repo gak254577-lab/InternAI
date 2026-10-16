@@ -21,15 +21,15 @@ const POPULAR_SKILLS = [
   'Data Structures'
 ];
 
-const POPULAR_INTERESTS = [
-  'Full Stack Development',
-  'Backend Engineering',
-  'Frontend / UI',
-  'AI & Machine Learning',
-  'Cloud & DevOps',
-  'Data Science',
-  'Mobile Development (Android/iOS)',
-  'Cybersecurity'
+const CAREER_INTERESTS = [
+  { label: 'Full Stack Developer',      icon: 'layers',          key: 'Full Stack Developer' },
+  { label: 'Machine Learning / AI',     icon: 'psychology',      key: 'Machine Learning / AI' },
+  { label: 'Backend / Systems',         icon: 'storage',         key: 'Backend / Systems' },
+  { label: 'Frontend / UI Engineering', icon: 'desktop_windows', key: 'Frontend / UI Engineering' },
+  { label: 'Data Analyst',              icon: 'bar_chart',       key: 'Data Analyst' },
+  { label: 'Data Scientist',            icon: 'science',         key: 'Data Scientist' },
+  { label: 'Cyber Security',            icon: 'security',        key: 'Cyber Security' },
+  { label: 'Cloud Computing',           icon: 'cloud',           key: 'Cloud Computing' },
 ];
 
 const DEGREES = ['B.Tech', 'B.E.', 'B.S.', 'BCA', 'MCA', 'M.Tech', 'M.S.', 'Dual Degree (B.Tech + M.Tech)'];
@@ -62,7 +62,7 @@ export default function OnboardingPage() {
   const [interests, setInterests] = useState(
     Array.isArray(profile.interests) && profile.interests.length > 0
       ? profile.interests
-      : ['Full Stack Development', 'AI & Machine Learning']
+      : ['Full Stack Developer']
   );
   const [interestInput, setInterestInput] = useState('');
   const [github, setGithub] = useState(profile.github || '');
@@ -389,23 +389,34 @@ export default function OnboardingPage() {
               {/* Career Interests */}
               <div className="space-y-2 pt-2 border-t border-surface-container-high">
                 <label className="block font-bold text-on-surface uppercase tracking-wider">
-                  Target Roles / Interests
+                  Career Interests
                 </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {POPULAR_INTERESTS.map((int) => {
-                    const isSelected = interests.includes(int);
+                <p className="text-[11px] text-on-surface-variant">Select one or more that match your goals</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {CAREER_INTERESTS.map((item) => {
+                    const isSelected = interests.includes(item.key);
                     return (
                       <button
-                        key={int}
+                        key={item.key}
                         type="button"
-                        onClick={() => toggleInterest(int)}
-                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                        onClick={() => toggleInterest(item.key)}
+                        className={`relative flex flex-col items-center gap-2 p-3 rounded-2xl border-2 text-center transition-all duration-150 ${
                           isSelected
-                            ? 'bg-primary text-on-primary shadow-sm'
-                            : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container border border-surface-container-high'
+                            ? 'border-secondary bg-secondary/8 shadow-sm'
+                            : 'border-surface-container-high bg-surface-container-lowest hover:border-secondary/40 hover:shadow-sm'
                         }`}
                       >
-                        {int}
+                        {isSelected && (
+                          <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-secondary flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[11px] text-on-secondary">check</span>
+                          </span>
+                        )}
+                        <span className={`material-symbols-outlined text-[22px] ${
+                          isSelected ? 'text-secondary' : 'text-on-surface-variant'
+                        }`}>{item.icon}</span>
+                        <span className={`text-[11px] font-bold leading-tight ${
+                          isSelected ? 'text-secondary' : 'text-on-surface'
+                        }`}>{item.label}</span>
                       </button>
                     );
                   })}

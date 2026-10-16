@@ -3,11 +3,28 @@
  * Server-side AI logic for InternAI Mock Interview feature.
  * GEMINI_API_KEY never exposed to the browser.
  */
+import fs from 'fs';
+import path from 'path';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
+function getFreshApiKey() {
+  for (const filename of ['.env.local', '.env']) {
+    try {
+      const fullPath = path.resolve(process.cwd(), filename);
+      if (fs.existsSync(fullPath)) {
+        const parsed = dotenv.parse(fs.readFileSync(fullPath, 'utf8'));
+        const key = parsed.GEMINI_API_KEY || parsed.VITE_GEMINI_API_KEY;
+        if (key && !key.startsWith('your_') && !key.includes('placeholder')) {
+          return key.trim();
+        }
+      }
+    } catch (_) {}
+  }
+  return process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || '';
+}
+
 const MODELS_TO_TRY = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash'];
 
 function safeParseJSON(text) {
@@ -20,8 +37,9 @@ function safeParseJSON(text) {
 }
 
 async function callGemini(prompt) {
-  if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not configured on server.');
-  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY, { apiVersion: 'v1' });
+  const apiKey = getFreshApiKey();
+  if (!apiKey) throw new Error('GEMINI_API_KEY not configured on server.');
+  const genAI = new GoogleGenerativeAI(apiKey, { apiVersion: 'v1' });
   let lastErr;
   for (const modelId of MODELS_TO_TRY) {
     try {
@@ -59,6 +77,11 @@ function buildStudentContext(userProfile) {
     const certStr = certs.map(function(c) { return typeof c === 'string' ? c : (c.name || ''); }).filter(Boolean).join(', ');
     if (certStr) parts.push('Certifications: ' + certStr);
   }
+  if (userProfile.focusDomain) parts.push('Selected Interview Focus Domain: ' + userProfile.focusDomain);
+  const interests = userProfile.interests || [];
+  if (interests.length) {
+    parts.push('Career Interests / Domains: ' + (Array.isArray(interests) ? interests.join(', ') : interests));
+  }
   if (userProfile.github) parts.push('GitHub: ' + userProfile.github);
   if (userProfile.linkedin) parts.push('LinkedIn: ' + userProfile.linkedin);
   if (userProfile.bio) parts.push('Bio: ' + userProfile.bio);
@@ -94,7 +117,8 @@ export async function generateInterviewQuestion(ctx) {
   } else if (questionNumber <= 4) {
     categoryHint = 'Ask a resume-based or project-specific question tailored to the student background.';
   } else if (questionNumber <= 7) {
-    categoryHint = 'Ask a technical question relevant to the required skills for this role.';
+    const focus = userProfile.focusDomain || (Array.isArray(userProfile.interests) && userProfile.interests[0]);
+    categoryHint = 'Ask a technical question relevant to the required skills for this role' + (focus ? ' and specifically centered around the ' + focus + ' domain.' : '.');
   } else if (questionNumber === 8) {
     categoryHint = 'Ask a problem-solving or situational question.';
   } else {
