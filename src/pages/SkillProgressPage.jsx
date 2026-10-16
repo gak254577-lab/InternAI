@@ -2,56 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 
-// ── Role keyword hints — used to surface relevant skills for a given role title ─
-const ROLE_KEYWORD_HINTS = [
-  { kw: ['frontend', 'ui', 'react', 'vue', 'angular', 'web platform'],  skills: ['React', 'TypeScript', 'CSS', 'JavaScript', 'Next.js', 'HTML', 'Figma'] },
-  { kw: ['backend', 'server', 'api', 'platform', 'system', 'infra'],    skills: ['Node.js', 'Python', 'PostgreSQL', 'Redis', 'Docker', 'REST API', 'System Design'] },
-  { kw: ['fullstack', 'full stack', 'full-stack'],                        skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker', 'REST API'] },
-  { kw: ['ml', 'machine learning', 'ai', 'data science', 'nlp'],         skills: ['Python', 'TensorFlow', 'PyTorch', 'Pandas', 'Scikit-learn', 'SQL'] },
-  { kw: ['data analyst', 'analytics', 'bi', 'business intelligence'],    skills: ['SQL', 'Python', 'Tableau', 'Excel', 'Power BI', 'Statistics'] },
-  { kw: ['devops', 'cloud', 'sre', 'platform engineer'],                  skills: ['Docker', 'Kubernetes', 'AWS', 'Terraform', 'Linux', 'CI/CD'] },
-  { kw: ['android', 'ios', 'mobile'],                                     skills: ['Kotlin', 'Swift', 'Flutter', 'React Native', 'Firebase'] },
-  { kw: ['security', 'cyber', 'penetration'],                             skills: ['Python', 'Linux', 'Network Security', 'OWASP', 'Bash'] },
-];
 
-/**
- * Given the user's own skills + a role title, compute a dynamic gap list.
- * Required levels are synthesised per role keyword match; "current" comes
- * from the user's actual proficiency for matching skill names.
- */
-function computeGapsForRole(roleTitle, userSkills) {
-  const lower = roleTitle.toLowerCase();
-
-  // Find the best matching hint bucket
-  let hintSkills = [];
-  for (const { kw, skills } of ROLE_KEYWORD_HINTS) {
-    if (kw.some((k) => lower.includes(k))) { hintSkills = skills; break; }
-  }
-  // Fallback: use the role title words as a keyword set
-  if (hintSkills.length === 0) {
-    const words = roleTitle.split(/\W+/).filter((w) => w.length > 3);
-    hintSkills = words.slice(0, 6);
-  }
-
-  // Cross-reference hint skills with the user's actual skill list
-  const gaps = hintSkills.map((hintName) => {
-    const match = userSkills.find(
-      (s) => s.name.toLowerCase().includes(hintName.toLowerCase()) ||
-             hintName.toLowerCase().includes(s.name.toLowerCase())
-    );
-    const current  = match ? match.level : 0;
-    const required = 75 + Math.floor(Math.random() * 0) + (hintName.length % 3) * 5; // deterministic ~75-85
-    const diff = current - required;
-    const status = current === 0 ? 'Not Added'
-      : diff >= 5  ? 'Surplus'
-      : diff >= 0  ? 'Ready'
-      : diff >= -12 ? 'In Progress'
-      : 'Gap';
-    return { skill: match ? match.name : hintName, required, current, status };
-  });
-
-  return gaps;
-}
 
 // ── Skill category auto-detection ─────────────────────────────────────────────
 const CATEGORY_MAP = [
@@ -127,7 +78,7 @@ const TRACK_COLORS = {
 
 // ─────────────────────────────────────────────────────────────────────────────
 export default function SkillProgressPage() {
-  const { selectedTrack, navigate, applications } = useApp();
+  const { selectedTrack, navigate } = useApp();
   const { userProfile, updateUserProfile } = useAuth();
 
   // Normalise skills from Firestore — handles both plain strings and rich objects
@@ -140,7 +91,6 @@ export default function SkillProgressPage() {
   const [isSyncing, setIsSyncing]                   = useState(false);
   const [syncSuccess, setSyncSuccess]               = useState(false);
   const [isSaving, setIsSaving]                     = useState(false);
-  const [selectedAppId, setSelectedAppId]           = useState(null);
   const [showAddPanel, setShowAddPanel]             = useState(false);
   const [editingId, setEditingId]                   = useState(null);
   const [newSkillName, setNewSkillName]             = useState('');
@@ -158,27 +108,6 @@ export default function SkillProgressPage() {
   const displaySkills  = filteredSkills.length > 0 ? filteredSkills : skills;
   const isFiltered     = filteredSkills.length > 0 && filteredSkills.length < skills.length;
   const verifiedCount  = skills.filter((s) => s.verified).length;
-
-  // Deduplicate applications by company+role for the dropdown
-  const appliedList = useMemo(() => {
-    const seen = new Set();
-    return (applications || []).filter((app) => {
-      const key = `${app.company}__${app.role}`;
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  }, [applications]);
-
-  // Auto-select first applied internship if nothing selected yet
-  const effectiveAppId = selectedAppId || appliedList[0]?.id || null;
-  const selectedApp    = appliedList.find((a) => a.id === effectiveAppId) || null;
-
-  // Compute gaps from the user's real skills for the selected role
-  const activeGaps = useMemo(() => {
-    if (!selectedApp) return [];
-    return computeGapsForRole(`${selectedApp.role} ${selectedApp.company}`, skills);
-  }, [selectedApp, skills]);
 
   // ── Persist to Firestore ──
   const persistSkills = useCallback(async (updated) => {
@@ -402,136 +331,40 @@ export default function SkillProgressPage() {
           </div>
         </div>
 
-        {/* Right — role gap + summary (4 cols) */}
+        {/* Right — Skill Summary (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
-
-          {/* Target Role Gap Matrix */}
-          <div className="p-6 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-secondary">Comparative Alignment</span>
-              <h3 className="font-headline-sm text-lg font-bold text-primary mt-1">Applied Role Gap Matrix</h3>
-            </div>
-
-            {appliedList.length === 0 ? (
-              /* No applications yet */
-              <div className="flex flex-col items-center justify-center py-10 text-center gap-3">
-                <span className="material-symbols-outlined text-[44px] text-on-surface-variant opacity-30">work_outline</span>
-                <div>
-                  <p className="text-sm font-bold text-on-surface-variant">No applications yet</p>
-                  <p className="text-xs text-on-surface-variant mt-1 max-w-[200px] mx-auto">
-                    Apply to internships and your skill gap vs each role will appear here.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => navigate('explore-internships')}
-                  className="mt-1 px-4 py-1.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:opacity-90 transition-all"
-                >
-                  Explore Internships
-                </button>
-              </div>
-            ) : (
+          {/* Skill Summary card */}
+          <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-3">
+            <h4 className="text-sm font-bold text-primary">Skill Summary</h4>
+            {skills.length > 0 ? (
               <>
-                {/* Applied role selector */}
-                <div>
-                  <label className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">
-                    Your Applied Role
-                  </label>
-                  <select
-                    value={effectiveAppId || ''}
-                    onChange={(e) => setSelectedAppId(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant text-xs text-primary font-bold focus:outline-none focus:border-secondary"
-                  >
-                    {appliedList.map((app) => (
-                      <option key={app.id} value={app.id}>
-                        {app.company} — {app.role}
-                      </option>
-                    ))}
-                  </select>
-                  {selectedApp && (
-                    <p className="text-[10px] text-on-surface-variant mt-1 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[11px]">info</span>
-                      Skill gap vs your current proficiency
-                    </p>
-                  )}
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <StatPill label="Total Skills"     value={skills.length} />
+                  <StatPill label="Avg Proficiency"  value={`${Math.round(skills.reduce((a, s) => a + s.level, 0) / skills.length)}%`} />
+                  <StatPill label="Production Ready" value={skills.filter((s) => s.level >= 85).length} color="text-emerald-700" />
+                  <StatPill label="Verified"         value={verifiedCount}                               color="text-secondary"    />
                 </div>
-
-                {/* Gap items */}
-                <div className="space-y-3">
-                  {activeGaps.map((item, idx) => {
-                    const isNotAdded = item.status === 'Not Added';
-                    const isReady    = item.status === 'Ready' || item.status === 'Surplus';
-                    const isGap      = item.status === 'Gap';
-                    const pct        = isNotAdded ? 0 : Math.min(100, Math.round((item.current / item.required) * 100));
-                    return (
-                      <div key={idx} className="p-3 rounded-xl bg-surface-container-low text-xs space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-primary">{item.skill}</span>
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                            isReady    ? 'bg-emerald-100 text-emerald-800' :
-                            isGap      ? 'bg-rose-100 text-rose-800' :
-                            isNotAdded ? 'bg-slate-100 text-slate-600' :
-                                         'bg-amber-100 text-amber-800'
-                          }`}>{item.status}</span>
-                        </div>
-                        <div className="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-500 ${
-                              isReady    ? 'bg-emerald-500' :
-                              isGap      ? 'bg-rose-500' :
-                              isNotAdded ? 'bg-slate-300' :
-                                           'bg-amber-500'
-                            }`}
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] text-on-surface-variant">
-                          <span>Required: ~{item.required}%</span>
-                          <span className="font-semibold text-primary">
-                            {isNotAdded ? 'Not in skills' : `Current: ${item.current}%`}
-                          </span>
-                        </div>
+                <div className="pt-2 border-t border-surface-container-high space-y-1.5">
+                  <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">By Category</p>
+                  {Object.entries(
+                    skills.reduce((acc, s) => { acc[s.category] = (acc[s.category] || 0) + 1; return acc; }, {})
+                  )
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([cat, count]) => (
+                      <div key={cat} className="flex items-center justify-between text-xs">
+                        <span className="text-on-surface-variant font-medium">{cat}</span>
+                        <span className="font-bold text-primary">{count}</span>
                       </div>
-                    );
-                  })}
+                    ))}
                 </div>
               </>
+            ) : (
+              <div className="py-6 text-center text-xs text-on-surface-variant">
+                <p>No skills recorded yet.</p>
+                <p className="text-[11px] text-outline mt-1">Add skills to see proficiency analytics.</p>
+              </div>
             )}
-
-            <button
-              type="button"
-              onClick={() => navigate('preparation-roadmap')}
-              className="w-full mt-2 py-2.5 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all shadow-sm"
-            >
-              Bridge Skill Gaps in Roadmap
-            </button>
           </div>
-
-          {/* Skill Summary card — only when skills exist */}
-          {skills.length > 0 && (
-            <div className="p-5 rounded-2xl bg-surface-container-lowest border border-surface-container-high shadow-sm space-y-3">
-              <h4 className="text-sm font-bold text-primary">Skill Summary</h4>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <StatPill label="Total Skills"     value={skills.length} />
-                <StatPill label="Avg Proficiency"  value={`${Math.round(skills.reduce((a, s) => a + s.level, 0) / skills.length)}%`} />
-                <StatPill label="Production Ready" value={skills.filter((s) => s.level >= 85).length} color="text-emerald-700" />
-                <StatPill label="Verified"         value={verifiedCount}                               color="text-secondary"    />
-              </div>
-              <div className="pt-2 border-t border-surface-container-high space-y-1.5">
-                <p className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">By Category</p>
-                {Object.entries(
-                  skills.reduce((acc, s) => { acc[s.category] = (acc[s.category] || 0) + 1; return acc; }, {})
-                )
-                  .sort((a, b) => b[1] - a[1])
-                  .map(([cat, count]) => (
-                    <div key={cat} className="flex items-center justify-between text-xs">
-                      <span className="text-on-surface-variant font-medium">{cat}</span>
-                      <span className="font-bold text-primary">{count}</span>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
