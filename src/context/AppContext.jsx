@@ -74,36 +74,66 @@ export function AppProvider({ children }) {
   });
 
   const [internships, setInternships] = useState(() => {
-    // Always start fresh — internships are fetched live from APIs
-    localStorage.removeItem('internai_internships');
+    try {
+      const saved = localStorage.getItem('internai_internships');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (_) {}
     return initialInternships;
   });
 
   const [applications, setApplications] = useState(() => {
-    // Always start fresh — no pre-loaded demo applications
-    localStorage.removeItem('internai_applications');
+    try {
+      const saved = localStorage.getItem('internai_applications');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (_) {}
     return initialApplications;
   });
 
   const [bookmarks, setBookmarks] = useState(() => {
-    localStorage.removeItem('internai_bookmarks');
+    try {
+      const saved = localStorage.getItem('internai_bookmarks');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (_) {}
     return [];
   });
 
   const [roadmap, setRoadmap] = useState(() => {
-    // Always start fresh — roadmap is generated per user
-    localStorage.removeItem('internai_roadmap');
+    try {
+      const saved = localStorage.getItem('internai_roadmap');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (_) {}
     return initialRoadmapMilestones;
   });
 
   const [mockInterview, setMockInterview] = useState(() => {
-    const saved = localStorage.getItem('internai_mock_interview');
-    return saved ? JSON.parse(saved) : initialMockInterview;
+    try {
+      const saved = localStorage.getItem('internai_mock_interview');
+      return saved ? JSON.parse(saved) : initialMockInterview;
+    } catch (_) {
+      return initialMockInterview;
+    }
   });
 
   const [resumeAnalysis, setResumeAnalysis] = useState(() => {
-    // Always start fresh — resume analysis is session-only
-    localStorage.removeItem('internai_resume_analysis');
+    try {
+      const saved = localStorage.getItem('internai_resume_analysis');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && (parsed.fileName || parsed.atsScore > 0)) return parsed;
+      }
+    } catch (_) {}
     return initialResumeAnalysis;
   });
 
@@ -193,22 +223,60 @@ export function AppProvider({ children }) {
 
   const toggleBookmark = (internshipId) => {
     setBookmarks((prev) => {
-      if (prev.includes(internshipId)) {
-        return prev.filter((id) => id !== internshipId);
+      const isBookmarked = prev.includes(internshipId);
+      const nextBookmarks = isBookmarked
+        ? prev.filter((id) => id !== internshipId)
+        : [...prev, internshipId];
+
+      if (!isBookmarked) {
+        // Add to Application Tracker as 'saved' if not already present
+        setApplications((prevApps) => {
+          const alreadyTracked = prevApps.some((a) => a.internshipId === internshipId || a.id === internshipId);
+          if (alreadyTracked) return prevApps;
+          const target = internships.find((i) => i.id === internshipId);
+          if (!target) return prevApps;
+          const newSaved = {
+            id: `app-${Date.now()}-${internshipId}`,
+            internshipId: target.id,
+            company: target.company || 'Company',
+            role: target.title || 'Intern',
+            status: 'saved',
+            column: 'saved',
+            location: target.location || 'Remote / India',
+            stipend: target.stipend
+              ? typeof target.stipend === 'number'
+                ? `₹${target.stipend.toLocaleString()}/mo`
+                : target.stipend
+              : '',
+            nextEvent: 'Saved in Wishlist • Apply soon',
+            notes: `Saved from ${target.source === 'linkedin' ? 'LinkedIn' : target.source === 'adzuna' ? 'Adzuna' : 'listings'}.`,
+            appliedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+            appliedExternally: false,
+          };
+          return [newSaved, ...prevApps];
+        });
       } else {
-        return [...prev, internshipId];
+        // If un-bookmarked and card is still just 'saved' (not applied), remove it from applications
+        setApplications((prevApps) =>
+          prevApps.filter((a) => !(a.internshipId === internshipId && a.column === 'saved'))
+        );
       }
+
+      return nextBookmarks;
     });
   };
 
   const addApplication = (appData) => {
     const newApp = {
-      id: `app-${Date.now()}`,
-      appliedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+      id: appData.id || `app-${Date.now()}`,
+      appliedDate: appData.appliedDate || new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
       column: appData.column || 'applied',
       ...appData
     };
     setApplications((prev) => [newApp, ...prev]);
+    if (newApp.column === 'saved' && newApp.internshipId) {
+      setBookmarks((prev) => (prev.includes(newApp.internshipId) ? prev : [...prev, newApp.internshipId]));
+    }
   };
 
   const updateApplicationColumn = (appId, newColumn) => {
@@ -218,7 +286,13 @@ export function AppProvider({ children }) {
   };
 
   const deleteApplication = (appId) => {
-    setApplications((prev) => prev.filter((app) => app.id !== appId));
+    setApplications((prev) => {
+      const appToDelete = prev.find((a) => a.id === appId);
+      if (appToDelete && appToDelete.internshipId) {
+        setBookmarks((b) => b.filter((id) => id !== appToDelete.internshipId));
+      }
+      return prev.filter((app) => app.id !== appId);
+    });
   };
 
   /**
@@ -246,13 +320,35 @@ export function AppProvider({ children }) {
 
   /**
    * Called when the user confirms they applied from the popup.
-   * Automatically adds the application to the 'applied' pipeline column.
+   * Automatically adds the application to the 'applied' pipeline column,
+   * or promotes an existing 'saved' card to 'applied'.
    */
   const confirmApplied = (jobOverride = null) => {
     const targetJob = jobOverride || pendingApplyJob;
     if (targetJob) {
-      const alreadyApplied = applications.some((a) => a.internshipId === targetJob.id);
-      if (!alreadyApplied) {
+      const existingIdx = applications.findIndex(
+        (a) => a.internshipId === targetJob.id || (a.company === targetJob.company && a.role === targetJob.title)
+      );
+      if (existingIdx !== -1) {
+        // Upgrade from saved to applied
+        setApplications((prev) =>
+          prev.map((app, idx) =>
+            idx === existingIdx
+              ? {
+                  ...app,
+                  status: 'applied',
+                  column: 'applied',
+                  nextEvent: 'Application Submitted • Awaiting Recruiter Review',
+                  appliedDate: app.appliedDate || new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+                  appliedExternally: true,
+                }
+              : app
+          )
+        );
+        if (showToast) {
+          showToast(`Moved ${targetJob.company || 'internship'} to Applied in your Tracker!`, 'success');
+        }
+      } else {
         addApplication({
           internshipId: targetJob.id,
           company: targetJob.company || 'Company',
@@ -272,10 +368,6 @@ export function AppProvider({ children }) {
         if (showToast) {
           showToast(`Added application for ${targetJob.company || 'internship'} to your Tracker!`, 'success');
         }
-      } else {
-        if (showToast) {
-          showToast(`Application for ${targetJob.company || 'this role'} is already tracked!`, 'info');
-        }
       }
     }
     setShowApplyModal(false);
@@ -287,11 +379,14 @@ export function AppProvider({ children }) {
 
   /**
    * Called when user chooses to save the internship for later from the popup.
-   * Adds the application under the 'saved' wishlist column.
+   * Adds the application under the 'saved' wishlist column and syncs bookmarks.
    */
   const saveApplyForLater = (jobOverride = null) => {
     const targetJob = jobOverride || pendingApplyJob;
     if (targetJob) {
+      if (targetJob.id) {
+        setBookmarks((prev) => (prev.includes(targetJob.id) ? prev : [...prev, targetJob.id]));
+      }
       const alreadyExists = applications.some((a) => a.internshipId === targetJob.id);
       if (!alreadyExists) {
         addApplication({
