@@ -74,9 +74,6 @@ export default function RegisterPage() {
               e.target.src = '/images/internai_logo.png';
             }}
           />
-          <span className="font-headline-sm text-2xl text-primary font-bold tracking-tight">
-            InternAI
-          </span>
         </div>
 
         {/* Card */}

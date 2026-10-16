@@ -63,9 +63,6 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
                 e.target.src = '/images/internai_logo.png';
               }}
             />
-            <span className="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">
-              InternAI
-            </span>
           </div>
 
           {/* Nav Section Label */}
