@@ -118,10 +118,8 @@ export default function MockInterviewPage() {
 
   // Live Interview domain scroll & focus state
   const [selectedLiveDomain, setSelectedLiveDomain] = useState(null);
-  const [liveDomainView, setLiveDomainView] = useState('scroll'); // 'scroll' | 'carousel'
   const [liveDomainFilter, setLiveDomainFilter] = useState('all');
   const [expandedLiveDomain, setExpandedLiveDomain] = useState(null);
-  const liveCarouselRef = useRef(null);
   // Faculty selection: { [domainKey]: facultyName }
   const [selectedFaculty, setSelectedFaculty] = useState({});
 
@@ -688,13 +686,6 @@ export default function MockInterviewPage() {
             ? LIVE_DOMAINS
             : LIVE_DOMAINS.filter((d) => d.key === liveDomainFilter);
 
-          const scrollCarousel = (direction) => {
-            if (liveCarouselRef.current) {
-              const scrollAmount = direction === 'left' ? -260 : 260;
-              liveCarouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
-          };
-
           return (
             <div className="space-y-4 rounded-2xl border-2 border-purple-200 bg-purple-50/40 p-4 shadow-sm">
               {/* Header and Controls */}
@@ -710,13 +701,12 @@ export default function MockInterviewPage() {
                     </span>
                   </div>
                   <p className="text-[11px] text-on-surface-variant">
-                    Scroll down or choose your domain. The AI will ask personalized live questions with voice & audio.
+                    Select your domain and interviewer faculty. The AI will ask personalized live questions with voice & audio.
                   </p>
                 </div>
 
-                {/* Right controls: Dropdown + View Switch */}
+                {/* Right controls: Dropdown selector */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  {/* Dropdown selector */}
                   <div className="relative">
                     <select
                       value={liveDomainFilter}
@@ -735,42 +725,11 @@ export default function MockInterviewPage() {
                       arrow_drop_down
                     </span>
                   </div>
-
-                  {/* View mode toggle */}
-                  <div className="inline-flex rounded-xl bg-purple-100 p-0.5 border border-purple-200">
-                    <button
-                      type="button"
-                      onClick={() => setLiveDomainView('scroll')}
-                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all ${
-                        liveDomainView === 'scroll'
-                          ? 'bg-purple-600 text-white shadow-xs'
-                          : 'text-purple-700 hover:bg-purple-200/50'
-                      }`}
-                      title="Scroll Down View"
-                    >
-                      <span className="material-symbols-outlined text-[13px]">arrow_downward</span>
-                      Scroll Down
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setLiveDomainView('carousel')}
-                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all ${
-                        liveDomainView === 'carousel'
-                          ? 'bg-purple-600 text-white shadow-xs'
-                          : 'text-purple-700 hover:bg-purple-200/50'
-                      }`}
-                      title="Horizontal Carousel"
-                    >
-                      <span className="material-symbols-outlined text-[13px]">view_carousel</span>
-                      Carousel
-                    </button>
-                  </div>
                 </div>
               </div>
 
-              {/* ── View 1: Vertical Scroll-Down Section ── */}
-              {liveDomainView === 'scroll' && (
-                <div className="space-y-2">
+              {/* ── Domains List ── */}
+              <div className="space-y-2">
                   <div className="flex items-center justify-between text-[11px] text-purple-700 px-1 font-semibold">
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px]">south</span>
@@ -820,23 +779,6 @@ export default function MockInterviewPage() {
                                   5 AI Live Audio Questions • Voice Evaluation & Report
                                 </p>
                               </div>
-                            </div>
-                          </div>
-
-                          {/* Topics chips */}
-                          <div className="px-3.5 py-2.5 bg-white space-y-1.5">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="text-[10px] font-bold uppercase text-on-surface-variant">
-                                Core Topics:
-                              </span>
-                              {d.topics.map((topic, ti) => (
-                                <span
-                                  key={ti}
-                                  className="px-2 py-0.5 rounded-md bg-surface-container-low text-[10px] font-medium text-on-surface border border-surface-container-high"
-                                >
-                                  {topic}
-                                </span>
-                              ))}
                             </div>
                           </div>
 
@@ -929,130 +871,6 @@ export default function MockInterviewPage() {
                     })}
                   </div>
                 </div>
-              )}
-
-              {/* ── View 2: Horizontal Carousel with Left/Right arrows ── */}
-              {liveDomainView === 'carousel' && (
-                <div className="relative">
-                  {/* Left scroll arrow */}
-                  <button
-                    type="button"
-                    onClick={() => scrollCarousel('left')}
-                    aria-label="Scroll left"
-                    className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white shadow-md border border-purple-200 flex items-center justify-center text-purple-700 hover:bg-purple-50 transition-transform active:scale-95"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">chevron_left</span>
-                  </button>
-
-                  {/* Right scroll arrow */}
-                  <button
-                    type="button"
-                    onClick={() => scrollCarousel('right')}
-                    aria-label="Scroll right"
-                    className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white shadow-md border border-purple-200 flex items-center justify-center text-purple-700 hover:bg-purple-50 transition-transform active:scale-95"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">chevron_right</span>
-                  </button>
-
-                  <div
-                    ref={liveCarouselRef}
-                    className="flex gap-3 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scroll-smooth"
-                    style={{ scrollbarWidth: 'thin' }}
-                  >
-                    {filteredDomains.map((d) => {
-                      const isMatched = userInterests.includes(d.key);
-
-                      return (
-                        <div
-                          key={d.key}
-                          className={`flex-shrink-0 w-52 rounded-2xl border-2 overflow-hidden snap-start transition-all duration-200 flex flex-col justify-between ${
-                            isMatched
-                              ? 'border-purple-400 shadow-md ring-2 ring-purple-200'
-                              : `${d.border} shadow-sm`
-                          }`}
-                        >
-                          <div className={`bg-gradient-to-br ${d.gradient} px-4 pt-4 pb-3 relative`}>
-                            {isMatched && (
-                              <span className="absolute top-2 right-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-white/20 text-white text-[9px] font-bold uppercase tracking-wide backdrop-blur-sm">
-                                <span className="material-symbols-outlined text-[10px]">auto_awesome</span>
-                                Your Domain
-                              </span>
-                            )}
-                            <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center mb-2">
-                              <span className="material-symbols-outlined text-[20px] text-white">{d.icon}</span>
-                            </div>
-                            <h3 className="text-white text-xs font-extrabold leading-tight">{d.label}</h3>
-                            <p className="text-white/80 text-[10px] mt-0.5">5 Live AI questions</p>
-                          </div>
-
-                          <div className={`p-3 ${d.bg} flex-1 space-y-1.5`}>
-                            <p className="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">
-                              Topics covered
-                            </p>
-                            {d.topics.map((t, ti) => (
-                              <div key={ti} className="flex items-center gap-1.5">
-                                <span className="w-1 h-1 rounded-full bg-on-surface-variant/40 flex-shrink-0" />
-                                <span className="text-[10px] text-on-surface-variant leading-tight">{t}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Faculty row in carousel */}
-                          {(() => {
-                            const facultyList = DOMAIN_FACULTY[d.key] || [];
-                            const chosenFaculty = selectedFaculty[d.key];
-                            return (
-                              <div className="px-2.5 pt-2 pb-2.5 bg-white border-t border-purple-100">
-                                <p className="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant mb-1.5 flex items-center gap-1">
-                                  <span className="material-symbols-outlined text-[11px] text-purple-500">school</span>
-                                  Faculty
-                                </p>
-                                <div className="flex gap-2 mb-1">
-                                  {facultyList.map((fac, fi) => {
-                                    const isChosen = chosenFaculty === fac.name;
-                                    return (
-                                      <button
-                                        key={fi}
-                                        type="button"
-                                        title={fac.name}
-                                        onClick={() =>
-                                          setSelectedFaculty((prev) => ({
-                                            ...prev,
-                                            [d.key]: isChosen ? null : fac.name,
-                                          }))
-                                        }
-                                        className={`flex flex-col items-center gap-0.5 transition-all duration-150 ${isChosen ? 'scale-105' : 'opacity-70 hover:opacity-100'}`}
-                                      >
-                                        <div className={`w-9 h-9 rounded-full overflow-hidden border-2 ${isChosen ? 'border-emerald-500 ring-2 ring-emerald-300' : 'border-gray-200'}`}>
-                                          <img
-                                            src={fac.img}
-                                            alt={fac.name}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => { e.target.src = '/images/student_avatar.png'; }}
-                                          />
-                                        </div>
-                                        <span className={`text-[8px] font-semibold leading-tight text-center max-w-[40px] truncate ${isChosen ? 'text-emerald-700' : 'text-on-surface-variant'}`}>
-                                          {fac.name.split(' ').slice(-1)[0]}
-                                        </span>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                                {chosenFaculty && (
-                                  <p className="text-[8px] text-emerald-700 font-semibold truncate">
-                                    ✓ {chosenFaculty}
-                                  </p>
-                                )}
-                              </div>
-                            );
-                          })()}
-                        </div>
-
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
 
               {/* Informational Footer */}
               <div className="flex items-center gap-1.5 text-[11px] text-purple-800/80 pt-1">
