@@ -18,10 +18,7 @@ export default function ApplicationTrackerPage() {
 
   const columns = [
     { id: 'saved', label: 'Saved', color: 'bg-slate-100 text-slate-700', icon: 'bookmark' },
-    { id: 'applied', label: 'Applied', color: 'bg-blue-50 text-blue-700', icon: 'send' },
-    { id: 'assessment', label: 'Assessment (OA)', color: 'bg-amber-50 text-amber-700', icon: 'quiz' },
-    { id: 'interview', label: 'Interview', color: 'bg-purple-50 text-purple-700', icon: 'videocam' },
-    { id: 'offer', label: 'Offer', color: 'bg-emerald-50 text-emerald-700', icon: 'verified' }
+    { id: 'applied', label: 'Applied', color: 'bg-blue-50 text-blue-700', icon: 'send' }
   ];
 
   const handleCreateApplication = (e) => {
@@ -130,9 +127,14 @@ export default function ApplicationTrackerPage() {
 
       {/* Kanban Board View */}
       {viewMode === 'kanban' ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start overflow-x-auto pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start pb-4">
           {columns.map((col) => {
-            const colApps = filteredApps.filter((a) => a.column === col.id);
+            const colApps = filteredApps.filter((a) => {
+              if (col.id === 'applied') {
+                return a.column === 'applied' || a.column === 'assessment' || a.column === 'interview' || a.column === 'offer';
+              }
+              return a.column === col.id;
+            });
             return (
               <div
                 key={col.id}
@@ -209,7 +211,7 @@ export default function ApplicationTrackerPage() {
                       <div className="pt-2 border-t border-surface-container-high flex items-center justify-between text-[10px]">
                         <span className="text-outline uppercase tracking-wider font-semibold">Stage:</span>
                         <select
-                          value={app.column}
+                          value={app.column === 'saved' ? 'saved' : 'applied'}
                           onChange={(e) => updateApplicationColumn(app.id, e.target.value)}
                           className="bg-surface-container px-2 py-0.5 rounded text-[10px] font-semibold text-primary focus:outline-none cursor-pointer"
                         >
@@ -265,7 +267,7 @@ export default function ApplicationTrackerPage() {
                   </td>
                   <td className="px-5 py-4">
                     <select
-                      value={app.column}
+                      value={app.column === 'saved' ? 'saved' : 'applied'}
                       onChange={(e) => updateApplicationColumn(app.id, e.target.value)}
                       className="bg-surface-container px-2.5 py-1 rounded-lg text-xs font-semibold text-primary focus:outline-none cursor-pointer"
                     >
